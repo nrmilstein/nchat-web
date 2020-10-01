@@ -1,0 +1,11 @@
+.Message {
+  margin: 15px 35px;
+}
+
+.Message--them {
+  text-align: left;
+}
+
+.Message--us {
+  text-align: right;
+}

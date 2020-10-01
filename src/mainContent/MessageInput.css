@@ -1,0 +1,26 @@
+.MessageInput {
+  box-sizing: border-box;
+  padding: 10px;
+  display: flex;
+  border-top: solid 1px #cccccc;
+  flex: 0 0 auto;
+  background-color: #eeeeee;
+}
+
+.MessageInput__input {
+  flex: 1;
+  display: block;
+  font-size: 15px;
+  border: none;
+  margin: 7px 14px 11px 7px;
+  background-color: inherit;
+}
+
+.MessageInput__input:focus {
+  outline: none;
+}
+
+.MessageInput__button {
+  font-size: 15px;
+  margin-right: 8px;
+}
