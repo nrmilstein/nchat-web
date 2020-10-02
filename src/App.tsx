@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Sidebar from './sidebar/Sidebar'
-import MainContent from './mainContent/MainContent'
+import ConversationView from './conversationView/ConversationView'
 
 import './App.css';
 
@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <Sidebar />
-      <MainContent />
+      <ConversationView />
     </div>
   );
 }

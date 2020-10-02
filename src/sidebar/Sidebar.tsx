@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SidebarHeader from './SidebarHeader';
+import SidebarBanner from './SidebarBanner';
 import ConversationList from './ConversationList';
 
 import './Sidebar.css'
@@ -8,7 +8,7 @@ import './Sidebar.css'
 function Sidebar() {
   return (
     <nav className="Sidebar">
-      <SidebarHeader />
+      <SidebarBanner />
       <ConversationList />
     </nav>
   );
