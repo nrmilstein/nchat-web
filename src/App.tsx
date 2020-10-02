@@ -1,16 +1,10 @@
 import React from 'react';
 
-import Sidebar from './sidebar/Sidebar'
-import ConversationView from './conversationView/ConversationView'
-
-import './App.css';
+import ChatApp from './chatApp/ChatApp'
 
 function App() {
   return (
-    <div className="App">
-      <Sidebar />
-      <ConversationView />
-    </div>
+    <ChatApp />
   );
 }
 

@@ -1,8 +1,4 @@
-#root {
-  height: 100%;
-}
-
-.App {
+.ChatApp {
   display: flex;
   height: 100%;
 }
