@@ -19,10 +19,6 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
     showLoginForm: true,
   };
 
-  constructor(props: AccountsViewProps) {
-    super(props);
-  }
-
   render() {
     return (
       <main className="AccountsView">
