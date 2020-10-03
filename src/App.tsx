@@ -1,11 +1,15 @@
 import React from 'react';
+import { Router, Link } from "@reach/router";
 
 import ChatApp from './chatApp/ChatApp'
-import AccountsView from './accounts/AccountsView'
+import AccountsView from './accounts/AccountsView';
 
 function App() {
   return (
-    <AccountsView />
+    <Router>
+      <ChatApp path="/" />
+      <AccountsView path="accounts/*" />
+    </Router >
   );
 }
 

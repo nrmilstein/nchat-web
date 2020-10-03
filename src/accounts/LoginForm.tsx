@@ -1,8 +1,10 @@
 import React from 'react';
+import { RouteComponentProps } from '@reach/router';
+import { Router, Link } from "@reach/router";
+
 import './LoginForm.css'
 
-interface LoginFormProps {
-  onSwitchForm: (e: React.MouseEvent<HTMLAnchorElement>, showLoginForm: boolean) => void
+interface LoginFormProps extends RouteComponentProps {
 };
 
 function LoginForm(props: LoginFormProps) {
@@ -15,9 +17,9 @@ function LoginForm(props: LoginFormProps) {
         <p><input className="button" type="submit" value="Login" /></p>
       </form>
       <div className="LoginForm__signUpMessage">
-        Don't have an account? <a onClick={e => props.onSwitchForm(e, false)} href="#">Sign up</a>
+        Don't have an account? <Link to="../signup">Sign up</Link>
       </div>
-    </div>
+    </div >
   );
 }
 

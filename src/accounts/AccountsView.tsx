@@ -1,10 +1,13 @@
 import React from 'react';
-import './AccountsView.css'
+import { RouteComponentProps } from '@reach/router';
+import { Router, Link } from "@reach/router";
 
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 
-interface AccountsViewProps {
+import './AccountsView.css'
+
+interface AccountsViewProps extends RouteComponentProps {
 
 }
 interface AccountsViewState {
@@ -18,21 +21,15 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
 
   constructor(props: AccountsViewProps) {
     super(props);
-    this.handleSwitchForm = this.handleSwitchForm.bind(this);
-  }
-
-  handleSwitchForm(e: React.MouseEvent<HTMLAnchorElement>, showLoginForm: boolean) {
-    this.setState({ 'showLoginForm': showLoginForm });
-    e.preventDefault();
   }
 
   render() {
     return (
       <main className="AccountsView">
-        { this.state.showLoginForm
-          ? <LoginForm onSwitchForm={this.handleSwitchForm} />
-          : <SignUpForm onSwitchForm={this.handleSwitchForm} />
-        }
+        <Router>
+          <LoginForm path="login" />
+          <SignUpForm path="signup" />
+        </Router>
       </main>
     );
   }
