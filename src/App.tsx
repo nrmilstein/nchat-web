@@ -1,11 +1,11 @@
 import React from 'react';
 
 import ChatApp from './chatApp/ChatApp'
-import AuthenticateView from './authenticate/AuthenticateView'
+import AccountsView from './accounts/AccountsView'
 
 function App() {
   return (
-    <AuthenticateView />
+    <AccountsView />
   );
 }
 

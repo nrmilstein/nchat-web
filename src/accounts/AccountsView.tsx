@@ -1,22 +1,22 @@
 import React from 'react';
-import './AuthenticateView.css'
+import './AccountsView.css'
 
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 
-interface AuthenticateViewProps {
+interface AccountsViewProps {
 
 }
-interface AuthenticateViewState {
+interface AccountsViewState {
   showLoginForm: boolean,
 }
 
-class AuthenticateView extends React.Component<AuthenticateViewProps, AuthenticateViewState> {
-  state: AuthenticateViewState = {
+class AccountsView extends React.Component<AccountsViewProps, AccountsViewState> {
+  state: AccountsViewState = {
     showLoginForm: true,
   };
 
-  constructor(props: AuthenticateViewProps) {
+  constructor(props: AccountsViewProps) {
     super(props);
     this.handleSwitchForm = this.handleSwitchForm.bind(this);
   }
@@ -28,7 +28,7 @@ class AuthenticateView extends React.Component<AuthenticateViewProps, Authentica
 
   render() {
     return (
-      <main className="AuthenticateView">
+      <main className="AccountsView">
         { this.state.showLoginForm
           ? <LoginForm onSwitchForm={this.handleSwitchForm} />
           : <SignUpForm onSwitchForm={this.handleSwitchForm} />
@@ -38,4 +38,4 @@ class AuthenticateView extends React.Component<AuthenticateViewProps, Authentica
   }
 }
 
-export default AuthenticateView;
+export default AccountsView;
