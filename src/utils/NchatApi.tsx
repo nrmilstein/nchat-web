@@ -3,14 +3,14 @@ import { stringify } from "querystring";
 class NchatApi {
   static API_URL = "http://localhost:3000/api/v1/";
 
-  static async fetch(path: string, apiKey?: string, init?: RequestInit):
+  static async fetch(path: string, authKey?: string, init?: RequestInit):
     Promise<NchatApiResponse> {
 
     let customHeaders: { [index: string]: string } = {
       "Accept": "application/json",
     }
-    if (apiKey) {
-      customHeaders["X-API-KEY"] = apiKey;
+    if (authKey) {
+      customHeaders["X-API-KEY"] = authKey;
     }
 
     if (init) {
@@ -50,37 +50,37 @@ class NchatApi {
     return jsonResponse as NchatApiResponse;
   }
 
-  static async get(path: string, apiKey?: string, init?: RequestInit): Promise<NchatApiResponse> {
-    return this.fetch(path, apiKey, init);
+  static async get(path: string, authKey?: string, init?: RequestInit): Promise<NchatApiResponse> {
+    return this.fetch(path, authKey, init);
   }
 
-  static async post(path: string, body: any, apiKey?: string, init?: RequestInit):
+  static async post(path: string, body: any, authKey?: string, init?: RequestInit):
     Promise<NchatApiResponse> {
     const postInit = {
       ...init,
       "method": "POST",
       "body": JSON.stringify(body),
     };
-    return this.fetch(path, apiKey, postInit);
+    return this.fetch(path, authKey, postInit);
   }
 
-  static async put(path: string, body: any, apiKey?: string, init?: RequestInit):
+  static async put(path: string, body: any, authKey?: string, init?: RequestInit):
     Promise<NchatApiResponse> {
     const putInit = {
       ...init,
       "method": "PUT",
       "body": JSON.stringify(body),
     };
-    return this.fetch(path, apiKey, putInit);
+    return this.fetch(path, authKey, putInit);
   }
 
-  static async delete(path: string, apiKey?: string, init?: RequestInit):
+  static async delete(path: string, authKey?: string, init?: RequestInit):
     Promise<NchatApiResponse> {
     const deleteInit = {
       ...init,
       "method": "DELETE",
     };
-    return this.fetch(path, apiKey, deleteInit);
+    return this.fetch(path, authKey, deleteInit);
   }
 
   private static appendHeaders(
