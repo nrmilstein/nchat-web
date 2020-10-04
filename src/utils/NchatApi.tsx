@@ -1,55 +1,53 @@
+import { stringify } from "querystring";
+
 class NchatApi {
   static API_URL = "http://localhost:3000/api/v1/";
 
   static async fetch(path: string, apiKey?: string, init?: RequestInit):
     Promise<NchatApiResponse> {
-    // Add apiKey to headers
+
+    let customHeaders: { [index: string]: string } = {
+      "Accept": "application/json",
+    }
     if (apiKey) {
-      if (init) {
-        let headers = init.headers
-        if (headers) {
-          if (headers instanceof Headers) {
-            headers.append('X-API-KEY', apiKey);
-          } else if (Array.isArray(headers)) {
-            headers.push(['X-API-KEY', apiKey]);
-          } else if (typeof headers === 'object') {
-            headers['X-API-KEY'] = apiKey;
-          }
-        } else {
-          init.headers = {
-            "X-API-KEY": apiKey,
-          }
-        }
+      customHeaders["X-API-KEY"] = apiKey;
+    }
+
+    if (init) {
+      if (init.headers) {
+        this.appendHeaders(init.headers, customHeaders);
       } else {
-        init = {
-          "headers": {
-            "X-API-KEY": apiKey,
-          }
-        }
+        init.headers = customHeaders;
+      }
+    } else {
+      init = {
+        "headers": customHeaders,
       }
     }
 
     const response = await fetch(this.API_URL + path, init)
 
-    // If we want to pass the response to an error later, we must clone it, because
-    // response.body can only be consumed once, and we want to preserve this for the error.
+    // If we want to pass the response in an error later, we must clone it, because
+    // response.body can only be consumed once.
     const responseClone = response.clone();
 
-    const json = await response.json();
+    const jsonResponse = await response.json();
 
-    if (!response.ok) {
-      if ("status" in json && "message" in json) {
-        throw new NchatApiErrorResponse(json.message, responseClone, json);
+    if (!response.ok || ("status" in jsonResponse && jsonResponse.status !== "success")) {
+      if ("status" in jsonResponse && "message" in jsonResponse) {
+        throw new NchatApiErrorResponse(jsonResponse.message, responseClone, jsonResponse);
+      } else if ("status" in jsonResponse) {
+        throw new NchatApiErrorResponse("Nchat API request error.", responseClone, jsonResponse);
       } else {
-        throw new NchatApiError("Could not make nchat API request.", responseClone);
+        throw new NchatApiError("Nchat API request error.", responseClone);
       }
     }
 
-    if (!("status" in json && "data" in json)) {
-      throw new NchatApiError("Missing fields in nchat response.", responseClone);
+    if (!("status" in jsonResponse)) {
+      throw new NchatApiError("Missing 'status' field in nchat response.", responseClone);
     }
 
-    return json as NchatApiResponse;
+    return jsonResponse as NchatApiResponse;
   }
 
   static async get(path: string, apiKey?: string, init?: RequestInit): Promise<NchatApiResponse> {
@@ -83,6 +81,22 @@ class NchatApi {
       "method": "DELETE",
     };
     return this.fetch(path, apiKey, deleteInit);
+  }
+
+  private static appendHeaders(
+    headers: HeadersInit,
+    additionalHeaders: { [index: string]: string }) {
+    for (const headerKey in additionalHeaders) {
+      if (additionalHeaders.hasOwnProperty(headerKey)) {
+        if (headers instanceof Headers) {
+          headers.append(headerKey, additionalHeaders[headerKey]);
+        } else if (Array.isArray(headers)) {
+          headers.push([headerKey, additionalHeaders[headerKey]]);
+        } else if (typeof headers === 'object') {
+          headers[headerKey] = additionalHeaders[headerKey];
+        }
+      }
+    }
   }
 }
 
