@@ -1,17 +1,27 @@
 import React, { ChangeEvent, FormEvent } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { Router, Link } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 
-import './SignUpForm.css'
+import NchatApi from '../utils/NchatApi';
+import User from '../models/User';
+
+import './SignUpForm.css';
 
 interface SignUpFormProps extends RouteComponentProps {
+  setAuthenticatedUser: (user: User, authKey: string) => void;
 };
 
-class SignUpForm extends React.Component<SignUpFormProps, {}> {
-  state = {
-    'name': '',
-    'email': '',
-    'password': '',
+interface SignUpFormState {
+  name: string,
+  email: string,
+  password: string,
+}
+
+class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
+  state: SignUpFormState = {
+    "name": "",
+    "email": "",
+    "password": "",
   };
 
   constructor(props: SignUpFormProps) {
@@ -24,12 +34,32 @@ class SignUpForm extends React.Component<SignUpFormProps, {}> {
   handleChange(event: ChangeEvent<HTMLInputElement>) {
     this.setState({
       [event.target.name]: event.target.value,
-    })
+    } as Pick<SignUpFormState, keyof SignUpFormState>)
   }
 
-  handleSubmit(event: FormEvent<HTMLFormElement>) {
-    // fetch()
+  async handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const requestBody = {
+      "name": this.state.name,
+      "email": this.state.email,
+      "password": this.state.password,
+    }
+
+    try {
+      const response = await NchatApi.post("users", requestBody);
+      const authenticatedUser: User = {
+        "id": response.data.user.id,
+        "name": response.data.user.name,
+        "email": response.data.user.email
+      }
+      const authKey = response.data.authKey;
+      this.props.setAuthenticatedUser(authenticatedUser, authKey);
+
+      navigate("/");
+    } catch (error) {
+      throw error;
+    }
   }
 
   render() {

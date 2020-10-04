@@ -1,15 +1,24 @@
 import React, { ChangeEvent, FormEvent } from 'react';
-import { RouteComponentProps } from '@reach/router';
-import { Router, Link } from "@reach/router";
+import { RouteComponentProps, navigate } from '@reach/router';
+import { Link } from "@reach/router";
 
-import './LoginForm.css'
+import NchatApi from '../utils/NchatApi';
+import User from '../models/User';
+
+import './LoginForm.css';
 
 interface LoginFormProps extends RouteComponentProps {
+  setAuthenticatedUser: (user: User, authKey: string) => void;
 };
 
-class LoginForm extends React.Component<LoginFormProps, {}> {
-  state = {
-    username: '',
+interface LoginFormState {
+  email: string,
+  password: string,
+}
+
+class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
+  state: LoginFormState = {
+    email: '',
     password: '',
   };
 
@@ -23,12 +32,31 @@ class LoginForm extends React.Component<LoginFormProps, {}> {
   handleChange(event: ChangeEvent<HTMLInputElement>) {
     this.setState({
       [event.target.name]: event.target.value,
-    })
+    } as Pick<LoginFormState, keyof LoginFormState>);
   }
 
-  handleSubmit(event: FormEvent<HTMLFormElement>) {
-
+  async handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const requestBody = {
+      "email": this.state.email,
+      "password": this.state.password,
+    }
+
+    try {
+      const response = await NchatApi.post("authenticate", requestBody);
+      const authenticatedUser: User = {
+        "id": response.data.user.id,
+        "name": response.data.user.name,
+        "email": response.data.user.email
+      }
+      const authKey = response.data.authKey;
+      this.props.setAuthenticatedUser(authenticatedUser, authKey);
+
+      navigate("/");
+    } catch (error) {
+      throw error;
+    }
   }
 
   render() {
@@ -36,8 +64,10 @@ class LoginForm extends React.Component<LoginFormProps, {}> {
       <div className="LoginForm" >
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
-          <p><input className="textInput" type="text" placeholder="Email" required={true} /></p>
-          <p><input className="textInput" type="password" placeholder="Password" required={true} /></p>
+          <p><input className="textInput" name="email" type="text" placeholder="Email"
+            value={this.state.email} onChange={this.handleChange} required={true} /></p>
+          <p><input className="textInput" name="password" type="password" placeholder="Password"
+            value={this.state.password} onChange={this.handleChange} required={true} /></p>
           <p><input className="button" type="submit" value="Login" /></p>
         </form>
         <div className="LoginForm__signUpMessage">
