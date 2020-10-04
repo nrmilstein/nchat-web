@@ -8,7 +8,7 @@ import User from '../models/User';
 import './SignUpForm.css';
 
 interface SignUpFormProps extends RouteComponentProps {
-  setAuthenticatedUser: (user: User, authKey: string) => void;
+  authenticateUser: (email: string, password: string) => void,
 };
 
 interface SignUpFormState {
@@ -46,20 +46,13 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
       "password": this.state.password,
     }
 
-    try {
-      const response = await NchatApi.post("users", requestBody);
-      const authenticatedUser: User = {
-        "id": response.data.user.id,
-        "name": response.data.user.name,
-        "email": response.data.user.email
-      }
-      const authKey = response.data.authKey;
-      this.props.setAuthenticatedUser(authenticatedUser, authKey);
+    // try {
+    const response = await NchatApi.post("users", requestBody);
+    this.props.authenticateUser(this.state.email, this.state.password);
 
-      navigate("/");
-    } catch (error) {
-      throw error;
-    }
+    // } catch (error) {
+    //   throw error;
+    // }
   }
 
   render() {

@@ -6,12 +6,12 @@ import User from '../../models/User';
 import "./SidebarBanner.css"
 
 interface SidebarBannerProps extends RouteComponentProps {
-  user: User,
+  user: User | null,
 }
 
 function SidebarBanner(props: SidebarBannerProps) {
   return (
-    <div className="SidebarBanner">{props.user.name}</div>
+    <div className="SidebarBanner">{props.user?.name ?? "Loading user..."}</div>
   );
 }
 

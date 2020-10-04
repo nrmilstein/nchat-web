@@ -8,7 +8,7 @@ import User from '../../models/User';
 import './Sidebar.css'
 
 interface SidebarProps extends RouteComponentProps {
-  user: User,
+  user: User | null,
 }
 
 function Sidebar(props: SidebarProps) {

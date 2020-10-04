@@ -6,16 +6,17 @@ import AccountsView from './accounts/AccountsView';
 import User from './models/User'
 
 import './App.css';
+import Conversation from './models/Conversation';
 
 interface AppState {
-  user: User | null;
-  authKey: string | null;
+  authKey: string | null,
+  user: User | null,
 }
 
 class App extends React.Component<{}, AppState> {
   state: AppState = {
-    user: null,
     authKey: null,
+    user: null,
   };
 
   constructor(props: RouteComponentProps) {
@@ -25,23 +26,23 @@ class App extends React.Component<{}, AppState> {
   }
 
   componentDidMount() {
-    if (this.state.user === null) {
+    if (this.state.authKey === null) {
       navigate('/accounts/login');
     }
   }
 
-  setAuthenticatedUser(user: User, authKey: string) {
+  setAuthenticatedUser(authKey: string, user: User) {
     this.setState({
-      "user": user,
       "authKey": authKey,
+      "user": user,
     })
   }
 
   render() {
     return (
       <Router className="Router">
-        {this.state.user !== null && this.state.authKey !== null &&
-          <ChatApp path="/" user={this.state.user} authKey={this.state.authKey} />}
+        {this.state.authKey !== null &&
+          < ChatApp path="/" authKey={this.state.authKey} user={this.state.user} />}
         <AccountsView path="accounts/*" setAuthenticatedUser={this.setAuthenticatedUser} />
       </Router >
     );

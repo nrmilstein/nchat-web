@@ -8,7 +8,7 @@ import User from '../models/User';
 import './LoginForm.css';
 
 interface LoginFormProps extends RouteComponentProps {
-  setAuthenticatedUser: (user: User, authKey: string) => void;
+  authenticateUser: (email: string, password: string) => void,
 };
 
 interface LoginFormState {
@@ -38,25 +38,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   async handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const requestBody = {
-      "email": this.state.email,
-      "password": this.state.password,
-    }
-
-    try {
-      const response = await NchatApi.post("authenticate", requestBody);
-      const authenticatedUser: User = {
-        "id": response.data.user.id,
-        "name": response.data.user.name,
-        "email": response.data.user.email
-      }
-      const authKey = response.data.authKey;
-      this.props.setAuthenticatedUser(authenticatedUser, authKey);
-
-      navigate("/");
-    } catch (error) {
-      throw error;
-    }
+    this.props.authenticateUser(this.state.email, this.state.password);
   }
 
   render() {
