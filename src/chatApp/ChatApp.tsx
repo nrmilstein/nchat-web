@@ -1,5 +1,5 @@
 import React from 'react';
-import { navigate } from "@reach/router";
+// import { navigate } from "@reach/router";
 import { RouteComponentProps } from '@reach/router';
 
 import Sidebar from './sidebar/Sidebar'
@@ -9,15 +9,15 @@ import User from '../models/User';
 import './ChatApp.css';
 
 interface ChatAppProps extends RouteComponentProps {
-  user: User | null,
-  authKey: string | null,
+  user: User,
+  authKey: string,
 }
 
 class ChatApp extends React.Component<ChatAppProps, {}> {
   render() {
     return (
       <div className="ChatApp">
-        <Sidebar />
+        <Sidebar user={this.props.user} />
         <ConversationView />
       </div>
     );

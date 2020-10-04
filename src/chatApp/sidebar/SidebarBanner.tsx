@@ -1,10 +1,17 @@
 import React from 'react';
+import { RouteComponentProps } from "@reach/router";
+
+import User from '../../models/User';
 
 import "./SidebarBanner.css"
 
-function SidebarBanner() {
+interface SidebarBannerProps extends RouteComponentProps {
+  user: User,
+}
+
+function SidebarBanner(props: SidebarBannerProps) {
   return (
-    <div className="SidebarBanner">Neal Milstein</div>
+    <div className="SidebarBanner">{props.user.name}</div>
   );
 }
 
