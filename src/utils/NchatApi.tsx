@@ -37,9 +37,9 @@ class NchatApi {
       if ("status" in jsonResponse && "message" in jsonResponse) {
         throw new NchatApiErrorResponse(jsonResponse.message, responseClone, jsonResponse);
       } else if ("status" in jsonResponse) {
-        throw new NchatApiErrorResponse("Nchat API request error.", responseClone, jsonResponse);
+        throw new NchatApiErrorResponse("Nchat API error.", responseClone, jsonResponse);
       } else {
-        throw new NchatApiError("Nchat API request error.", responseClone);
+        throw new NchatApiError("Nchat API error.", responseClone);
       }
     }
 
