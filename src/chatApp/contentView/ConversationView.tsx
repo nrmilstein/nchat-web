@@ -14,7 +14,7 @@ function ConversationView(props: ConversationViewProps) {
   let messages: JSX.Element[] = [];
   if (props.conversation !== null) {
     messages = props.conversation.messages.map(message => {
-      return <MessageView message={message} />
+      return <MessageView key={message.id} message={message} />
     });
   }
   return (
