@@ -2,10 +2,10 @@
   margin: 15px 35px;
 }
 
-.MessageView--them {
-  text-align: left;
-}
-
 .MessageView--us {
   text-align: right;
+}
+
+.MessageView--them {
+  text-align: left;
 }
