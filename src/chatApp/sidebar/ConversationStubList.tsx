@@ -16,7 +16,9 @@ function ConversationStubList(props: ConversationStubListProps) {
   if (props.conversations !== null) {
     conversationRows = props.conversations.map(conversation => {
       return (
-        <ConversationStubRow conversation={conversation}
+        <ConversationStubRow
+          key={conversation.id}
+          conversation={conversation}
           handleConversationStubClick={props.handleConversationStubClick} />
       );
     });
