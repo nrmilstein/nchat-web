@@ -9,7 +9,6 @@ import ConversationStub from '../../models/ConversationStub';
 import './Sidebar.css'
 
 interface SidebarProps extends RouteComponentProps {
-  user: User | null,
   conversations: Array<ConversationStub> | null,
   handleConversationStubClick: (conversation: ConversationStub) => void,
 }
@@ -17,7 +16,7 @@ interface SidebarProps extends RouteComponentProps {
 function Sidebar(props: SidebarProps) {
   return (
     <nav className="Sidebar">
-      <SidebarBanner user={props.user} />
+      <SidebarBanner />
       <ConversationStubList conversations={props.conversations}
         handleConversationStubClick={props.handleConversationStubClick} />
     </nav>

@@ -7,6 +7,7 @@ import ContentView from './contentView/ContentView'
 import User from '../models/User';
 import ConversationStub from '../models/ConversationStub';
 import Conversation from '../models/Conversation';
+import { UserContext } from './UserContext';
 
 import './ChatApp.css';
 
@@ -97,11 +98,12 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   render() {
     return (
       <div className="ChatApp">
-        <Sidebar
-          user={this.state.user}
-          conversations={this.state.conversations}
-          handleConversationStubClick={this.handleConversationStubClick} />
-        <ContentView conversation={this.state.conversation} />
+        <UserContext.Provider value={this.state.user}>
+          <Sidebar
+            conversations={this.state.conversations}
+            handleConversationStubClick={this.handleConversationStubClick} />
+          <ContentView conversation={this.state.conversation} />
+        </UserContext.Provider>
       </div>
     );
   }

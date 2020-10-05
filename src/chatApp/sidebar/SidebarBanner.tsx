@@ -1,17 +1,19 @@
 import React from 'react';
 import { RouteComponentProps } from "@reach/router";
+import { UserContext } from '../UserContext';
 
 import User from '../../models/User';
 
 import "./SidebarBanner.css"
 
 interface SidebarBannerProps extends RouteComponentProps {
-  user: User | null,
 }
 
 function SidebarBanner(props: SidebarBannerProps) {
   return (
-    <div className="SidebarBanner">{props.user?.name ?? "Loading user..."}</div>
+    <UserContext.Consumer>
+      {user => <div className="SidebarBanner">{user?.name ?? "Loading user..."}</div>}
+    </UserContext.Consumer>
   );
 }
 
