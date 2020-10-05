@@ -6,7 +6,6 @@ import AccountsView from './accounts/AccountsView';
 import User from './models/User'
 
 import './App.css';
-import Conversation from './models/Conversation';
 
 interface AppState {
   authKey: string | null,
@@ -42,7 +41,7 @@ class App extends React.Component<{}, AppState> {
     return (
       <Router className="Router">
         {this.state.authKey !== null &&
-          < ChatApp path="/" authKey={this.state.authKey} user={this.state.user} />}
+          < ChatApp path="/" authKey={this.state.authKey} initialUser={this.state.user} />}
         <AccountsView path="accounts/*" setAuthenticatedUser={this.setAuthenticatedUser} />
       </Router >
     );

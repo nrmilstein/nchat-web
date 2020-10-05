@@ -12,7 +12,13 @@ import './AccountsView.css'
 interface AccountsViewProps extends RouteComponentProps {
   setAuthenticatedUser: (authKey: string, user: User) => void;
 }
+
 interface AccountsViewState {
+}
+
+interface PostAuthenticateResponse {
+  authKey: string,
+  user: User,
 }
 
 class AccountsView extends React.Component<AccountsViewProps, AccountsViewState> {
@@ -29,13 +35,13 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
     }
 
     // try {
-    const response = await NchatApi.post("authenticate", requestBody);
+    const response = await NchatApi.post<PostAuthenticateResponse>("authenticate", requestBody);
 
     const authKey = response.data.authKey;
     const user: User = {
       id: response.data.user.id,
-      name: response.data.user.name,
       email: response.data.user.email,
+      name: response.data.user.name,
     }
     this.props.setAuthenticatedUser(authKey, user);
     // } catch (error) {

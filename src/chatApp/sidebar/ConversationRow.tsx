@@ -1,15 +1,19 @@
 import React from 'react';
+import {RouteComponentProps} from "@reach/router";
 
-import ConversationRowName from './ConversationRowName';
-import ConversationRowPreview from './ConversationRowPreview';
+import ConversationStub from '../../models/ConversationStub';
 
 import "./ConversationRow.css"
 
-function ConversationRow() {
+interface ConversationRowProps extends RouteComponentProps {
+  conversation: ConversationStub,
+}
+
+function ConversationRow(props: ConversationRowProps) {
   return (
     <div className="ConversationRow">
-      <ConversationRowName />
-      <ConversationRowPreview />
+      <div className="ConversationRow__name">{props.conversation.users[0].name}</div>
+      <div className="ConversationRow__preview"></div>
     </div>
   );
 }

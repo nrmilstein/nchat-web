@@ -3,3 +3,12 @@
   padding: 15px;
   height: 35px;
 }
+
+.ConversationRow__name {
+  font-size: 16px;
+}
+
+.ConversationRow__preview {
+  font-size: 14px;
+  color: #999999;
+}

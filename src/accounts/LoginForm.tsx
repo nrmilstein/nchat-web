@@ -1,9 +1,6 @@
 import React, { ChangeEvent, FormEvent } from 'react';
-import { RouteComponentProps, navigate } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import { Link } from "@reach/router";
-
-import NchatApi from '../utils/NchatApi';
-import User from '../models/User';
 
 import './LoginForm.css';
 

@@ -1,11 +1,11 @@
-.Message {
+.MessageView {
   margin: 15px 35px;
 }
 
-.Message--them {
+.MessageView--them {
   text-align: left;
 }
 
-.Message--us {
+.MessageView--us {
   text-align: right;
 }

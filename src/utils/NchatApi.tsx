@@ -1,10 +1,8 @@
-import { stringify } from "querystring";
-
 class NchatApi {
   static API_URL = "http://localhost:3000/api/v1/";
 
-  static async fetch(path: string, authKey?: string, init?: RequestInit):
-    Promise<NchatApiResponse> {
+  static async fetch<T>(path: string, authKey?: string, init?: RequestInit):
+    Promise<NchatApiSuccessResponse<T>> {
 
     let customHeaders: { [index: string]: string } = {
       "Accept": "application/json",
@@ -47,40 +45,41 @@ class NchatApi {
       throw new NchatApiError("Missing 'status' field in nchat response.", responseClone);
     }
 
-    return jsonResponse as NchatApiResponse;
+    return jsonResponse as NchatApiSuccessResponse<T>;
   }
 
-  static async get(path: string, authKey?: string, init?: RequestInit): Promise<NchatApiResponse> {
+  static async get<T>(path: string, authKey?: string, init?: RequestInit):
+    Promise<NchatApiSuccessResponse<T>> {
     return this.fetch(path, authKey, init);
   }
 
-  static async post(path: string, body: any, authKey?: string, init?: RequestInit):
-    Promise<NchatApiResponse> {
+  static async post<T>(path: string, body: any, authKey?: string, init?: RequestInit):
+    Promise<NchatApiSuccessResponse<T>> {
     const postInit = {
       ...init,
       "method": "POST",
       "body": JSON.stringify(body),
     };
-    return this.fetch(path, authKey, postInit);
+    return this.fetch<T>(path, authKey, postInit);
   }
 
-  static async put(path: string, body: any, authKey?: string, init?: RequestInit):
-    Promise<NchatApiResponse> {
+  static async put<T>(path: string, body: any, authKey?: string, init?: RequestInit):
+    Promise<NchatApiSuccessResponse<T>> {
     const putInit = {
       ...init,
       "method": "PUT",
       "body": JSON.stringify(body),
     };
-    return this.fetch(path, authKey, putInit);
+    return this.fetch<T>(path, authKey, putInit);
   }
 
-  static async delete(path: string, authKey?: string, init?: RequestInit):
-    Promise<NchatApiResponse> {
+  static async delete<T>(path: string, authKey?: string, init?: RequestInit):
+    Promise<NchatApiSuccessResponse<T>> {
     const deleteInit = {
       ...init,
       "method": "DELETE",
     };
-    return this.fetch(path, authKey, deleteInit);
+    return this.fetch<T>(path, authKey, deleteInit);
   }
 
   private static appendHeaders(
@@ -100,11 +99,15 @@ class NchatApi {
   }
 }
 
-interface NchatApiResponse {
+interface NchatApiSuccessResponse<T> {
   status: string,
-  data?: any,
-  code?: number,
-  message?: string,
+  data: T,
+}
+
+interface NchatApiFailureResponse {
+  status: string,
+  message: string,
+  code: number,
 }
 
 class NchatApiError extends Error {
@@ -119,9 +122,9 @@ class NchatApiError extends Error {
 }
 
 class NchatApiErrorResponse extends NchatApiError {
-  body: NchatApiResponse;
+  body: NchatApiErrorResponse;
 
-  constructor(message: string, response: Response, body: NchatApiResponse) {
+  constructor(message: string, response: Response, body: NchatApiErrorResponse) {
     super(message, response);
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, NchatApiErrorResponse)
