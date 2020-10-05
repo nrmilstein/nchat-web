@@ -11,7 +11,7 @@ interface ConversationViewProps extends RouteComponentProps {
 }
 
 function ConversationView(props: ConversationViewProps) {
-  let messages = [];
+  let messages: JSX.Element[] = [];
   if (props.conversation !== null) {
     messages = props.conversation.messages.map(message => {
       return <MessageView message={message} />
@@ -19,30 +19,7 @@ function ConversationView(props: ConversationViewProps) {
   }
   return (
     <div className="ConversationView">
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
-      <div className="MessageView">hey</div>
+      {messages}
     </div>
   );
 }

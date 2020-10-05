@@ -1,14 +1,14 @@
-.ConversationRow {
+.ConversationStubRow {
   border-bottom: solid 1px #aaaaaa;
   padding: 15px;
   height: 35px;
 }
 
-.ConversationRow__name {
+.ConversationStubRow__name {
   font-size: 16px;
 }
 
-.ConversationRow__preview {
+.ConversationStubRow__preview {
   font-size: 14px;
   color: #999999;
 }

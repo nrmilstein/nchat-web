@@ -12,7 +12,8 @@ interface MessageViewProps extends RouteComponentProps {
 function MessageView(props: MessageViewProps) {
   return (
     <div className="MessageView" >
-    </ div >
+      {props.message.body}
+    </div >
   );
 }
 

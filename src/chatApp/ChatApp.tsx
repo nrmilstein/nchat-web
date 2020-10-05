@@ -27,8 +27,12 @@ interface GetAuthenticateResponse {
   user: User,
 }
 
-interface GetConversationResponse {
+interface GetConversationsResponse {
   conversations: Array<ConversationStub>;
+}
+
+interface GetConversationResponse {
+  conversation: Conversation,
 }
 
 class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
@@ -36,6 +40,11 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     user: this.props.initialUser,
     conversations: null,
     conversation: null,
+  }
+
+  constructor(props: ChatAppProps) {
+    super(props);
+    this.handleConversationStubClick = this.handleConversationStubClick.bind(this);
   }
 
   async componentDidMount() {
@@ -67,7 +76,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
   async requestConversations(): Promise<Array<ConversationStub>> {
     const response =
-      await NchatApi.get<GetConversationResponse>("conversations", this.props.authKey)
+      await NchatApi.get<GetConversationsResponse>("conversations", this.props.authKey)
     const conversations = response.data.conversations;
     for (let conversation of conversations) {
       conversation.users = conversation.users.filter(user => user.id !== this.state.user?.id);
@@ -75,10 +84,23 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     return conversations;
   }
 
+  async handleConversationStubClick(conversationStub: ConversationStub) {
+    const conversationId = conversationStub.id;
+    const response = await NchatApi.get<GetConversationResponse>(
+      "conversations/" + conversationId, this.props.authKey);
+    const conversation = response.data.conversation;
+    this.setState({
+      conversation: conversation,
+    });
+  }
+
   render() {
     return (
       <div className="ChatApp">
-        <Sidebar user={this.state.user} conversations={this.state.conversations} />
+        <Sidebar
+          user={this.state.user}
+          conversations={this.state.conversations}
+          handleConversationStubClick={this.handleConversationStubClick} />
         <ContentView conversation={this.state.conversation} />
       </div>
     );

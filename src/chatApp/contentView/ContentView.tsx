@@ -15,7 +15,7 @@ interface ContentViewProps extends RouteComponentProps {
 function ContentView(props: ContentViewProps) {
   return (
     <main className="ContentView">
-      <ConversationViewBanner />
+      <ConversationViewBanner conversation={props.conversation} />
       <ConversationView conversation={props.conversation} />
       <MessageInput />
     </main>

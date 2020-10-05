@@ -1,11 +1,18 @@
 import React from 'react'
+import { RouteComponentProps } from "@reach/router";
+
+import Conversation from '../../models/Conversation';
 
 import './ConversationViewBanner.css'
 
-function ConversationViewBanner() {
+interface ConversationViewBannerProps extends RouteComponentProps {
+  conversation: Conversation | null,
+}
+
+function ConversationViewBanner(props: ConversationViewBannerProps) {
   return (
     <div className="ConversationViewBanner">
-      Goomba McPherson
+      { props.conversation?.users[0].name ?? ""}
     </div>
   );
 }
