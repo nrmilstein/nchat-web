@@ -50,13 +50,13 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
   async componentDidMount() {
     if (this.state.user === null) {
-      const user = await this.requestUser();
+      const user = await this.inittUser();
       this.setState({
         "user": user,
       });
     };
 
-    const conversations = await this.requestConversations();
+    const conversations = await this.initConversations();
 
 
     this.setState({
@@ -64,7 +64,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     });
   }
 
-  async requestUser(): Promise<User> {
+  async inittUser(): Promise<User> {
     const response =
       await NchatApi.get<GetAuthenticateResponse>("authenticate", this.props.authKey);
     const user: User = {
@@ -75,7 +75,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     return user;
   }
 
-  async requestConversations(): Promise<Array<ConversationStub>> {
+  async initConversations(): Promise<Array<ConversationStub>> {
     const response =
       await NchatApi.get<GetConversationsResponse>("conversations", this.props.authKey)
     const conversations = response.data.conversations;
