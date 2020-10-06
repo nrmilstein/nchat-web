@@ -3,6 +3,6 @@ import Message from "./Message";
 
 export default interface Conversation {
   id: number,
-  users: Array<User>,
-  messages: Array<Message>,
+  users: User[],
+  messages: Message[],
 }

@@ -5,24 +5,12 @@ import NchatApi from '../utils/NchatApi';
 import Sidebar from './sidebar/Sidebar'
 import ContentView from './contentView/ContentView'
 import User from '../models/User';
+import Message from '../models/Message';
 import ConversationStub from '../models/ConversationStub';
 import Conversation from '../models/Conversation';
-import { UserContext } from './UserContext';
+import { ChatAppContext } from './ChatAppContext';
 
 import './ChatApp.css';
-
-interface ChatAppProps extends RouteComponentProps {
-  authKey: string,
-  // The user given in props is immediately given to the state and requested from
-  // the server if null.
-  initialUser: User | null,
-}
-
-interface ChatAppState {
-  user: User | null,
-  conversations: Array<ConversationStub> | null,
-  conversation: Conversation | null,
-}
 
 interface GetAuthenticateResponse {
   user: User,
@@ -36,21 +24,39 @@ interface GetConversationResponse {
   conversation: Conversation,
 }
 
+interface PostConversationsResponse {
+  message: Message,
+}
+
+interface ChatAppProps extends RouteComponentProps {
+  authKey: string,
+  // The user given in props is immediately given to the state and requested from
+  // the server if null.
+  initialUser: User | null,
+}
+
+interface ChatAppState {
+  user: User | null,
+  conversationStubs: Array<ConversationStub> | null,
+  conversation: Conversation | null,
+}
+
 class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   state: ChatAppState = {
     user: this.props.initialUser,
-    conversations: null,
+    conversationStubs: null,
     conversation: null,
   }
 
   constructor(props: ChatAppProps) {
     super(props);
     this.handleConversationStubClick = this.handleConversationStubClick.bind(this);
+    this.handleSend = this.handleSend.bind(this);
   }
 
   async componentDidMount() {
     if (this.state.user === null) {
-      const user = await this.inittUser();
+      const user = await this.initUser();
       this.setState({
         "user": user,
       });
@@ -58,13 +64,12 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
     const conversations = await this.initConversations();
 
-
     this.setState({
-      conversations: conversations,
+      conversationStubs: conversations,
     });
   }
 
-  async inittUser(): Promise<User> {
+  async initUser(): Promise<User> {
     const response =
       await NchatApi.get<GetAuthenticateResponse>("authenticate", this.props.authKey);
     const user: User = {
@@ -96,15 +101,47 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     });
   }
 
+  async handleSend(messageBody: string): Promise<boolean> {
+    if (this.state.conversation === null) {
+      return false;
+    }
+
+    const authKey = this.props.authKey;
+    const requestBody = {
+      message: messageBody,
+    };
+    const response = await NchatApi.post<PostConversationsResponse>(
+      "conversations/" + this.state.conversation.id,
+      requestBody,
+      authKey,
+    );
+    const newMessage = response.data.message;
+
+    this.setState({
+      conversation: {
+        ...this.state.conversation,
+        messages: [
+          ...this.state.conversation.messages,
+          newMessage,
+        ],
+      },
+    });
+    return true;
+  }
+
   render() {
+    const contextValue = {
+      authKey: this.props.authKey,
+      user: this.state.user,
+    }
     return (
       <div className="ChatApp">
-        <UserContext.Provider value={this.state.user}>
+        <ChatAppContext.Provider value={contextValue}>
           <Sidebar
-            conversations={this.state.conversations}
+            conversationStubs={this.state.conversationStubs}
             handleConversationStubClick={this.handleConversationStubClick} />
-          <ContentView conversation={this.state.conversation} />
-        </UserContext.Provider>
+          <ContentView handleSend={this.handleSend} conversation={this.state.conversation} />
+        </ChatAppContext.Provider>
       </div>
     );
   }

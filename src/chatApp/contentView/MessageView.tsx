@@ -1,7 +1,7 @@
 import React from "react"
 import { RouteComponentProps } from "@reach/router";
 
-import { UserContext } from "../UserContext";
+import { ChatAppContext } from "../ChatAppContext";
 import Message from "../../models/Message";
 
 import "./MessageView.css"
@@ -12,16 +12,18 @@ interface MessageViewProps extends RouteComponentProps {
 
 function MessageView(props: MessageViewProps) {
   return (
-    <UserContext.Consumer>
-      {user =>
+    <ChatAppContext.Consumer>
+      {context =>
         <div
-          className={"MessageView " + (user?.id === props.message.userId
+          className={"MessageView " + (context.user?.id === props.message.userId
             ? "MessageView--us"
             : "MessageView--them")} >
-          {props.message.body}
+          <span className="MessageView__messageBody">
+            {props.message.body}
+          </span>
         </div >
       }
-    </UserContext.Consumer >
+    </ChatAppContext.Consumer >
   );
 }
 

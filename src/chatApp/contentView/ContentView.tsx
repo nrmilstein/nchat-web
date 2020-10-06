@@ -9,17 +9,21 @@ import Conversation from '../../models/Conversation';
 import "./ContentView.css"
 
 interface ContentViewProps extends RouteComponentProps {
-  conversation: Conversation | null;
+  handleSend: (messageBody: string) => Promise<boolean>,
+  conversation: Conversation | null,
 }
 
-function ContentView(props: ContentViewProps) {
-  return (
-    <main className="ContentView">
-      <ConversationViewBanner conversation={props.conversation} />
-      <ConversationView conversation={props.conversation} />
-      <MessageInput />
-    </main>
-  );
+class ContentView extends React.Component<ContentViewProps, {}> {
+
+  render() {
+    return (
+      <main className="ContentView">
+        <ConversationViewBanner conversation={this.props.conversation} />
+        <ConversationView conversation={this.props.conversation} />
+        <MessageInput handleSend={this.props.handleSend} />
+      </main>
+    );
+  }
 }
 
 export default ContentView;

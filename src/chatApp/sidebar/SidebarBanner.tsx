@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from "@reach/router";
-import { UserContext } from '../UserContext';
+import { ChatAppContext } from '../ChatAppContext';
 
 import User from '../../models/User';
 
@@ -11,9 +11,13 @@ interface SidebarBannerProps extends RouteComponentProps {
 
 function SidebarBanner(props: SidebarBannerProps) {
   return (
-    <UserContext.Consumer>
-      {user => <div className="SidebarBanner">{user?.name ?? "Loading user..."}</div>}
-    </UserContext.Consumer>
+    <ChatAppContext.Consumer>
+      {
+        context => {
+          return <div className="SidebarBanner">{context.user?.name ?? "Loading user..."}</div>
+        }
+      }
+    </ChatAppContext.Consumer>
   );
 }
 

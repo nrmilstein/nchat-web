@@ -3,5 +3,5 @@ import Message from "./Message";
 
 export default interface ConversationStub {
   id: number,
-  users: Array<User>,
+  users: User[],
 }

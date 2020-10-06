@@ -7,14 +7,14 @@ import ConversationStub from '../../models/ConversationStub';
 import "./ConversationStubList.css"
 
 interface ConversationStubListProps extends RouteComponentProps {
-  conversations: Array<ConversationStub> | null,
+  conversationStubs: Array<ConversationStub> | null,
   handleConversationStubClick: (conversation: ConversationStub) => void,
 }
 
 function ConversationStubList(props: ConversationStubListProps) {
   let conversationRows: Array<JSX.Element>;
-  if (props.conversations !== null) {
-    conversationRows = props.conversations.map(conversation => {
+  if (props.conversationStubs !== null) {
+    conversationRows = props.conversationStubs.map(conversation => {
       return (
         <ConversationStubRow
           key={conversation.id}
