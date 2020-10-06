@@ -48,10 +48,13 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     conversation: null,
   }
 
+  private scrollToBottomHandler = () => { };
+
   constructor(props: ChatAppProps) {
     super(props);
     this.handleConversationStubClick = this.handleConversationStubClick.bind(this);
     this.handleSend = this.handleSend.bind(this);
+    this.setScrollToBottomHandler = this.setScrollToBottomHandler.bind(this);
   }
 
   async componentDidMount() {
@@ -82,7 +85,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
   async initConversations(): Promise<Array<ConversationStub>> {
     const response =
-      await NchatApi.get<GetConversationsResponse>("conversations", this.props.authKey)
+      await NchatApi.get<GetConversationsResponse>("conversations", this.props.authKey);
     const conversations = response.data.conversations;
     for (let conversation of conversations) {
       conversation.users = conversation.users.filter(user => user.id !== this.state.user?.id);
@@ -99,6 +102,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     this.setState({
       conversation: conversation,
     });
+    this.scrollToBottomHandler();
   }
 
   async handleSend(messageBody: string): Promise<boolean> {
@@ -115,18 +119,25 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       requestBody,
       authKey,
     );
-    const newMessage = response.data.message;
+    const addedMessage = response.data.message;
 
     this.setState({
       conversation: {
         ...this.state.conversation,
         messages: [
           ...this.state.conversation.messages,
-          newMessage,
+          addedMessage,
         ],
       },
     });
+
+    this.scrollToBottomHandler();
+
     return true;
+  }
+
+  setScrollToBottomHandler(scrollToBottomHandler: () => void) {
+    this.scrollToBottomHandler = scrollToBottomHandler;
   }
 
   render() {
@@ -140,7 +151,9 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
           <Sidebar
             conversationStubs={this.state.conversationStubs}
             handleConversationStubClick={this.handleConversationStubClick} />
-          <ContentView handleSend={this.handleSend} conversation={this.state.conversation} />
+          <ContentView handleSend={this.handleSend}
+            setScrollToBottomHandler={this.setScrollToBottomHandler}
+            conversation={this.state.conversation} />
         </ChatAppContext.Provider>
       </div>
     );

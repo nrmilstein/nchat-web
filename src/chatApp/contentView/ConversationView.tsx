@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { UIEvent } from 'react'
 import { RouteComponentProps } from "@reach/router";
 
 import MessageView from './MessageView';
@@ -8,20 +8,46 @@ import './ConversationView.css'
 
 interface ConversationViewProps extends RouteComponentProps {
   conversation: Conversation | null,
+  setScrollToBottomHandler: (scrollToBottomHandler: () => void) => void,
 }
 
-function ConversationView(props: ConversationViewProps) {
-  let messages: JSX.Element[] = [];
-  if (props.conversation !== null) {
-    messages = props.conversation.messages.map(message => {
-      return <MessageView key={message.id} message={message} />
-    });
+interface ConversationViewState {
+}
+
+class ConversationView extends React.Component<ConversationViewProps, ConversationViewState> {
+  state: ConversationViewState = {
+    scrollTop: 0,
   }
-  return (
-    <div className="ConversationView">
-      {messages}
-    </div>
-  );
+
+  conversationViewDiv = React.createRef<HTMLDivElement>();
+
+  constructor(props: ConversationViewProps) {
+    super(props);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.props.setScrollToBottomHandler(this.scrollToBottom);
+  }
+
+  scrollToBottom() {
+    const node = this.conversationViewDiv.current;
+    if (node === null) {
+      return;
+    }
+    node.scrollTo(0, node.scrollHeight - node.clientHeight);
+  }
+
+  render() {
+    let messages: JSX.Element[] = [];
+    if (this.props.conversation !== null) {
+      messages = this.props.conversation.messages.map(message => {
+        return <MessageView key={message.id} message={message} />
+      });
+    }
+    return (
+      <div className="ConversationView" ref={this.conversationViewDiv}>
+        {messages}
+      </div>
+    );
+  }
 }
 
 export default ConversationView;
