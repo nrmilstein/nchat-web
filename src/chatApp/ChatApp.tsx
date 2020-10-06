@@ -94,9 +94,8 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   }
 
   async handleConversationStubClick(conversationStub: ConversationStub) {
-    const conversationId = conversationStub.id;
     const response = await NchatApi.get<GetConversationResponse>(
-      "conversations/" + conversationId, this.props.authKey);
+      "conversations/" + conversationStub.id, this.props.authKey);
     let conversation = response.data.conversation;
     conversation.users = conversation.users.filter(user => user.id !== this.state.user?.id);
     this.setState({
