@@ -17,7 +17,7 @@ interface GetAuthenticateResponse {
 }
 
 interface GetConversationsResponse {
-  conversations: Array<ConversationStub>;
+  conversations: ConversationStub[];
 }
 
 interface GetConversationResponse {
@@ -65,10 +65,10 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       });
     };
 
-    const conversations = await this.initConversations();
+    const conversationStubs = await this.initConversationStubs();
 
     this.setState({
-      conversationStubs: conversations,
+      conversationStubs: conversationStubs,
     });
   }
 
@@ -83,21 +83,17 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     return user;
   }
 
-  async initConversations(): Promise<Array<ConversationStub>> {
+  async initConversationStubs(): Promise<ConversationStub[]> {
     const response =
       await NchatApi.get<GetConversationsResponse>("conversations", this.props.authKey);
-    const conversations = response.data.conversations;
-    for (let conversation of conversations) {
-      conversation.users = conversation.users.filter(user => user.id !== this.state.user?.id);
-    }
-    return conversations;
+    const conversationStubs = response.data.conversations;
+    return conversationStubs;
   }
 
   async handleConversationStubClick(conversationStub: ConversationStub) {
     const response = await NchatApi.get<GetConversationResponse>(
       "conversations/" + conversationStub.id, this.props.authKey);
     let conversation = response.data.conversation;
-    conversation.users = conversation.users.filter(user => user.id !== this.state.user?.id);
     this.setState({
       conversation: conversation,
     });

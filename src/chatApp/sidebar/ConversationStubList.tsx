@@ -18,7 +18,7 @@ function ConversationStubList(props: ConversationStubListProps) {
       return (
         <ConversationStubRow
           key={conversation.id}
-          conversation={conversation}
+          conversationStub={conversation}
           handleConversationStubClick={props.handleConversationStubClick} />
       );
     });

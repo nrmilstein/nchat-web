@@ -15,7 +15,7 @@ function MessageView(props: MessageViewProps) {
     <ChatAppContext.Consumer>
       {context =>
         <div
-          className={"MessageView " + (context.user?.id === props.message.userId
+          className={"MessageView " + (context.user?.id === props.message.senderId
             ? "MessageView--us"
             : "MessageView--them")} >
           <span className="MessageView__messageBody">

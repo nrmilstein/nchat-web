@@ -3,6 +3,6 @@ import Message from "./Message";
 
 export default interface Conversation {
   id: number,
-  users: User[],
+  conversationPartner: User,
   messages: Message[],
 }
