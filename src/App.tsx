@@ -41,7 +41,9 @@ class App extends React.Component<{}, AppState> {
     return (
       <Router className="Router">
         {this.state.authKey !== null &&
-          < ChatApp path="/" authKey={this.state.authKey} initialUser={this.state.user} />}
+          < ChatApp path="/" authKey={this.state.authKey}
+            initialUser={this.state.user}
+            key={this.state.user?.id} />}
         <AccountsView path="accounts/*" setAuthenticatedUser={this.setAuthenticatedUser} />
       </Router >
     );
