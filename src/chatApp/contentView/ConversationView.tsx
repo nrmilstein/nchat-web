@@ -5,13 +5,17 @@ import MessageView from './MessageView';
 import Conversation from '../../models/Conversation';
 
 import './ConversationView.css'
+import { ChatAppContext } from '../ChatAppContext';
 
 interface ConversationViewProps extends RouteComponentProps {
   conversation: Conversation | null,
-  setScrollToBottomHandler: (scrollToBottomHandler: () => void) => void,
 }
 
 interface ConversationViewState {
+}
+
+interface ConversationViewSnapshot {
+  isScrolledToBottom: boolean,
 }
 
 class ConversationView extends React.Component<ConversationViewProps, ConversationViewState> {
@@ -21,18 +25,23 @@ class ConversationView extends React.Component<ConversationViewProps, Conversati
 
   conversationViewDiv = React.createRef<HTMLDivElement>();
 
+  static contextType = ChatAppContext;
+  context!: React.ContextType<typeof ChatAppContext>
+
   constructor(props: ConversationViewProps) {
     super(props);
     this.scrollToBottom = this.scrollToBottom.bind(this);
-    this.props.setScrollToBottomHandler(this.scrollToBottom);
   }
 
-  scrollToBottom() {
-    const node = this.conversationViewDiv.current;
-    if (node === null) {
-      return;
-    }
-    node.scrollTo(0, node.scrollHeight - node.clientHeight);
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  getSnapshotBeforeUpdate(prevProps: ConversationViewProps, prevState: ConversationViewState):
+    ConversationViewSnapshot {
+    return {
+      isScrolledToBottom: this.isScrolledToBottom()
+    };
   }
 
   render() {
@@ -47,6 +56,45 @@ class ConversationView extends React.Component<ConversationViewProps, Conversati
         {messages}
       </div>
     );
+  }
+
+  componentDidUpdate(
+    prevProps: ConversationViewProps,
+    prevState: ConversationViewState,
+    snapshot: ConversationViewSnapshot,
+  ) {
+    if (prevProps.conversation === null || this.props.conversation === null
+      || this.context.user === null) {
+      return;
+    }
+    const prevMessages = prevProps.conversation.messages;
+    const messages = this.props.conversation.messages;
+
+    // If there's a new message added
+    if (prevMessages[prevMessages.length - 1].id !== messages[messages.length - 1].id) {
+      // Keep us scrolled to the bottom if we're already there, or if the last message
+      // added is from us (i.e. we just sent a message).
+      if (snapshot.isScrolledToBottom
+        || messages[messages.length - 1].senderId === this.context.user.id) {
+        this.scrollToBottom();
+      }
+    }
+  }
+
+  private isScrolledToBottom(): boolean {
+    const node = this.conversationViewDiv.current;
+    if (node === null) {
+      return true;
+    }
+    return node.scrollTop >= node.scrollHeight - node.clientHeight;
+  }
+
+  private scrollToBottom() {
+    const node = this.conversationViewDiv.current;
+    if (node === null) {
+      return;
+    }
+    node.scrollTo(0, node.scrollHeight - node.clientHeight);
   }
 }
 

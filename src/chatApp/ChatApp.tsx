@@ -48,13 +48,10 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     conversation: null,
   }
 
-  private scrollToBottomHandler = () => { };
-
   constructor(props: ChatAppProps) {
     super(props);
     this.handleConversationStubClick = this.handleConversationStubClick.bind(this);
     this.handleSend = this.handleSend.bind(this);
-    this.setScrollToBottomHandler = this.setScrollToBottomHandler.bind(this);
   }
 
   async componentDidMount() {
@@ -97,7 +94,6 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     this.setState({
       conversation: conversation,
     });
-    this.scrollToBottomHandler();
   }
 
   async handleSend(messageBody: string): Promise<boolean> {
@@ -126,13 +122,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       },
     });
 
-    this.scrollToBottomHandler();
-
     return true;
-  }
-
-  setScrollToBottomHandler(scrollToBottomHandler: () => void) {
-    this.scrollToBottomHandler = scrollToBottomHandler;
   }
 
   render() {
@@ -147,7 +137,6 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
             conversationStubs={this.state.conversationStubs}
             handleConversationStubClick={this.handleConversationStubClick} />
           <ContentView handleSend={this.handleSend}
-            setScrollToBottomHandler={this.setScrollToBottomHandler}
             conversation={this.state.conversation} />
         </ChatAppContext.Provider>
       </div>
