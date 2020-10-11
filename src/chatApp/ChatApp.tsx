@@ -28,6 +28,11 @@ interface PostConversationsResponse {
   message: Message,
 }
 
+interface WSMessageFromServer {
+  senderId: number,
+  body: string,
+}
+
 interface ChatAppProps extends RouteComponentProps {
   authKey: string,
   // The user given in props is immediately given to the state and requested from
@@ -48,13 +53,18 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     conversation: null,
   }
 
+  webSocket: WebSocket | null = null;
+
   constructor(props: ChatAppProps) {
     super(props);
     this.handleConversationStubClick = this.handleConversationStubClick.bind(this);
-    this.handleSend = this.handleSend.bind(this);
+    this.handleSendMessage = this.handleSendMessage.bind(this);
+    this.handleReceivedMessage = this.handleReceivedMessage.bind(this);
   }
 
   async componentDidMount() {
+    this.webSocket = this.initWebSocket();
+
     if (this.state.user === null) {
       const user = await this.initUser();
       this.setState({
@@ -67,6 +77,17 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     this.setState({
       conversationStubs: conversationStubs,
     });
+  }
+
+  initWebSocket(): WebSocket {
+    const webSocket = new WebSocket("ws://localhost:3000/api/v1/chat", "nchat");
+    webSocket.addEventListener("open", (event: Event) => {
+      this.sendAuthMessage()
+      webSocket?.addEventListener("message", (event: MessageEvent) => {
+        this.handleReceivedMessage(JSON.parse(event.data));
+      });
+    })
+    return webSocket;
   }
 
   async initUser(): Promise<User> {
@@ -96,7 +117,14 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     });
   }
 
-  async handleSend(messageBody: string): Promise<boolean> {
+  sendAuthMessage() {
+    const authMessage = {
+      authKey: this.props.authKey,
+    };
+    this.webSocket?.send(JSON.stringify(authMessage));
+  }
+
+  async handleSendMessage(messageBody: string): Promise<boolean> {
     if (this.state.conversation === null) {
       return false;
     }
@@ -110,19 +138,58 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       requestBody,
       authKey,
     );
-    const addedMessage = response.data.message;
+    const sentMessage = response.data.message;
 
-    this.setState({
-      conversation: {
-        ...this.state.conversation,
-        messages: [
-          ...this.state.conversation.messages,
-          addedMessage,
-        ],
-      },
+    const webSocketMessage = {
+      receiverId: this.state.conversation.conversationPartner.id,
+      body: messageBody,
+    };
+    this.webSocket?.send(JSON.stringify(webSocketMessage));
+
+    this.setState((prevState: ChatAppState, props: ChatAppProps) => {
+      if (prevState.conversation === null) {
+        return null;
+      }
+      return {
+        conversation: {
+          ...prevState.conversation,
+          messages: [
+            ...prevState.conversation.messages,
+            sentMessage,
+          ],
+        },
+      };
     });
 
     return true;
+  }
+
+  handleReceivedMessage(data: WSMessageFromServer) {
+    if (this.state.conversation === null) {
+      return
+    }
+    const receivedMessage = {
+      id: this.state.conversation.messages[this.state.conversation.messages.length - 1].id + 1,
+      senderId: data.senderId,
+      body: data.body,
+      sent: new Date(),
+    };
+    if (data.senderId === this.state.conversation?.conversationPartner.id) {
+      this.setState((prevState: ChatAppState, props: ChatAppProps) => {
+        if (prevState.conversation === null) {
+          return null;
+        }
+        return {
+          conversation: {
+            ...prevState.conversation,
+            messages: [
+              ...prevState.conversation.messages,
+              receivedMessage,
+            ],
+          },
+        }
+      });
+    }
   }
 
   render() {
@@ -136,11 +203,15 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
           <Sidebar
             conversationStubs={this.state.conversationStubs}
             handleConversationStubClick={this.handleConversationStubClick} />
-          <ContentView handleSend={this.handleSend}
+          <ContentView handleSendMessage={this.handleSendMessage}
             conversation={this.state.conversation} />
         </ChatAppContext.Provider>
       </div>
     );
+  }
+
+  componentWillUnmount() {
+    this.webSocket?.close();
   }
 }
 

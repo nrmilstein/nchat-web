@@ -4,7 +4,7 @@ import { RouteComponentProps } from "@reach/router";
 import './MessageInput.css'
 
 interface MessageInputProps extends RouteComponentProps {
-  handleSend: (messageBody: string) => Promise<boolean>,
+  handleSendMessage: (messageBody: string) => Promise<boolean>,
 }
 
 interface MessageInputState {
@@ -19,7 +19,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
   constructor(props: MessageInputProps) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSend = this.handleSend.bind(this);
+    this.handleSendMessage = this.handleSendMessage.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
@@ -29,11 +29,11 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
     });
   }
 
-  async handleSend() {
+  async handleSendMessage() {
     if (this.state.messageBody === "") {
       return;
     }
-    const success = await this.props.handleSend(this.state.messageBody);
+    const success = await this.props.handleSendMessage(this.state.messageBody);
     if (success) {
       this.setState({
         messageBody: "",
@@ -43,7 +43,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
 
   handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
-      this.handleSend();
+      this.handleSendMessage();
     }
   }
 
@@ -55,7 +55,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
           onChange={this.handleChange} />
         <button
           className="MessageInput__button button"
-          onClick={this.handleSend}>
+          onClick={this.handleSendMessage}>
           Send
           </button>
       </div>

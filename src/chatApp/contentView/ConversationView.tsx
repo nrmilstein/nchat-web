@@ -19,6 +19,9 @@ interface ConversationViewSnapshot {
 }
 
 class ConversationView extends React.Component<ConversationViewProps, ConversationViewState> {
+  // Number of pixels chat div can be scrolled above bottom to still be considered at bottom
+  SCROLL_TOLERANCE = 40;
+
   state: ConversationViewState = {
     scrollTop: 0,
   }
@@ -86,7 +89,7 @@ class ConversationView extends React.Component<ConversationViewProps, Conversati
     if (node === null) {
       return true;
     }
-    return node.scrollTop >= node.scrollHeight - node.clientHeight;
+    return node.scrollTop >= (node.scrollHeight - node.clientHeight) - this.SCROLL_TOLERANCE;
   }
 
   private scrollToBottom() {
