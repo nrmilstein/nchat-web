@@ -21,7 +21,7 @@ a:active {
 
 .button {
   cursor: pointer;
-  background-color: #1892de;
+  background-color: #66c072;
   padding: 10px;
   font-size: 16px;
   border: none;
@@ -30,9 +30,9 @@ a:active {
 }
 
 .button:hover, .button:focus {
-  background-color: #58a9db;
+  background-color: #83c78c;
 }
 
 .button:active {
-  background-color: #13699e;
+  background-color: #47a353;
 }
