@@ -204,7 +204,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
             conversationStubs={this.state.conversationStubs}
             handleConversationStubClick={this.handleConversationStubClick} />
           <ContentView handleSendMessage={this.handleSendMessage}
-            conversation={this.state.conversation} />
+            conversation={this.state.conversation} key={this.state.conversation?.id} />
         </ChatAppContext.Provider>
       </div>
     );

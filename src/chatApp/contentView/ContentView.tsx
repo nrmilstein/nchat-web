@@ -19,7 +19,7 @@ class ContentView extends React.Component<ContentViewProps, {}> {
     return (
       <main className="ContentView">
         <ConversationViewBanner conversation={this.props.conversation} />
-        <ConversationView key={this.props.conversation?.id}
+        <ConversationView
           conversation={this.props.conversation} />
         <MessageInput handleSendMessage={this.props.handleSendMessage} />
       </main>
