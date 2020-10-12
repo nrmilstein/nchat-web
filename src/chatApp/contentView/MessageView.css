@@ -1,10 +1,13 @@
 .MessageView {
-  margin: 30px 35px;
+  margin: 15px 35px;
 }
 
 .MessageView__messageBody {
+  display: inline-block;
   padding: 7px 11px;
   border-radius: 15px;
+  max-width: 75%;
+  line-height: 1.4;
 }
 
 .MessageView--us {
