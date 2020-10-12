@@ -28,9 +28,12 @@ interface PostConversationsResponse {
   message: Message,
 }
 
-interface WSMessageFromServer {
+interface WSMessageResponse {
+  id: number,
+  conversationId: number,
   senderId: number,
   body: string,
+  sent: Date,
 }
 
 interface ChatAppProps extends RouteComponentProps {
@@ -129,52 +132,22 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       return false;
     }
 
-    const authKey = this.props.authKey;
-    const requestBody = {
-      message: messageBody,
-    };
-    const response = await NchatApi.post<PostConversationsResponse>(
-      "conversations/" + this.state.conversation.id,
-      requestBody,
-      authKey,
-    );
-    const sentMessage = response.data.message;
-
-    const webSocketMessage = {
-      receiverId: this.state.conversation.conversationPartner.id,
+    const webSocketRequest = {
+      conversationId: this.state.conversation.id,
       body: messageBody,
     };
-    this.webSocket?.send(JSON.stringify(webSocketMessage));
+    this.webSocket?.send(JSON.stringify(webSocketRequest));
 
-    this.setState((prevState: ChatAppState, props: ChatAppProps) => {
-      if (prevState.conversation === null) {
-        return null;
-      }
-      return {
-        conversation: {
-          ...prevState.conversation,
-          messages: [
-            ...prevState.conversation.messages,
-            sentMessage,
-          ],
-        },
-      };
-    });
+    // TODO: implement proper ACKs and immediate adding of message
 
     return true;
   }
 
-  handleReceivedMessage(data: WSMessageFromServer) {
+  handleReceivedMessage(data: WSMessageResponse) {
     if (this.state.conversation === null) {
       return
     }
-    const receivedMessage = {
-      id: this.state.conversation.messages[this.state.conversation.messages.length - 1].id + 1,
-      senderId: data.senderId,
-      body: data.body,
-      sent: new Date(),
-    };
-    if (data.senderId === this.state.conversation?.conversationPartner.id) {
+    if (data.conversationId === this.state.conversation?.id) {
       this.setState((prevState: ChatAppState, props: ChatAppProps) => {
         if (prevState.conversation === null) {
           return null;
@@ -184,7 +157,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
             ...prevState.conversation,
             messages: [
               ...prevState.conversation.messages,
-              receivedMessage,
+              data,
             ],
           },
         }
