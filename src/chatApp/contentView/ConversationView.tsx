@@ -1,4 +1,4 @@
-import React, { UIEvent } from 'react'
+import React from 'react'
 import { RouteComponentProps } from "@reach/router";
 
 import MessageView from './MessageView';
@@ -8,7 +8,7 @@ import './ConversationView.css'
 import { ChatAppContext } from '../ChatAppContext';
 
 interface ConversationViewProps extends RouteComponentProps {
-  conversation: Conversation | null,
+  conversation: Conversation,
 }
 
 interface ConversationViewState {
@@ -48,12 +48,9 @@ class ConversationView extends React.Component<ConversationViewProps, Conversati
   }
 
   render() {
-    let messages: JSX.Element[] = [];
-    if (this.props.conversation !== null) {
-      messages = this.props.conversation.messages.map(message => {
-        return <MessageView key={message.id} message={message} />
-      });
-    }
+    let messages: JSX.Element[] = this.props.conversation.messages.map(message => {
+      return <MessageView key={message.id} message={message} />
+    });
     return (
       <div className="ConversationView" ref={this.conversationViewDiv}>
         {messages}
@@ -66,10 +63,6 @@ class ConversationView extends React.Component<ConversationViewProps, Conversati
     prevState: ConversationViewState,
     snapshot: ConversationViewSnapshot,
   ) {
-    if (prevProps.conversation === null || this.props.conversation === null
-      || this.context.user === null) {
-      return;
-    }
     const prevMessages = prevProps.conversation.messages;
     const messages = this.props.conversation.messages;
 

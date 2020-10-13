@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, KeyboardEvent } from 'react'
+import React, { ChangeEvent, KeyboardEvent } from 'react'
 import { RouteComponentProps } from "@reach/router";
 
 import './MessageInput.css'
@@ -30,7 +30,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
   }
 
   async handleSendMessage() {
-    if (this.state.messageBody === "") {
+    if (this.state.messageBody.trim() === "") {
       return;
     }
     const success = await this.props.handleSendMessage(this.state.messageBody);

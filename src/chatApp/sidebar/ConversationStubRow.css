@@ -2,6 +2,15 @@
   border-bottom: solid 1px #cccccc;
   padding: 15px;
   height: 35px;
+  cursor: pointer;
+}
+
+.ConversationStubRow:hover {
+  background-color: #f9f9f9;
+}
+
+.ConversationStubRow:active {
+  background-color: #d4f3d8;
 }
 
 .ConversationStubRow__name {
@@ -11,4 +20,12 @@
 .ConversationStubRow__preview {
   font-size: 14px;
   color: #999999;
+}
+
+.ConversationStubRow--selected {
+  background-color: #d4f3d8;
+}
+
+.ConversationStubRow--selected:hover {
+  background-color: #d4f3d8;
 }

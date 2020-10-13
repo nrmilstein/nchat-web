@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, RouteComponentProps, navigate } from "@reach/router";
 
-import ChatApp from './chatApp/ChatApp'
+import ChatAppLoader from './chatApp/ChatAppLoader';
 import AccountsView from './accounts/AccountsView';
 import User from './models/User'
 
@@ -41,8 +41,9 @@ class App extends React.Component<{}, AppState> {
     return (
       <Router className="Router">
         {this.state.authKey !== null &&
-          < ChatApp path="/" authKey={this.state.authKey}
-            initialUser={this.state.user}
+          <ChatAppLoader path="/"
+            authKey={this.state.authKey}
+            user={this.state.user}
             key={this.state.user?.id} />}
         <AccountsView path="accounts/*" setAuthenticatedUser={this.setAuthenticatedUser} />
       </Router >

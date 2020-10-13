@@ -3,10 +3,14 @@ import User from "../models/User";
 
 interface ChatAppContextType {
   authKey: string,
-  user: User | null,
+  user: User,
 }
 
 export const ChatAppContext = React.createContext<ChatAppContextType>({
   authKey: "",
-  user: null,
+  user: {
+    id: -1,
+    name: "",
+    email: ""
+  },
 });

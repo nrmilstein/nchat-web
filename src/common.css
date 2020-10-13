@@ -27,6 +27,7 @@ a:active {
   border: none;
   border-radius: 5px;;
   color: white;
+  transition: background-color .15s ease-in-out
 }
 
 .button:hover, .button:focus {
@@ -35,4 +36,5 @@ a:active {
 
 .button:active {
   background-color: #47a353;
+  transition: background-color .07s ease-in-out
 }

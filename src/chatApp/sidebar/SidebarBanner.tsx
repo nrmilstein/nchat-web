@@ -1,8 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from "@reach/router";
-import { ChatAppContext } from '../ChatAppContext';
 
-import User from '../../models/User';
+import { ChatAppContext } from '../ChatAppContext';
 
 import "./SidebarBanner.css"
 
@@ -14,7 +13,7 @@ function SidebarBanner(props: SidebarBannerProps) {
     <ChatAppContext.Consumer>
       {
         context => {
-          return <div className="SidebarBanner">{context.user?.name ?? ""}</div>
+          return <div className="SidebarBanner">{context.user.name ?? ""}</div>
         }
       }
     </ChatAppContext.Consumer>

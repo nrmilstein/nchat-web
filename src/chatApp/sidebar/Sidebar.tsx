@@ -3,22 +3,25 @@ import { RouteComponentProps } from "@reach/router";
 
 import SidebarBanner from './SidebarBanner';
 import ConversationStubList from './ConversationStubList';
-import User from '../../models/User';
 import ConversationStub from '../../models/ConversationStub';
+import Conversation from '../../models/Conversation';
 
 import './Sidebar.css'
 
 interface SidebarProps extends RouteComponentProps {
-  conversationStubs: Array<ConversationStub> | null,
+  conversationStubs: Array<ConversationStub>,
   handleConversationStubClick: (conversation: ConversationStub) => void,
+  conversation: Conversation | null,
 }
 
 function Sidebar(props: SidebarProps) {
   return (
     <nav className="Sidebar">
       <SidebarBanner />
-      <ConversationStubList conversationStubs={props.conversationStubs}
-        handleConversationStubClick={props.handleConversationStubClick} />
+      <ConversationStubList
+        conversationStubs={props.conversationStubs}
+        handleConversationStubClick={props.handleConversationStubClick}
+        conversation={props.conversation} />
     </nav>
   );
 }

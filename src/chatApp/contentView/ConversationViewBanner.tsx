@@ -6,13 +6,13 @@ import Conversation from '../../models/Conversation';
 import './ConversationViewBanner.css'
 
 interface ConversationViewBannerProps extends RouteComponentProps {
-  conversation: Conversation | null,
+  conversation: Conversation,
 }
 
 function ConversationViewBanner(props: ConversationViewBannerProps) {
   return (
     <div className="ConversationViewBanner">
-      { props.conversation?.conversationPartner.name ?? ""}
+      { props.conversation.conversationPartner.name ?? ""}
     </div>
   );
 }

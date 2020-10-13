@@ -8,6 +8,7 @@
   border-radius: 15px;
   max-width: 75%;
   line-height: 1.4;
+  word-wrap: break-word;
 }
 
 .MessageView--us {
