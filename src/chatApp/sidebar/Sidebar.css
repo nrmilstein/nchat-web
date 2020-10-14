@@ -1,5 +1,6 @@
 .Sidebar {
   flex: 30%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
