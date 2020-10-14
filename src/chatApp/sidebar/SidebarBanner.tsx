@@ -13,7 +13,7 @@ function SidebarBanner(props: SidebarBannerProps) {
     <ChatAppContext.Consumer>
       {
         context => {
-          return <div className="SidebarBanner">{context.user.name ?? ""}</div>
+          return <header className="SidebarBanner">{context.user.name ?? ""}</header>
         }
       }
     </ChatAppContext.Consumer>

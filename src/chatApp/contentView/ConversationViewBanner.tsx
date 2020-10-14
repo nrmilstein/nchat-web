@@ -11,9 +11,9 @@ interface ConversationViewBannerProps extends RouteComponentProps {
 
 function ConversationViewBanner(props: ConversationViewBannerProps) {
   return (
-    <div className="ConversationViewBanner">
+    <header className="ConversationViewBanner">
       { props.conversation.conversationPartner.name ?? ""}
-    </div>
+    </header>
   );
 }
 
