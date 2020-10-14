@@ -55,6 +55,13 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     });
   }
 
+  sendAuthMessage() {
+    const authMessage = {
+      authKey: this.props.authKey,
+    };
+    this.props.webSocket.send(JSON.stringify(authMessage));
+  }
+
   async handleConversationStubClick(conversationStub: ConversationStub) {
     const response = await NchatApi.get<GetConversationResponse>(
       "conversations/" + conversationStub.id, this.props.authKey);
@@ -62,13 +69,6 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     this.setState({
       conversation: conversation,
     });
-  }
-
-  sendAuthMessage() {
-    const authMessage = {
-      authKey: this.props.authKey,
-    };
-    this.props.webSocket.send(JSON.stringify(authMessage));
   }
 
   async handleSendMessage(messageBody: string): Promise<boolean> {
