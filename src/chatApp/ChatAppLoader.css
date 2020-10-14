@@ -20,9 +20,9 @@
 
 @keyframes rotateLoading {
   from {
-    rotate: 0;
+    transform: rotate(0);
   }
   to {
-    rotate: 360deg;
+    transform: rotate(360deg);
   }
 }
