@@ -6,5 +6,5 @@
 
 .ChatApp__contentViewWrapper {
   flex: 70%;
-  max-width: 70%;
+  overflow-x: hidden;
 }
