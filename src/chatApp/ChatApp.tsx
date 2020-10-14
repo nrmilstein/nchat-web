@@ -77,7 +77,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     }
 
     const webSocketRequest = {
-      conversationId: this.state.conversation.id,
+      email: this.state.conversation.conversationPartner.email,
       body: messageBody,
     };
     this.props.webSocket.send(JSON.stringify(webSocketRequest));
