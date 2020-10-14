@@ -1,8 +1,10 @@
 .ChatApp {
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .ChatApp__contentViewWrapper {
-  flex: 7;
+  flex: 70%;
+  max-width: 70%;
 }

@@ -1,5 +1,6 @@
 .ChatAppLoader {
   height: 100%;
+  width: 100%;
 }
 
 .ChatAppLoader__loading {
