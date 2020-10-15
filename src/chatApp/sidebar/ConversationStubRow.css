@@ -15,11 +15,15 @@
 
 .ConversationStubRow__name {
   font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ConversationStubRow__preview {
-  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: #999999;
+  font-size: 14px;
 }
 
 .ConversationStubRow--selected {
