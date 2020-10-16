@@ -43,6 +43,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
   constructor(props: ChatAppProps) {
     super(props);
+    this.handleNewChat = this.handleNewChat.bind(this);
     this.handleConversationStubClick = this.handleConversationStubClick.bind(this);
     this.handleSendMessage = this.handleSendMessage.bind(this);
     this.handleReceivedMessage = this.handleReceivedMessage.bind(this);
@@ -60,6 +61,10 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       authKey: this.props.authKey,
     };
     this.props.webSocket.send(JSON.stringify(authMessage));
+  }
+
+  handleNewChat() {
+
   }
 
   async handleConversationStubClick(conversationStub: ConversationStub) {
@@ -118,6 +123,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       <div className="ChatApp">
         <ChatAppContext.Provider value={contextValue}>
           <Sidebar
+            handleNewChat={this.handleNewChat}
             conversationStubs={this.state.conversationStubs}
             handleConversationStubClick={this.handleConversationStubClick}
             conversation={this.state.conversation} />

@@ -6,6 +6,7 @@ import { ChatAppContext } from '../ChatAppContext';
 import "./SidebarBanner.css"
 
 interface SidebarBannerProps extends RouteComponentProps {
+  handleNewChat: () => void,
 }
 
 function SidebarBanner(props: SidebarBannerProps) {
@@ -13,7 +14,14 @@ function SidebarBanner(props: SidebarBannerProps) {
     <ChatAppContext.Consumer>
       {
         context => {
-          return <header className="SidebarBanner">{context.user.name ?? ""}</header>
+          return (
+            <header className="SidebarBanner">
+              <div className="SidebarBanner__userName">
+                {context.user.name ?? ""}
+              </div>
+              <button className="SidebarBanner__plus">＋</button>
+            </header>
+          )
         }
       }
     </ChatAppContext.Consumer>
