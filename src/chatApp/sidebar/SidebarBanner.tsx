@@ -6,7 +6,7 @@ import { ChatAppContext } from '../ChatAppContext';
 import "./SidebarBanner.css"
 
 interface SidebarBannerProps extends RouteComponentProps {
-  handleNewChat: () => void,
+  handleNewConversation: () => void,
 }
 
 function SidebarBanner(props: SidebarBannerProps) {

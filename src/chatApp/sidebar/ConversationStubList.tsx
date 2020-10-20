@@ -2,8 +2,7 @@ import React from 'react';
 import { RouteComponentProps } from "@reach/router";
 
 import ConversationStubRow from './ConversationStubRow';
-import ConversationStub from '../../models/ConversationStub';
-import Conversation from '../../models/Conversation';
+import Conversation, { ConversationStub } from '../../models/Conversation';
 
 import "./ConversationStubList.css"
 

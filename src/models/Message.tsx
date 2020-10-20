@@ -4,3 +4,7 @@ export default interface Message {
   body: string
   sent: Date,
 }
+
+export interface MessageChild extends Message {
+  conversationId: number,
+}

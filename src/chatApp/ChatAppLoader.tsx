@@ -2,11 +2,12 @@ import React from 'react';
 import { RouteComponentProps } from '@reach/router';
 
 import ChatApp from './ChatApp';
-import ConversationStub from '../models/ConversationStub';
+import { ConversationStub } from '../models/Conversation';
 import User from '../models/User';
 import NchatApi from '../utils/NchatApi';
+import NchatWebSocket, { WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
 
-import "./ChatAppLoader.css"
+import "./ChatAppLoader.css";
 
 interface GetAuthenticateResponse {
   user: User,
@@ -14,6 +15,13 @@ interface GetAuthenticateResponse {
 
 interface GetConversationStubsResponse {
   conversations: ConversationStub[];
+}
+
+interface WSAuthRequestData {
+  authKey: string,
+}
+
+interface WSAuthResponseData {
 }
 
 interface ChatAppLoaderProps extends RouteComponentProps {
@@ -24,7 +32,7 @@ interface ChatAppLoaderProps extends RouteComponentProps {
 interface ChatAppLoaderState {
   user: User | null,
   conversationStubs: ConversationStub[] | null,
-  webSocket: WebSocket | null,
+  webSocket: NchatWebSocket | null,
 }
 
 class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderState> {
@@ -35,25 +43,24 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
   }
 
   async componentDidMount() {
-    const webSocketPromise = this.initWebSocket();
+    const userPromise = this.state.user === null
+      ? Promise.resolve(this.state.user)
+      : this.initUser();
     const conversationStubsPromise = this.initConversationStubs();
 
-    const user = this.state.user ?? await this.initUser();
-    const webSocket = await webSocketPromise;
-    const conversationStubs = await conversationStubsPromise
+    const webSocket = await NchatWebSocket.createWebSocket();
+    const authResponse = await this.sendAuth(webSocket);
+    if (authResponse.status !== "success") {
+      throw new Error("Could not connect to webSocket.")
+    }
+
+    const [user, conversationStubs] = await Promise.all([userPromise, conversationStubsPromise]);
 
     this.setState({
       user: user,
       conversationStubs: conversationStubs,
       webSocket: webSocket,
     })
-  }
-
-  async initConversationStubs(): Promise<ConversationStub[]> {
-    const response =
-      await NchatApi.get<GetConversationStubsResponse>("conversations", this.props.authKey);
-    const conversationStubs = response.data.conversations;
-    return conversationStubs;
   }
 
   async initUser(): Promise<User> {
@@ -67,16 +74,24 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     return user;
   }
 
-  initWebSocket(): Promise<WebSocket> {
-    const webSocket = new WebSocket("ws://localhost:3000/api/v1/chat", "nchat");
-    return new Promise(function (resolve, reject) {
-      webSocket.addEventListener("open", (event: Event) => {
-        resolve(webSocket);
-      })
-      webSocket.addEventListener("error", (event: Event) => {
-        reject(event);
-      })
-    });
+  async initConversationStubs(): Promise<ConversationStub[]> {
+    const response =
+      await NchatApi.get<GetConversationStubsResponse>("conversations", this.props.authKey);
+    const conversationStubs = response.data.conversations;
+    return conversationStubs;
+  }
+
+  private sendAuth(webSocket: NchatWebSocket):
+    Promise<WSSuccessResponse<WSAuthResponseData>> {
+    const request: WSRequest<WSAuthRequestData> = {
+      type: "request",
+      method: "authorize",
+      data: {
+        authKey: this.props.authKey,
+      },
+    };
+
+    return webSocket.sendRequest(request);
   }
 
   render() {

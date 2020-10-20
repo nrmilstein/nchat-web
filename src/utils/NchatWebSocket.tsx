@@ -1,0 +1,125 @@
+export interface WSNotification<T> {
+  type: "notification",
+  method: string,
+  data: T,
+}
+
+export interface WSRequest<T> {
+  id?: number,
+  type: "request",
+  method: string,
+  data: T,
+}
+
+export interface WSSuccessResponse<T> {
+  id: number,
+  type: "response",
+  status: "success",
+  data: T,
+}
+
+export interface WSErrorResponse<T> {
+  id: number,
+  type: "response",
+  status: "error",
+  code: number,
+  message: string,
+  data: T,
+}
+
+type NotificationListener = (notification: WSNotification<any>) => void
+interface NotificationListeners {
+  [index: string]: NotificationListener[]
+}
+
+type PromiseResolveFunc = (value: WSSuccessResponse<any>) => void;
+type PromiseRejectFunc = (reason: WSErrorResponse<any>) => void;
+type PromiseCallbacks = {
+  resolve: PromiseResolveFunc,
+  reject: PromiseRejectFunc,
+}
+
+class NchatWebSocket {
+  static WEBSOCKET_URL = "ws://localhost:3000/api/v1/chat";
+
+  webSocket: WebSocket;
+  isAuthMessageSent = false;
+  requestId = 0;
+  requestPromises: PromiseCallbacks[] = [];
+  notificationListeners: NotificationListeners = {};
+
+  static createWebSocket(): Promise<NchatWebSocket> {
+    const webSocket = new WebSocket(this.WEBSOCKET_URL, "nchat");
+    return new Promise((resolve, reject) => {
+      webSocket.addEventListener("open", (event: Event) => {
+        const nchatWebSocket = new NchatWebSocket(webSocket);
+        resolve(nchatWebSocket);
+      })
+      webSocket.addEventListener("error", (event: Event) => {
+        reject(event);
+      })
+    });
+  }
+
+  constructor(webSocket: WebSocket) {
+    this.handleMessageReceived = this.handleMessageReceived.bind(this);
+    this.webSocket = webSocket;
+    this.webSocket.addEventListener("message", this.handleMessageReceived);
+  }
+
+  handleMessageReceived(event: MessageEvent) {
+    const data: WSNotification<any> | WSSuccessResponse<any> | WSErrorResponse<any> =
+      JSON.parse(event.data);
+    if (data.type === "response") {
+      if (data.status === "success") {
+        this.requestPromises[data.id].resolve(data);
+      } else {
+        this.requestPromises[data.id].reject(data);
+      }
+    } else if (data.type === "notification") {
+      const listeners = this.notificationListeners[data.method];
+      if (typeof listeners !== "undefined") {
+        for (const listener of listeners) {
+          listener(data);
+        }
+      }
+    }
+  }
+
+  addNotificationListener(method: string, listener: (notification: WSNotification<any>) => void) {
+    if (this.notificationListeners.hasOwnProperty(method)) {
+      this.notificationListeners[method]?.push(listener);
+    } else {
+      this.notificationListeners[method] = [listener];
+    }
+  }
+
+  sendRequest<T, S>(request: WSRequest<T>):
+    Promise<WSSuccessResponse<S>> {
+    const id = this.getNextId();
+    request.id = id;
+
+    this.webSocket.send(JSON.stringify(request));
+
+    return new Promise((resolve, reject) => {
+      this.registerPromise(id, resolve, reject);
+    });
+  }
+
+  close() {
+    this.webSocket.close();
+  }
+
+  private registerPromise(id: number, resolve: PromiseResolveFunc, reject: PromiseRejectFunc) {
+    this.requestPromises[id] = {
+      resolve: resolve,
+      reject: reject
+    };
+  }
+
+  private getNextId(): number {
+    return this.requestId++;
+  }
+}
+
+export default NchatWebSocket;
