@@ -4,7 +4,3 @@ export default interface Message {
   body: string
   sent: Date,
 }
-
-export interface MessageNode extends Message {
-  conversationId: number,
-}

@@ -8,7 +8,7 @@ import User from '../models/User';
 import Conversation, { ConversationStub } from '../models/Conversation';
 import { ChatAppContext } from './ChatAppContext';
 import NchatWebSocket, { WSNotification, WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
-import Message, { MessageNode } from '../models/Message';
+import Message from '../models/Message';
 
 import './ChatApp.css';
 
@@ -17,7 +17,8 @@ interface GetConversationResponse {
 }
 
 interface WSMessageNotificationData {
-  message: MessageNode,
+  message: Message,
+  conversation: Conversation,
 }
 
 interface WSMessageRequestData {
@@ -26,7 +27,8 @@ interface WSMessageRequestData {
 }
 
 interface WSMessageSuccessResponseData {
-  message: MessageNode,
+  message: Message,
+  conversation: Conversation,
 }
 
 interface WSMessageErrorResponseData {
@@ -76,9 +78,9 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   }
 
   handleReceivedMessage(notification: WSNotification<WSMessageNotificationData>) {
-    const message = notification.data.message;
-    if (message.conversationId === this.state.conversation?.id) {
-      this.addMessage(notification.data.message);
+    const data = notification.data
+    if (data.conversation.id === this.state.conversation?.id) {
+      this.addMessage(data.message);
     }
   }
 
@@ -93,7 +95,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
     const data = response.data;
     if (response.status === "success"
-      && data.message.conversationId === this.state.conversation?.id) {
+      && data.conversation.id === this.state.conversation?.id) {
       this.addMessage(data.message);
     }
 
