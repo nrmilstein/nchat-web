@@ -60,7 +60,8 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
         <h1>Sign up</h1>
         <form onSubmit={this.handleSubmit}>
           <p><input className="textInput" name="name" type="text" placeholder="Display name"
-            value={this.state.name} onChange={this.handleChange} required={true} /></p>
+            value={this.state.name} onChange={this.handleChange} required={true}
+            autoFocus={true} /></p>
           <p><input className="textInput" name="email" type="text" placeholder="Email"
             value={this.state.email} onChange={this.handleChange} required={true} /></p>
           <p><input className="textInput" name="password" type="password" placeholder="Password"

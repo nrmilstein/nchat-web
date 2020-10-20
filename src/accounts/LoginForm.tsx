@@ -44,7 +44,8 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           <p><input className="textInput" name="email" type="text" placeholder="Email"
-            value={this.state.email} onChange={this.handleChange} required={true} /></p>
+            value={this.state.email} onChange={this.handleChange} required={true}
+            autoFocus={true} /></p>
           <p><input className="textInput" name="password" type="password" placeholder="Password"
             value={this.state.password} onChange={this.handleChange} required={true} /></p>
           <p><input className="button" type="submit" value="Login" /></p>
