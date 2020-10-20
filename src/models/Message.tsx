@@ -5,6 +5,6 @@ export default interface Message {
   sent: Date,
 }
 
-export interface MessageChild extends Message {
+export interface MessageNode extends Message {
   conversationId: number,
 }

@@ -8,7 +8,7 @@ import User from '../models/User';
 import Conversation, { ConversationStub } from '../models/Conversation';
 import { ChatAppContext } from './ChatAppContext';
 import NchatWebSocket, { WSNotification, WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
-import Message, { MessageChild } from '../models/Message';
+import Message, { MessageNode } from '../models/Message';
 
 import './ChatApp.css';
 
@@ -17,7 +17,7 @@ interface GetConversationResponse {
 }
 
 interface WSMessageNotificationData {
-  message: MessageChild,
+  message: MessageNode,
 }
 
 interface WSMessageRequestData {
@@ -26,7 +26,7 @@ interface WSMessageRequestData {
 }
 
 interface WSMessageSuccessResponseData {
-  message: MessageChild,
+  message: MessageNode,
 }
 
 interface WSMessageErrorResponseData {
