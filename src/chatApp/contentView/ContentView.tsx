@@ -14,7 +14,6 @@ interface ContentViewProps extends RouteComponentProps {
 }
 
 class ContentView extends React.Component<ContentViewProps, {}> {
-
   render() {
     return (
       <div className="ContentView">
