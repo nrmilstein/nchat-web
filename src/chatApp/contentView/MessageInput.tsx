@@ -19,7 +19,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
   constructor(props: MessageInputProps) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSendMessage = this.handleSendMessage.bind(this);
+    this.handleClickSend = this.handleClickSend.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
@@ -29,7 +29,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
     });
   }
 
-  async handleSendMessage() {
+  async handleClickSend() {
     if (this.state.messageBody.trim() === "") {
       return;
     }
@@ -43,7 +43,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
 
   handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
-      this.handleSendMessage();
+      this.handleClickSend();
     }
   }
 
@@ -55,7 +55,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
           onChange={this.handleChange} autoFocus={true} />
         <button
           className="MessageInput__button button"
-          onClick={this.handleSendMessage}>
+          onClick={this.handleClickSend}>
           Send
           </button>
       </div>

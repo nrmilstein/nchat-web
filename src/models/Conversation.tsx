@@ -9,7 +9,7 @@ export interface ConversationStub {
 
 export interface Conversation {
   uuid: string,
-  id: number,
+  id: number | null,
   conversationStub: ConversationStub,
   conversationPartner: User,
   messages: Message[],

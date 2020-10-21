@@ -4,7 +4,7 @@ import { RouteComponentProps } from "@reach/router";
 import { ChatAppContext } from "../ChatAppContext";
 import { Message } from "../../models/Message";
 
-import "./MessageView.css"
+import './MessageView.css'
 
 interface MessageViewProps extends RouteComponentProps {
   message: Message,

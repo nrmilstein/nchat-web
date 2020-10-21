@@ -174,13 +174,11 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
             conversationStubs={this.state.conversationStubs}
             handleConversationStubClick={this.handleConversationStubClick}
             conversation={this.state.conversation} />
-          <main className="ChatApp__contentViewWrapper">
-            {this.state.conversation !== null
-              && <ContentView handleSendMessage={this.handleSendMessage}
-                conversation={this.state.conversation} key={this.state.conversation?.uuid} />}
-          </main>
+          <ContentView
+            handleSendMessage={this.handleSendMessage}
+            conversation={this.state.conversation} />
         </ChatAppContext.Provider>
-      </div>
+      </div >
     );
   }
 

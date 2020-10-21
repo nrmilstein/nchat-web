@@ -1,5 +1,4 @@
 .ContentView {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  flex: 70%;
+  overflow-x: hidden;
 }
