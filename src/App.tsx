@@ -3,7 +3,7 @@ import { Router, RouteComponentProps, navigate } from "@reach/router";
 
 import ChatAppLoader from './chatApp/ChatAppLoader';
 import AccountsView from './accounts/AccountsView';
-import User from './models/User'
+import { User } from './models/User'
 
 import './App.css';
 

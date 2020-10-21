@@ -1,7 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from "@reach/router";
 
-import Conversation from '../../models/Conversation';
+import { Conversation } from '../../models/Conversation';
 
 import './ConversationViewBanner.css'
 

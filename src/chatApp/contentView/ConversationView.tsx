@@ -2,7 +2,7 @@ import React from 'react'
 import { RouteComponentProps } from "@reach/router";
 
 import MessageView from './MessageView';
-import Conversation from '../../models/Conversation';
+import { Conversation } from '../../models/Conversation';
 
 import './ConversationView.css'
 import { ChatAppContext } from '../ChatAppContext';
@@ -49,7 +49,7 @@ class ConversationView extends React.Component<ConversationViewProps, Conversati
 
   render() {
     let messages: JSX.Element[] = this.props.conversation.messages.map(message => {
-      return <MessageView key={message.id} message={message} />
+      return <MessageView key={message.uuid} message={message} />
     });
     return (
       <div className="ConversationView" ref={this.conversationViewDiv}>

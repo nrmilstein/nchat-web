@@ -19,7 +19,7 @@ function SidebarBanner(props: SidebarBannerProps) {
               <div className="SidebarBanner__userName">
                 {context.user.name ?? ""}
               </div>
-              <button className="SidebarBanner__plus">＋</button>
+              <button className="SidebarBanner__plus" onClick={props.handleNewConversation}>＋</button>
             </header>
           )
         }

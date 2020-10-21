@@ -1,24 +1,28 @@
 import React from 'react';
 import { RouteComponentProps } from '@reach/router';
+import { v4 as uuidv4 } from 'uuid';
 
 import NchatApi from '../utils/NchatApi';
 import Sidebar from './sidebar/Sidebar'
 import ContentView from './contentView/ContentView'
-import User from '../models/User';
-import Conversation, { ConversationStub } from '../models/Conversation';
+import { User } from '../models/User';
+import { Conversation, ConversationStub } from '../models/Conversation';
+import { Message } from '../models/Message';
+import { ConversationJson } from '../utils/json/ConversationJson';
+import { MessageJson } from '../utils/json/MessageJson';
 import { ChatAppContext } from './ChatAppContext';
-import NchatWebSocket, { WSNotification, WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
-import Message from '../models/Message';
+import NchatWebSocket, { WSNotification, WSRequest, WSSuccessResponse }
+  from '../utils/NchatWebSocket';
 
 import './ChatApp.css';
 
 interface GetConversationResponse {
-  conversation: Conversation,
+  conversation: ConversationJson,
 }
 
 interface WSMessageNotificationData {
-  message: Message,
-  conversation: Conversation,
+  message: MessageJson,
+  conversation: ConversationJson,
 }
 
 interface WSMessageRequestData {
@@ -27,8 +31,8 @@ interface WSMessageRequestData {
 }
 
 interface WSMessageSuccessResponseData {
-  message: Message,
-  conversation: Conversation,
+  message: MessageJson,
+  conversation: ConversationJson,
 }
 
 interface WSMessageErrorResponseData {
@@ -71,7 +75,24 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   async handleConversationStubClick(conversationStub: ConversationStub) {
     const response = await NchatApi.get<GetConversationResponse>(
       "conversations/" + conversationStub.id, this.props.authKey);
-    let conversation = response.data.conversation;
+
+    const conversationJson = response.data.conversation;
+
+    const messages = conversationJson.messages.map(message => {
+      return {
+        ...message,
+        uuid: uuidv4(),
+      }
+    });
+
+    const conversation: Conversation = {
+      uuid: uuidv4(),
+      id: conversationJson.id,
+      conversationStub: conversationStub,
+      messages: messages,
+      conversationPartner: conversationJson.conversationPartner,
+    }
+
     this.setState({
       conversation: conversation,
     });
@@ -80,7 +101,11 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   handleReceivedMessage(notification: WSNotification<WSMessageNotificationData>) {
     const data = notification.data
     if (data.conversation.id === this.state.conversation?.id) {
-      this.addMessage(data.message);
+      const message = {
+        uuid: uuidv4(),
+        ...data.message,
+      }
+      this.addMessage(message);
     }
   }
 
@@ -89,14 +114,18 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       return false;
     }
 
+    //TODO: add message before awaiting response
     const response = await this.sendMessage(
       this.state.conversation.conversationPartner.email, messageBody);
-
 
     const data = response.data;
     if (response.status === "success"
       && data.conversation.id === this.state.conversation?.id) {
-      this.addMessage(data.message);
+      const message = {
+        uuid: uuidv4(),
+        ...data.message,
+      }
+      this.addMessage(message);
     }
 
     return true;
@@ -147,7 +176,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
             conversation={this.state.conversation} />
           <main className="ChatApp__contentViewWrapper">
             {this.state.conversation !== null && <ContentView handleSendMessage={this.handleSendMessage}
-              conversation={this.state.conversation} key={this.state.conversation?.id} />}
+              conversation={this.state.conversation} key={this.state.conversation?.uuid} />}
           </main>
         </ChatAppContext.Provider>
       </div>

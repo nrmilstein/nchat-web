@@ -3,8 +3,7 @@ import { RouteComponentProps } from "@reach/router";
 
 import SidebarBanner from './SidebarBanner';
 import ConversationStubList from './ConversationStubList';
-import { ConversationStub } from '../../models/Conversation';
-import Conversation from '../../models/Conversation';
+import { ConversationStub, Conversation } from '../../models/Conversation';
 
 import './Sidebar.css'
 

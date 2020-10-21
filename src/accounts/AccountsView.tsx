@@ -5,9 +5,10 @@ import { Router, navigate } from "@reach/router";
 import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import NchatApi from '../utils/NchatApi';
-import User from '../models/User';
+import { UserJson } from '../utils/json/UserJson';
 
 import './AccountsView.css'
+import { User } from '../models/User';
 
 interface AccountsViewProps extends RouteComponentProps {
   setAuthenticatedUser: (authKey: string, user: User) => void;
@@ -18,7 +19,7 @@ interface AccountsViewState {
 
 interface PostAuthenticateResponse {
   authKey: string,
-  user: User,
+  user: UserJson,
 }
 
 class AccountsView extends React.Component<AccountsViewProps, AccountsViewState> {

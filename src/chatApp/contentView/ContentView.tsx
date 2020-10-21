@@ -4,7 +4,7 @@ import { RouteComponentProps } from "@reach/router";
 import ConversationViewBanner from './ConversationViewBanner';
 import ConversationView from './ConversationView';
 import MessageInput from './MessageInput';
-import Conversation from '../../models/Conversation';
+import { Conversation } from '../../models/Conversation';
 
 import "./ContentView.css"
 

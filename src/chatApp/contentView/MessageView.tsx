@@ -2,7 +2,7 @@ import React from "react"
 import { RouteComponentProps } from "@reach/router";
 
 import { ChatAppContext } from "../ChatAppContext";
-import Message from "../../models/Message";
+import { Message } from "../../models/Message";
 
 import "./MessageView.css"
 

@@ -1,20 +1,23 @@
 import React from 'react';
 import { RouteComponentProps } from '@reach/router';
+import { v4 as uuidv4 } from 'uuid';
 
 import ChatApp from './ChatApp';
 import { ConversationStub } from '../models/Conversation';
-import User from '../models/User';
+import { ConversationStubJson } from '../utils/json/ConversationJson';
+import { User } from '../models/User';
+import { UserJson } from '../utils/json/UserJson';
 import NchatApi from '../utils/NchatApi';
 import NchatWebSocket, { WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
 
 import "./ChatAppLoader.css";
 
 interface GetAuthenticateResponse {
-  user: User,
+  user: UserJson,
 }
 
 interface GetConversationStubsResponse {
-  conversations: ConversationStub[];
+  conversations: ConversationStubJson[];
 }
 
 interface WSAuthRequestData {
@@ -77,7 +80,13 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
   async initConversationStubs(): Promise<ConversationStub[]> {
     const response =
       await NchatApi.get<GetConversationStubsResponse>("conversations", this.props.authKey);
-    const conversationStubs = response.data.conversations;
+
+    const conversationStubs = response.data.conversations.map(conversationStub => {
+      return {
+        ...conversationStub,
+        uuid: uuidv4(),
+      }
+    })
     return conversationStubs;
   }
 

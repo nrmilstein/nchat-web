@@ -1,11 +1,16 @@
-import User from "./User";
-import Message from "./Message";
+import { User } from "./User";
+import { Message } from "./Message";
 
 export interface ConversationStub {
-  id: number,
+  uuid: string,
+  id: number | null,
   conversationPartner: User,
 }
 
-export default interface Conversation extends ConversationStub {
+export interface Conversation {
+  uuid: string,
+  id: number,
+  conversationStub: ConversationStub,
+  conversationPartner: User,
   messages: Message[],
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteComponentProps } from "@reach/router";
 
 import ConversationStubRow from './ConversationStubRow';
-import Conversation, { ConversationStub } from '../../models/Conversation';
+import { Conversation, ConversationStub } from '../../models/Conversation';
 
 import "./ConversationStubList.css"
 
@@ -18,8 +18,8 @@ function ConversationStubList(props: ConversationStubListProps) {
     conversationRows = props.conversationStubs.map(conversationStub => {
       return (
         <ConversationStubRow
-          key={conversationStub.id}
-          selected={conversationStub.id === props.conversation?.id}
+          key={conversationStub.uuid}
+          selected={conversationStub.uuid === props.conversation?.conversationStub.uuid}
           conversationStub={conversationStub}
           handleConversationStubClick={props.handleConversationStubClick} />
       );
