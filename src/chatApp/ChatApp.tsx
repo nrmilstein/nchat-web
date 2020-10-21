@@ -47,11 +47,13 @@ interface ChatAppProps extends RouteComponentProps {
 
 interface ChatAppState {
   conversationStubs: ConversationStub[],
+  selectedConversationStub: ConversationStub | null,
   conversation: Conversation | null,
 }
 
 class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   state: ChatAppState = {
+    selectedConversationStub: null,
     conversationStubs: this.props.conversationStubs,
     conversation: null,
   }
@@ -73,9 +75,12 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   }
 
   async handleConversationStubClick(conversationStub: ConversationStub) {
+    this.setState({
+      selectedConversationStub: conversationStub,
+    })
+
     const response = await NchatApi.get<GetConversationResponse>(
       "conversations/" + conversationStub.id, this.props.authKey);
-
     const conversationJson = response.data.conversation;
 
     const messages = conversationJson.messages.map(message => {
@@ -86,9 +91,9 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     });
 
     const conversation: Conversation = {
+      editable: false,
       uuid: uuidv4(),
       id: conversationJson.id,
-      conversationStub: conversationStub,
       messages: messages,
       conversationPartner: conversationJson.conversationPartner,
     }
@@ -170,10 +175,11 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       <div className="ChatApp">
         <ChatAppContext.Provider value={contextValue}>
           <Sidebar
-            handleNewConversation={this.handleNewConversation}
             conversationStubs={this.state.conversationStubs}
-            handleConversationStubClick={this.handleConversationStubClick}
-            conversation={this.state.conversation} />
+            selectedConversationStub={this.state.selectedConversationStub}
+            conversation={this.state.conversation}
+            handleNewConversation={this.handleNewConversation}
+            handleConversationStubClick={this.handleConversationStubClick} />
           <ContentView
             handleSendMessage={this.handleSendMessage}
             conversation={this.state.conversation} />

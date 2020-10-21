@@ -2,14 +2,14 @@ import React from 'react';
 import { RouteComponentProps } from "@reach/router";
 
 import ConversationStubRow from './ConversationStubRow';
-import { Conversation, ConversationStub } from '../../models/Conversation';
+import { ConversationStub } from '../../models/Conversation';
 
 import "./ConversationStubList.css"
 
 interface ConversationStubListProps extends RouteComponentProps {
   conversationStubs: ConversationStub[],
+  selectedConversationStub: ConversationStub | null,
   handleConversationStubClick: (conversationStub: ConversationStub) => void,
-  conversation: Conversation | null,
 }
 
 function ConversationStubList(props: ConversationStubListProps) {
@@ -19,7 +19,7 @@ function ConversationStubList(props: ConversationStubListProps) {
       return (
         <ConversationStubRow
           key={conversationStub.uuid}
-          selected={conversationStub.uuid === props.conversation?.conversationStub.uuid}
+          selected={conversationStub.uuid === props.selectedConversationStub?.uuid}
           conversationStub={conversationStub}
           handleConversationStubClick={props.handleConversationStubClick} />
       );

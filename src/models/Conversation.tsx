@@ -8,9 +8,9 @@ export interface ConversationStub {
 }
 
 export interface Conversation {
+  editable: boolean,
   uuid: string,
   id: number | null,
-  conversationStub: ConversationStub,
   conversationPartner: User,
   messages: Message[],
 }
