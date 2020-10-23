@@ -8,10 +8,10 @@ import NchatApi from '../utils/NchatApi';
 import { UserJson } from '../utils/json/UserJson';
 
 import './AccountsView.css'
-import { User } from '../models/User';
+import { SyncedUser } from '../models/User';
 
 interface AccountsViewProps extends RouteComponentProps {
-  setAuthenticatedUser: (authKey: string, user: User) => void;
+  setAuthenticatedUser: (authKey: string, user: SyncedUser) => void;
 }
 
 interface AccountsViewState {
@@ -39,7 +39,7 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
     const response = await NchatApi.post<PostAuthenticateResponse>("authenticate", requestBody);
 
     const authKey = response.data.authKey;
-    const user: User = {
+    const user: SyncedUser = {
       id: response.data.user.id,
       email: response.data.user.email,
       name: response.data.user.name,

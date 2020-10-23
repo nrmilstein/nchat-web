@@ -8,7 +8,7 @@ import "./ContentView.css"
 
 interface ContentViewProps extends RouteComponentProps {
   conversation: Conversation | null,
-  handleSendMessage: (messageBody: string) => Promise<boolean>,
+  handleSendMessage: (messageBody: string, conversation: Conversation) => Promise<boolean>,
 }
 
 class ContentView extends React.Component<ContentViewProps, {}> {

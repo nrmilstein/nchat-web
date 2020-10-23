@@ -3,13 +3,13 @@ import { Router, RouteComponentProps, navigate } from "@reach/router";
 
 import ChatAppLoader from './chatApp/ChatAppLoader';
 import AccountsView from './accounts/AccountsView';
-import { User } from './models/User'
+import { SyncedUser } from './models/User'
 
 import './App.css';
 
 interface AppState {
   authKey: string | null,
-  user: User | null,
+  user: SyncedUser | null,
 }
 
 class App extends React.Component<{}, AppState> {
@@ -30,7 +30,7 @@ class App extends React.Component<{}, AppState> {
     }
   }
 
-  setAuthenticatedUser(authKey: string, user: User) {
+  setAuthenticatedUser(authKey: string, user: SyncedUser) {
     this.setState({
       "authKey": authKey,
       "user": user,

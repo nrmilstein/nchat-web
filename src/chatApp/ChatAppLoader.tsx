@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ChatApp from './ChatApp';
 import { ConversationStub } from '../models/Conversation';
 import { ConversationStubJson } from '../utils/json/ConversationJson';
-import { User } from '../models/User';
+import { SyncedUser } from '../models/User';
 import { UserJson } from '../utils/json/UserJson';
 import NchatApi from '../utils/NchatApi';
 import NchatWebSocket, { WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
@@ -29,11 +29,11 @@ interface WSAuthResponseData {
 
 interface ChatAppLoaderProps extends RouteComponentProps {
   authKey: string,
-  user: User | null,
+  user: SyncedUser | null,
 }
 
 interface ChatAppLoaderState {
-  user: User | null,
+  user: SyncedUser | null,
   conversationStubs: ConversationStub[] | null,
   webSocket: NchatWebSocket | null,
 }
@@ -66,10 +66,10 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     })
   }
 
-  async initUser(): Promise<User> {
+  async initUser(): Promise<SyncedUser> {
     const response =
       await NchatApi.get<GetAuthenticateResponse>("authenticate", this.props.authKey);
-    const user: User = {
+    const user: SyncedUser = {
       id: response.data.user.id,
       name: response.data.user.name,
       email: response.data.user.email,

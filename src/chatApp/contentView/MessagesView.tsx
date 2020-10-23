@@ -66,6 +66,10 @@ class MessagesView extends React.Component<MessagesViewProps, MessagesViewState>
     const prevMessages = prevProps.messages;
     const messages = this.props.messages;
 
+    if (prevMessages.length === 0 || messages.length === 0) {
+      return;
+    }
+
     // If there's a new message added
     if (prevMessages[prevMessages.length - 1].uuid !== messages[messages.length - 1].uuid) {
       // Keep us scrolled to the bottom if we're already there, or if the last message

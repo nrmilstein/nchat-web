@@ -17,7 +17,8 @@ function ConversationStubRow(props: ConversationStubRowProps) {
       className={"ConversationStubRow" + (props.selected ? " ConversationStubRow--selected" : "")}
       onMouseDown={() => props.handleConversationStubClick(props.conversationStub)}>
       <div className="ConversationStubRow__name">
-        {props.conversationStub.conversationPartner.name}
+        {props.conversationStub.conversationPartner.name
+          ?? props.conversationStub.conversationPartner.email}
       </div>
       <div className="ConversationStubRow__preview"></div>
     </div>

@@ -1,13 +1,13 @@
-import { User } from "../../models/User";
 import { MessageJson } from "./MessageJson";
+import { UserJson } from "./UserJson";
 
 export interface ConversationJson {
   id: number,
-  conversationPartner: User,
+  conversationPartner: UserJson,
   messages: MessageJson[],
 }
 
 export interface ConversationStubJson {
   id: number,
-  conversationPartner: User,
+  conversationPartner: UserJson,
 }

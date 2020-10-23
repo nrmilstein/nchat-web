@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import NchatApi from '../utils/NchatApi';
 import Sidebar from './sidebar/Sidebar'
 import ContentView from './contentView/ContentView'
-import { User } from '../models/User';
-import { Conversation, ConversationStub } from '../models/Conversation';
+import { SyncedUser } from '../models/User';
+import { SyncedConversation, ConversationStub, Conversation } from '../models/Conversation';
 import { Message } from '../models/Message';
 import { ConversationJson } from '../utils/json/ConversationJson';
 import { MessageJson } from '../utils/json/MessageJson';
@@ -15,6 +15,7 @@ import NchatWebSocket, { WSNotification, WSRequest, WSSuccessResponse }
   from '../utils/NchatWebSocket';
 
 import './ChatApp.css';
+import ConversationView from './contentView/ConversationView';
 
 interface GetConversationResponse {
   conversation: ConversationJson,
@@ -40,7 +41,7 @@ interface WSMessageErrorResponseData {
 
 interface ChatAppProps extends RouteComponentProps {
   authKey: string,
-  user: User,
+  user: SyncedUser,
   conversationStubs: ConversationStub[],
   webSocket: NchatWebSocket,
 }
@@ -71,10 +72,28 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   }
 
   handleNewConversation() {
-
+    const newConversation: Conversation = {
+      uuid: uuidv4(),
+      id: null,
+      conversationPartner: {
+        id: null,
+        email: null,
+        name: null,
+      },
+      messages: [],
+      isEditable: true,
+    };
+    this.setState({
+      selectedConversationStub: null,
+      conversation: newConversation,
+    });
   }
 
   async handleConversationStubClick(conversationStub: ConversationStub) {
+    if (conversationStub.uuid === this.state.selectedConversationStub?.uuid) {
+      return;
+    }
+
     this.setState({
       selectedConversationStub: conversationStub,
     })
@@ -90,8 +109,8 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       }
     });
 
-    const conversation: Conversation = {
-      editable: false,
+    const conversation: SyncedConversation = {
+      isEditable: false,
       uuid: uuidv4(),
       id: conversationJson.id,
       messages: messages,
@@ -114,23 +133,49 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     }
   }
 
-  async handleSendMessage(messageBody: string): Promise<boolean> {
-    if (this.state.conversation === null) {
+  async handleSendMessage(messageBody: string, conversation: Conversation): Promise<boolean> {
+    if (conversation.conversationPartner.email === null) {
       return false;
     }
 
-    //TODO: add message before awaiting response
+    let newMessage: Message = {
+      uuid: uuidv4(),
+      id: null,
+      senderId: this.props.user.id,
+      body: messageBody,
+      sent: null,
+    }
+
+    if (conversation.uuid === this.state.conversation?.uuid) {
+      this.addMessage(newMessage);
+    }
+
     const response = await this.sendMessage(
-      this.state.conversation.conversationPartner.email, messageBody);
+      conversation.conversationPartner.email, messageBody);
 
     const data = response.data;
-    if (response.status === "success"
-      && data.conversation.id === this.state.conversation?.id) {
-      const message = {
-        uuid: uuidv4(),
-        ...data.message,
+    if (response.status === "success" && conversation.isEditable) {
+      const responseConversation = data.conversation;
+      const newConversation: SyncedConversation = {
+        ...conversation,
+        id: responseConversation.id,
+        isEditable: false,
+        conversationPartner: responseConversation.conversationPartner,
       }
-      this.addMessage(message);
+      const newConversationStub: ConversationStub = {
+        uuid: uuidv4(),
+        id: newConversation.id,
+        conversationPartner: newConversation.conversationPartner,
+      }
+      const newconversationStubs = [
+        newConversationStub,
+        ...this.state.conversationStubs,
+      ]
+
+      this.setState({
+        conversationStubs: newconversationStubs,
+        conversation: newConversation,
+      });
     }
 
     return true;
@@ -177,9 +222,8 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
           <Sidebar
             conversationStubs={this.state.conversationStubs}
             selectedConversationStub={this.state.selectedConversationStub}
-            conversation={this.state.conversation}
-            handleNewConversation={this.handleNewConversation}
-            handleConversationStubClick={this.handleConversationStubClick} />
+            handleConversationStubClick={this.handleConversationStubClick}
+            handleNewConversation={this.handleNewConversation} />
           <ContentView
             handleSendMessage={this.handleSendMessage}
             conversation={this.state.conversation} />
