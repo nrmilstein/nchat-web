@@ -3,26 +3,34 @@ import { RouteComponentProps } from "@reach/router";
 
 import { Conversation } from '../../models/Conversation';
 import ConversationView from './ConversationView';
+import ConversationCreatorView from './ConversationCreatorView';
+import { User } from '../../models/User';
 
 import "./ContentView.css"
 
 interface ContentViewProps extends RouteComponentProps {
-  conversation: Conversation | null,
-  handleSendMessage: (messageBody: string, conversation: Conversation) => Promise<boolean>,
+  isConversationCreatorOpen: boolean,
+  selectedConversation: Conversation | null,
+  handleSendMessage: (messageBody: string, user?: User) => void,
 }
 
-class ContentView extends React.Component<ContentViewProps, {}> {
-  render() {
-    return (
-      <main className="ContentView" >
-        {this.props.conversation !== null &&
-          <ConversationView
-            conversation={this.props.conversation}
-            handleSendMessage={this.props.handleSendMessage}
-            key={this.props.conversation?.uuid} />}
-      </main>
-    )
-  }
+function ContentView(props: ContentViewProps) {
+  return (
+    <main className="ContentView" >
+      {
+        props.isConversationCreatorOpen
+          ?
+          <ConversationCreatorView
+            handleSendMessage={props.handleSendMessage} />
+          :
+          props.selectedConversation !== null
+          && <ConversationView
+            selectedConversation={props.selectedConversation}
+            handleSendMessage={props.handleSendMessage}
+            key={props.selectedConversation?.uuid} />
+      }
+    </main>
+  )
 }
 
 export default ContentView;

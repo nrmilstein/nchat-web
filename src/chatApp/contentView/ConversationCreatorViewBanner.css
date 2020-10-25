@@ -1,0 +1,21 @@
+.ConversationCreatorViewBanner {
+  flex: 0 0 60px;
+  box-sizing: border-box; 
+  border-bottom: solid 1px #cccccc;
+  padding: 15px;
+  font-size: 20px;
+}
+
+.ConversationCreatorViewBanner__toFieldLabel {
+  color: #aaaaaa;
+}
+
+.ConversationCreatorViewBanner__input {
+  margin-left: 4px;
+  border: none;
+  font-size: 20px;
+}
+
+.ConversationCreatorViewBanner__input:focus {
+  outline: none;
+}

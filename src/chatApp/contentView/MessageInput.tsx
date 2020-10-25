@@ -4,7 +4,8 @@ import { RouteComponentProps } from "@reach/router";
 import './MessageInput.css'
 
 interface MessageInputProps extends RouteComponentProps {
-  handleSendMessage: (messageBody: string) => Promise<boolean>,
+  autoFocus: boolean,
+  handleSendMessage: (messageBody: string) => boolean,
 }
 
 interface MessageInputState {
@@ -33,7 +34,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
     if (this.state.messageBody.trim() === "") {
       return;
     }
-    const success = await this.props.handleSendMessage(this.state.messageBody);
+    const success = this.props.handleSendMessage(this.state.messageBody);
     if (success) {
       this.setState({
         messageBody: "",
@@ -50,9 +51,15 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
   render() {
     return (
       <div className="MessageInput" >
-        <input name="messageBody" className="MessageInput__input" type="text"
-          value={this.state.messageBody} onKeyDown={this.handleKeyDown}
-          onChange={this.handleChange} autoFocus={true} />
+        <input
+          name="messageBody"
+          className="MessageInput__input"
+          type="text"
+          value={this.state.messageBody}
+          onKeyDown={this.handleKeyDown}
+          onChange={this.handleChange}
+          autoFocus={this.props.autoFocus}
+          placeholder="Type a message" />
         <button
           className="MessageInput__button button"
           onClick={this.handleClickSend}>

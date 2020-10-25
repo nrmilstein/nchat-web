@@ -1,35 +1,35 @@
-.ConversationStubRow {
+.ConversationRow {
   border-bottom: solid 1px #cccccc;
   padding: 15px;
   height: 35px;
   cursor: pointer;
 }
 
-.ConversationStubRow:hover {
+.ConversationRow:hover {
   background-color: #f9f9f9;
 }
 
-.ConversationStubRow:active {
-  background-color: #d4f3d8;
+.ConversationRow:active {
+  background-color: #efefef;
 }
 
-.ConversationStubRow__name {
+.ConversationRow__name {
   font-size: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.ConversationStubRow__preview {
+.ConversationRow__preview {
   overflow: hidden;
   text-overflow: ellipsis;
   color: #999999;
   font-size: 14px;
 }
 
-.ConversationStubRow--selected {
+.ConversationRow--selected {
   background-color: #d4f3d8;
 }
 
-.ConversationStubRow--selected:hover {
+.ConversationRow--selected:hover {
   background-color: #d4f3d8;
 }

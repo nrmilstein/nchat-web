@@ -1,0 +1,9 @@
+.ConversationCreatorView {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ConversationCreatorView__spacer {
+  flex: 1 0;
+}

@@ -2,26 +2,26 @@ import React from 'react';
 import { RouteComponentProps } from "@reach/router";
 
 import SidebarBanner from './SidebarBanner';
-import ConversationStubList from './ConversationStubList';
-import { ConversationStub } from '../../models/Conversation';
+import ConversationList from './ConversationList';
+import { Conversation } from '../../models/Conversation';
 
 import './Sidebar.css'
 
 interface SidebarProps extends RouteComponentProps {
-  conversationStubs: Array<ConversationStub>,
-  selectedConversationStub: ConversationStub | null,
+  conversations: Conversation[],
+  selectedConversation: Conversation | null,
   handleNewConversation: () => void,
-  handleConversationStubClick: (conversation: ConversationStub) => void,
+  handleConversationRowClick: (conversation: Conversation) => void,
 }
 
 function Sidebar(props: SidebarProps) {
   return (
     <nav className="Sidebar">
       <SidebarBanner handleNewConversation={props.handleNewConversation} />
-      <ConversationStubList
-        conversationStubs={props.conversationStubs}
-        selectedConversationStub={props.selectedConversationStub}
-        handleConversationStubClick={props.handleConversationStubClick} />
+      <ConversationList
+        conversations={props.conversations}
+        selectedConversation={props.selectedConversation}
+        handleConversationRowClick={props.handleConversationRowClick} />
     </nav>
   );
 }

@@ -1,32 +1,10 @@
 .ConversationViewBanner {
+  flex: 0 0 60px;
   box-sizing: border-box; 
   border-bottom: solid 1px #cccccc;
-  flex: 0 0 60px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ConversationViewBanner__email {
   font-weight: bold;
   font-size: 20px;
-  margin: 15px;
-}
-
-.ConversationViewBanner__toField {
-  margin: 15px;
-  font-size: 20px;
-}
-
-.ConversationViewBanner__toFieldLabel {
-  color: #aaaaaa;
-}
-
-.ConversationViewBanner__input {
-  margin-left: 4px;
-  border: none;
-  font-size: 20px;
-}
-
-.ConversationViewBanner__input:focus {
-  outline: none;
+  padding: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

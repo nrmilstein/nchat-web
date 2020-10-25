@@ -1,9 +1,9 @@
 import React from "react";
-import { SyncedUser } from "../models/User";
+import { User } from "../models/User";
 
 interface ChatAppContextType {
   authKey: string,
-  user: SyncedUser,
+  user: User,
 }
 
 export const ChatAppContext = React.createContext<ChatAppContextType>({

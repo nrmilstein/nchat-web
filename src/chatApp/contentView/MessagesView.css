@@ -3,3 +3,9 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+.MessagesView__loadingIcon {
+  display: flex;
+  justify-content: center;
+  margin: 15px 35px;
+}

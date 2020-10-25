@@ -6,8 +6,10 @@ import { Message } from '../../models/Message';
 import { ChatAppContext } from '../ChatAppContext';
 
 import './MessagesView.css'
+import LoadingIcon from '../../misc/LoadingIcon';
 
 interface MessagesViewProps extends RouteComponentProps {
+  isLoading: boolean,
   messages: Message[],
 }
 
@@ -21,10 +23,6 @@ interface MessagesViewSnapshot {
 class MessagesView extends React.Component<MessagesViewProps, MessagesViewState> {
   // Number of pixels chat div can be scrolled above bottom to still be considered at bottom
   SCROLL_TOLERANCE = 40;
-
-  state: MessagesViewState = {
-    scrollTop: 0,
-  }
 
   conversationViewDiv = React.createRef<HTMLDivElement>();
 
@@ -53,6 +51,8 @@ class MessagesView extends React.Component<MessagesViewProps, MessagesViewState>
     });
     return (
       <div className="MessagesView" ref={this.conversationViewDiv}>
+        {this.props.isLoading
+          && <div className="MessagesView__loadingIcon"><LoadingIcon /></div>}
         {messages}
       </div>
     );
@@ -66,12 +66,8 @@ class MessagesView extends React.Component<MessagesViewProps, MessagesViewState>
     const prevMessages = prevProps.messages;
     const messages = this.props.messages;
 
-    if (prevMessages.length === 0 || messages.length === 0) {
-      return;
-    }
-
     // If there's a new message added
-    if (prevMessages[prevMessages.length - 1].uuid !== messages[messages.length - 1].uuid) {
+    if (prevMessages[prevMessages.length - 1]?.uuid !== messages[messages.length - 1]?.uuid) {
       // Keep us scrolled to the bottom if we're already there, or if the last message
       // added is from us (i.e. we just sent a message).
       if (snapshot.isScrolledToBottom

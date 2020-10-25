@@ -3,20 +3,21 @@ import { RouteComponentProps } from '@reach/router';
 import { v4 as uuidv4 } from 'uuid';
 
 import ChatApp from './ChatApp';
-import { ConversationStub } from '../models/Conversation';
+import { Conversation } from '../models/Conversation';
 import { ConversationStubJson } from '../utils/json/ConversationJson';
-import { SyncedUser } from '../models/User';
+import { User } from '../models/User';
 import { UserJson } from '../utils/json/UserJson';
 import NchatApi from '../utils/NchatApi';
 import NchatWebSocket, { WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
 
 import "./ChatAppLoader.css";
+import LoadingIcon from '../misc/LoadingIcon';
 
 interface GetAuthenticateResponse {
   user: UserJson,
 }
 
-interface GetConversationStubsResponse {
+interface GetConversationsResponse {
   conversations: ConversationStubJson[];
 }
 
@@ -29,19 +30,19 @@ interface WSAuthResponseData {
 
 interface ChatAppLoaderProps extends RouteComponentProps {
   authKey: string,
-  user: SyncedUser | null,
+  user: User | null,
 }
 
 interface ChatAppLoaderState {
-  user: SyncedUser | null,
-  conversationStubs: ConversationStub[] | null,
+  user: User | null,
+  conversations: Conversation[] | null,
   webSocket: NchatWebSocket | null,
 }
 
 class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderState> {
   state: ChatAppLoaderState = {
     user: this.props.user,
-    conversationStubs: null,
+    conversations: null,
     webSocket: null,
   }
 
@@ -49,7 +50,7 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     const userPromise = this.state.user === null
       ? Promise.resolve(this.state.user)
       : this.initUser();
-    const conversationStubsPromise = this.initConversationStubs();
+    const conversationsPromise = this.initConversations();
 
     const webSocket = await NchatWebSocket.createWebSocket();
     const authResponse = await this.sendAuth(webSocket);
@@ -57,19 +58,19 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
       throw new Error("Could not connect to webSocket.")
     }
 
-    const [user, conversationStubs] = await Promise.all([userPromise, conversationStubsPromise]);
+    const [user, conversations] = await Promise.all([userPromise, conversationsPromise]);
 
     this.setState({
       user: user,
-      conversationStubs: conversationStubs,
+      conversations: conversations,
       webSocket: webSocket,
     })
   }
 
-  async initUser(): Promise<SyncedUser> {
+  async initUser(): Promise<User> {
     const response =
       await NchatApi.get<GetAuthenticateResponse>("authenticate", this.props.authKey);
-    const user: SyncedUser = {
+    const user: User = {
       id: response.data.user.id,
       name: response.data.user.name,
       email: response.data.user.email,
@@ -77,17 +78,25 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     return user;
   }
 
-  async initConversationStubs(): Promise<ConversationStub[]> {
+  async initConversations(): Promise<Conversation[]> {
     const response =
-      await NchatApi.get<GetConversationStubsResponse>("conversations", this.props.authKey);
+      await NchatApi.get<GetConversationsResponse>("conversations", this.props.authKey);
 
-    const conversationStubs = response.data.conversations.map(conversationStub => {
+    const conversations = response.data.conversations.map(conversation => {
       return {
-        ...conversationStub,
         uuid: uuidv4(),
-      }
-    })
-    return conversationStubs;
+        id: conversation.id,
+        conversationPartner: {
+          id: conversation.conversationPartner.id,
+          email: conversation.conversationPartner.email,
+          name: conversation.conversationPartner.name,
+        },
+        messages: [],
+        isHistoryLoaded: false,
+        isLoading: false,
+      };
+    });
+    return conversations;
   }
 
   private sendAuth(webSocket: NchatWebSocket):
@@ -107,14 +116,16 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     return (
       <div className="ChatAppLoader">
         {
-          this.state.user && this.state.conversationStubs && this.state.webSocket
+          this.state.user && this.state.conversations && this.state.webSocket
             ?
-            <ChatApp authKey={this.props.authKey} user={this.state.user}
-              webSocket={this.state.webSocket} conversationStubs={this.state.conversationStubs} />
+            <ChatApp
+              authKey={this.props.authKey}
+              user={this.state.user}
+              webSocket={this.state.webSocket}
+              conversations={this.state.conversations} />
             :
             <div className="ChatAppLoader__loading">
-              <div className="ChatAppLoader__loadingIcon">
-              </div>
+              <LoadingIcon />
             </div>
         }
       </div>

@@ -11,11 +11,15 @@
   word-wrap: break-word;
 }
 
-.MessageView--us {
+.MessageView--us_synced, .MessageView--us_unsynced {
   text-align: right;
 }
 
-.MessageView--us .MessageView__messageBody {
+.MessageView--us_unsynced .MessageView__messageBody {
+  background-color: #d4f3d8;
+}
+
+.MessageView--us_synced .MessageView__messageBody {
   background-color: #9ae7a4;
 }
 

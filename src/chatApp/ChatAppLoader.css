@@ -10,19 +10,3 @@
   justify-content: center;
   height: 100%;
 }
-
-.ChatAppLoader__loadingIcon {
-  background-image: url("/img/loading.png");
-  width: 40px;
-  height: 40px;
-  animation: rotateLoading 0.75s linear infinite;
-}
-
-@keyframes rotateLoading {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

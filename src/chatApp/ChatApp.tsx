@@ -1,12 +1,13 @@
 import React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { v4 as uuidv4 } from 'uuid';
+import update from 'immutability-helper';
 
 import NchatApi from '../utils/NchatApi';
 import Sidebar from './sidebar/Sidebar'
 import ContentView from './contentView/ContentView'
-import { SyncedUser } from '../models/User';
-import { SyncedConversation, ConversationStub, Conversation } from '../models/Conversation';
+import { User } from '../models/User';
+import { Conversation } from '../models/Conversation';
 import { Message } from '../models/Message';
 import { ConversationJson } from '../utils/json/ConversationJson';
 import { MessageJson } from '../utils/json/MessageJson';
@@ -15,7 +16,6 @@ import NchatWebSocket, { WSNotification, WSRequest, WSSuccessResponse }
   from '../utils/NchatWebSocket';
 
 import './ChatApp.css';
-import ConversationView from './contentView/ConversationView';
 
 interface GetConversationResponse {
   conversation: ConversationJson,
@@ -41,104 +41,165 @@ interface WSMessageErrorResponseData {
 
 interface ChatAppProps extends RouteComponentProps {
   authKey: string,
-  user: SyncedUser,
-  conversationStubs: ConversationStub[],
+  user: User,
+  conversations: Conversation[],
   webSocket: NchatWebSocket,
 }
 
 interface ChatAppState {
-  conversationStubs: ConversationStub[],
-  selectedConversationStub: ConversationStub | null,
-  conversation: Conversation | null,
+  conversations: Conversation[],
+  selectedConversation: Conversation | null,
+  isConversationCreatorOpen: boolean,
 }
 
 class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   state: ChatAppState = {
-    selectedConversationStub: null,
-    conversationStubs: this.props.conversationStubs,
-    conversation: null,
+    conversations: this.props.conversations,
+    selectedConversation: null,
+    isConversationCreatorOpen: false,
   }
 
   constructor(props: ChatAppProps) {
     super(props);
-    this.handleReceivedMessage = this.handleReceivedMessage.bind(this);
+    this.handleMessageReceived = this.handleMessageReceived.bind(this);
     this.handleNewConversation = this.handleNewConversation.bind(this);
-    this.handleConversationStubClick = this.handleConversationStubClick.bind(this);
+    this.handleConversationRowClick = this.handleConversationRowClick.bind(this);
     this.handleSendMessage = this.handleSendMessage.bind(this);
   }
 
   componentDidMount() {
-    this.props.webSocket.addNotificationListener("newMessage", this.handleReceivedMessage);
+    this.props.webSocket.addNotificationListener("newMessage", this.handleMessageReceived);
   }
 
   handleNewConversation() {
-    const newConversation: Conversation = {
-      uuid: uuidv4(),
-      id: null,
-      conversationPartner: {
-        id: null,
-        email: null,
-        name: null,
-      },
-      messages: [],
-      isEditable: true,
-    };
     this.setState({
-      selectedConversationStub: null,
-      conversation: newConversation,
+      selectedConversation: null,
+      isConversationCreatorOpen: true,
     });
   }
 
-  async handleConversationStubClick(conversationStub: ConversationStub) {
-    if (conversationStub.uuid === this.state.selectedConversationStub?.uuid) {
+  async handleConversationRowClick(conversation: Conversation) {
+    if (conversation.uuid === this.state.selectedConversation?.uuid) {
       return;
     }
 
     this.setState({
-      selectedConversationStub: conversationStub,
-    })
-
-    const response = await NchatApi.get<GetConversationResponse>(
-      "conversations/" + conversationStub.id, this.props.authKey);
-    const conversationJson = response.data.conversation;
-
-    const messages = conversationJson.messages.map(message => {
-      return {
-        ...message,
-        uuid: uuidv4(),
-      }
+      isConversationCreatorOpen: false,
     });
 
-    const conversation: SyncedConversation = {
-      isEditable: false,
+    if (!conversation.isHistoryLoaded && !conversation.isLoading) {
+      let index = this.state.conversations.findIndex(c => c.uuid === conversation.uuid);
+      const loadingConversations = update(this.state.conversations,
+        {
+          [index]: {
+            isLoading: {
+              $set: true,
+            },
+          },
+        },
+      );
+
+      this.setState({
+        conversations: loadingConversations,
+        selectedConversation: loadingConversations[index],
+      });
+
+      const response = await NchatApi.get<GetConversationResponse>(
+        "conversations/" + conversation.id, this.props.authKey);
+      const newMessages = response.data.conversation.messages.map(message => {
+        return {
+          uuid: uuidv4(),
+          id: message.id,
+          senderId: message.senderId,
+          body: message.body,
+          sent: message.sent,
+        }
+      });
+
+      index = this.state.conversations.findIndex(c => c.uuid === conversation.uuid);
+      const updatedConversations = update(this.state.conversations,
+        {
+          [index]: {
+            messages: {
+              $set: newMessages,
+            },
+            isLoading: {
+              $set: false,
+            },
+            isHistoryLoaded: {
+              $set: true,
+            }
+          }
+        },
+      );
+
+      this.setState({
+        conversations: updatedConversations,
+        selectedConversation: updatedConversations[index],
+      });
+    } else {
+      this.setState({
+        selectedConversation: conversation,
+      });
+    }
+  }
+
+  handleMessageReceived(notification: WSNotification<WSMessageNotificationData>) {
+    const messageJson = notification.data.message;
+    const conversationJson = notification.data.conversation;
+
+    const newMessage: Message = {
       uuid: uuidv4(),
-      id: conversationJson.id,
-      messages: messages,
-      conversationPartner: conversationJson.conversationPartner,
-    }
+      id: messageJson.id,
+      body: messageJson.body,
+      senderId: messageJson.senderId,
+      sent: messageJson.sent,
+    };
 
-    this.setState({
-      conversation: conversation,
-    });
-  }
-
-  handleReceivedMessage(notification: WSNotification<WSMessageNotificationData>) {
-    const data = notification.data
-    if (data.conversation.id === this.state.conversation?.id) {
-      const message = {
+    const index = this.state.conversations.findIndex(c => c.id === conversationJson.id);
+    if (index === -1) {
+      const newConversation: Conversation = {
         uuid: uuidv4(),
-        ...data.message,
-      }
-      this.addMessage(message);
+        id: conversationJson.id,
+        conversationPartner: {
+          id: conversationJson.conversationPartner.id,
+          email: conversationJson.conversationPartner.email,
+          name: conversationJson.conversationPartner.name,
+        },
+        messages: [newMessage],
+        isHistoryLoaded: true,
+        isLoading: false,
+      };
+      const updatedConversations = [
+        newConversation,
+        ...this.state.conversations,
+      ];
+      this.setState({
+        conversations: updatedConversations,
+      });
+    } else {
+      const updatedConversations = update(this.state.conversations,
+        {
+          [index]: {
+            messages: {
+              $push: [newMessage]
+            },
+          },
+        },
+      );
+      this.setState({
+        conversations: updatedConversations,
+      });
+      if (this.state.selectedConversation?.uuid === updatedConversations[index].uuid) {
+        this.setState({
+          selectedConversation: updatedConversations[index],
+        });
+      };
     }
   }
 
-  async handleSendMessage(messageBody: string, conversation: Conversation): Promise<boolean> {
-    if (conversation.conversationPartner.email === null) {
-      return false;
-    }
-
-    let newMessage: Message = {
+  async handleSendMessage(messageBody: string, conversationPartner?: User) {
+    const newMessage: Message = {
       uuid: uuidv4(),
       id: null,
       senderId: this.props.user.id,
@@ -146,39 +207,91 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       sent: null,
     }
 
-    if (conversation.uuid === this.state.conversation?.uuid) {
-      this.addMessage(newMessage);
-    }
+    let selectedConversation: Conversation | null;
 
-    const response = await this.sendMessage(
-      conversation.conversationPartner.email, messageBody);
-
-    const data = response.data;
-    if (response.status === "success" && conversation.isEditable) {
-      const responseConversation = data.conversation;
-      const newConversation: SyncedConversation = {
-        ...conversation,
-        id: responseConversation.id,
-        isEditable: false,
-        conversationPartner: responseConversation.conversationPartner,
-      }
-      const newConversationStub: ConversationStub = {
+    if (this.state.isConversationCreatorOpen && conversationPartner) {
+      const newConversation: Conversation = {
         uuid: uuidv4(),
-        id: newConversation.id,
-        conversationPartner: newConversation.conversationPartner,
+        id: null,
+        conversationPartner: conversationPartner,
+        isHistoryLoaded: true,
+        isLoading: false,
+        messages: [newMessage],
+      };
+
+      this.setState((state, props) => {
+        const updatedConversations = [
+          newConversation,
+          ...state.conversations,
+        ];
+        return {
+          conversations: updatedConversations,
+          selectedConversation: newConversation,
+          isConversationCreatorOpen: false,
+        };
+      });
+
+      selectedConversation = newConversation;
+    } else {
+      selectedConversation = this.state.selectedConversation;
+
+      if (selectedConversation === null) {
+        return;
       }
-      const newconversationStubs = [
-        newConversationStub,
-        ...this.state.conversationStubs,
-      ]
+
+      const conversationIndex = this.state.conversations.findIndex(c => {
+        return c.uuid === selectedConversation?.uuid
+      });
+      const updatedConversations = update(this.state.conversations,
+        {
+          [conversationIndex]: {
+            messages: {
+              $push: [newMessage],
+            },
+          },
+        },
+      );
 
       this.setState({
-        conversationStubs: newconversationStubs,
-        conversation: newConversation,
+        conversations: updatedConversations,
+        selectedConversation: updatedConversations[conversationIndex],
       });
     }
 
-    return true;
+    const response = await this.sendMessage(
+      selectedConversation.conversationPartner.email, messageBody);
+
+
+    this.setState((state, props) => {
+      const conversationIndex = state.conversations.findIndex(c => {
+        return c.uuid === selectedConversation?.uuid
+      });
+      const messageIndex = state.conversations[conversationIndex].messages.findIndex(m => {
+        return m.uuid === newMessage.uuid;
+      });
+
+      const syncedConversations = update(state.conversations,
+        {
+          [conversationIndex]: {
+            id: {
+              $set: response.data.conversation.id,
+            },
+            messages: {
+              [messageIndex]: {
+                id: {
+                  $set: response.data.message.id
+                },
+              },
+            },
+          },
+        },
+      );
+
+      return {
+        conversations: syncedConversations,
+        selectedConversation: syncedConversations[conversationIndex],
+      };
+    });
   }
 
   private sendMessage(email: string, body: string):
@@ -194,23 +307,6 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     return this.props.webSocket.sendRequest(request);
   }
 
-  addMessage(message: Message) {
-    this.setState((prevState: ChatAppState, props: ChatAppProps) => {
-      if (prevState.conversation === null) {
-        return null;
-      }
-      return {
-        conversation: {
-          ...prevState.conversation,
-          messages: [
-            ...prevState.conversation.messages,
-            message,
-          ],
-        },
-      };
-    });
-  }
-
   render() {
     const contextValue = {
       authKey: this.props.authKey,
@@ -220,13 +316,14 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       <div className="ChatApp">
         <ChatAppContext.Provider value={contextValue}>
           <Sidebar
-            conversationStubs={this.state.conversationStubs}
-            selectedConversationStub={this.state.selectedConversationStub}
-            handleConversationStubClick={this.handleConversationStubClick}
+            conversations={this.state.conversations}
+            selectedConversation={this.state.selectedConversation}
+            handleConversationRowClick={this.handleConversationRowClick}
             handleNewConversation={this.handleNewConversation} />
           <ContentView
+            isConversationCreatorOpen={this.state.isConversationCreatorOpen}
             handleSendMessage={this.handleSendMessage}
-            conversation={this.state.conversation} />
+            selectedConversation={this.state.selectedConversation} />
         </ChatAppContext.Provider>
       </div >
     );
