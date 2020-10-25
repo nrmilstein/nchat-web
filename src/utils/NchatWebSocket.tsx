@@ -40,7 +40,7 @@ type PromiseCallbacks = {
 }
 
 class NchatWebSocket {
-  static WEBSOCKET_URL = "ws://localhost:3000/api/v1/chat";
+  static websocketUrl = NchatWebSocket.getWebsocketUrl();
 
   webSocket: WebSocket;
   isAuthMessageSent = false;
@@ -48,8 +48,15 @@ class NchatWebSocket {
   requestPromises: PromiseCallbacks[] = [];
   notificationListeners: NotificationListeners = {};
 
+  static getWebsocketUrl(): string {
+    let location = window.location;
+    let url = (location.protocol === "https:" ? "wss:" : "ws:");
+    url += "//" + location.host + "/api/v1/chat";
+    return url;
+  }
+
   static createWebSocket(): Promise<NchatWebSocket> {
-    const webSocket = new WebSocket(this.WEBSOCKET_URL, "nchat");
+    const webSocket = new WebSocket(this.websocketUrl, "nchat");
     return new Promise((resolve, reject) => {
       webSocket.addEventListener("open", (event: Event) => {
         const nchatWebSocket = new NchatWebSocket(webSocket);

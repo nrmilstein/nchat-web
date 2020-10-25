@@ -1,5 +1,5 @@
 class NchatApi {
-  static API_URL = "http://localhost:3000/api/v1/";
+  static apiUrl = "/api/v1/";
 
   static async fetch<T>(path: string, authKey?: string, init?: RequestInit):
     Promise<NchatApiSuccessResponse<T>> {
@@ -23,7 +23,7 @@ class NchatApi {
       }
     }
 
-    const response = await fetch(this.API_URL + path, init)
+    const response = await fetch(this.apiUrl + path, init)
 
     // If we want to pass the response in an error later, we must clone it, because
     // response.body can only be consumed once.
