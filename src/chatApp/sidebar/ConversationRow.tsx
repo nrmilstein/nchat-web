@@ -18,7 +18,7 @@ function ConversationRow(props: ConversationRowProps) {
       onClick={() => props.handleConversationRowClick(props.conversation)}>
       <div className="ConversationRow__name">
         {props.conversation.conversationPartner.name
-          ?? props.conversation.conversationPartner.email}
+          ?? props.conversation.conversationPartner.username}
       </div>
       <div className="ConversationRow__preview"></div>
     </div>

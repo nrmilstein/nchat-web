@@ -7,19 +7,19 @@ import NchatApi from '../utils/NchatApi';
 import './SignUpForm.css';
 
 interface SignUpFormProps extends RouteComponentProps {
-  authenticateUser: (email: string, password: string) => void,
+  authenticateUser: (username: string, password: string) => void,
 };
 
 interface SignUpFormState {
   name: string,
-  email: string,
+  username: string,
   password: string,
 }
 
 class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
   state: SignUpFormState = {
     "name": "",
-    "email": "",
+    "username": "",
     "password": "",
   };
 
@@ -41,13 +41,13 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
 
     const requestBody = {
       "name": this.state.name,
-      "email": this.state.email,
+      "username": this.state.username,
       "password": this.state.password,
     }
 
     // try {
     const response = await NchatApi.post("users", requestBody);
-    this.props.authenticateUser(this.state.email, this.state.password);
+    this.props.authenticateUser(this.state.username, this.state.password);
 
     // } catch (error) {
     //   throw error;
@@ -62,8 +62,8 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
           <p><input className="textInput" name="name" type="text" placeholder="Display name"
             value={this.state.name} onChange={this.handleChange} required={true}
             autoFocus={true} /></p>
-          <p><input className="textInput" name="email" type="text" placeholder="Email"
-            value={this.state.email} onChange={this.handleChange} required={true} /></p>
+          <p><input className="textInput" name="username" type="text" placeholder="Username"
+            value={this.state.username} onChange={this.handleChange} required={true} /></p>
           <p><input className="textInput" name="password" type="password" placeholder="Password"
             value={this.state.password} onChange={this.handleChange} required={true} /></p>
           <p><input className="button" type="submit" value="Sign up" /></p>

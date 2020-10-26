@@ -18,7 +18,7 @@ interface ConversationCreatorViewProps {
 }
 
 interface ConversationCreatorViewState {
-  email: string,
+  username: string,
   conversationPartner: User | null,
 }
 
@@ -29,20 +29,20 @@ class ConversationCreatorView
   context!: React.ContextType<typeof ChatAppContext>
 
   state: ConversationCreatorViewState = {
-    email: "",
+    username: "",
     conversationPartner: null,
   }
 
   constructor(props: ConversationCreatorViewProps) {
     super(props);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleSendMessage = this.handleSendMessage.bind(this);
-    this.handleEmailInputBlur = this.handleEmailInputBlur.bind(this);
+    this.handleUsernameInputBlur = this.handleUsernameInputBlur.bind(this);
   }
 
-  handleEmailChange(email: string) {
+  handleUsernameChange(username: string) {
     this.setState({
-      email: email,
+      username: username,
     });
   }
 
@@ -54,21 +54,21 @@ class ConversationCreatorView
     return true;
   }
 
-  async handleEmailInputBlur(event: FocusEvent<HTMLInputElement>) {
-    const email = this.state.email;
+  async handleUsernameInputBlur(event: FocusEvent<HTMLInputElement>) {
+    const username = this.state.username;
     try {
-      if (email.trim() === "") {
-        throw new Error("email is empty.");
+      if (username.trim() === "") {
+        throw new Error("username is empty.");
       }
 
       const response =
-        await NchatApi.get<GetUserResponse>("users/" + email, this.context.authKey);
+        await NchatApi.get<GetUserResponse>("users/" + username, this.context.authKey);
       const userJson = response.data.user;
 
       this.setState({
         conversationPartner: {
           id: userJson.id,
-          email: userJson.email,
+          username: userJson.username,
           name: userJson.name,
         },
       });
@@ -83,9 +83,9 @@ class ConversationCreatorView
     return (
       <div className="ConversationCreatorView">
         <ConversationCreatorViewBanner
-          conversationCreatorEmail={this.state.email}
-          handleEmailChange={this.handleEmailChange}
-          handleBlur={this.handleEmailInputBlur} />
+          conversationCreatorUsername={this.state.username}
+          handleUsernameChange={this.handleUsernameChange}
+          handleBlur={this.handleUsernameInputBlur} />
         <div className="ConversationCreatorView__spacer" />
         <MessageInput
           autoFocus={false}

@@ -73,7 +73,7 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     const user: User = {
       id: response.data.user.id,
       name: response.data.user.name,
-      email: response.data.user.email,
+      username: response.data.user.username,
     }
     return user;
   }
@@ -88,7 +88,7 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
         id: conversation.id,
         conversationPartner: {
           id: conversation.conversationPartner.id,
-          email: conversation.conversationPartner.email,
+          username: conversation.conversationPartner.username,
           name: conversation.conversationPartner.name,
         },
         messages: [],

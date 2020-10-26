@@ -27,7 +27,7 @@ interface WSMessageNotificationData {
 }
 
 interface WSMessageRequestData {
-  email: string,
+  username: string,
   body: string,
 }
 
@@ -163,7 +163,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
         id: conversationJson.id,
         conversationPartner: {
           id: conversationJson.conversationPartner.id,
-          email: conversationJson.conversationPartner.email,
+          username: conversationJson.conversationPartner.username,
           name: conversationJson.conversationPartner.name,
         },
         messages: [newMessage],
@@ -259,7 +259,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     }
 
     const response = await this.sendMessage(
-      selectedConversation.conversationPartner.email, messageBody);
+      selectedConversation.conversationPartner.username, messageBody);
 
 
     this.setState((state, props) => {
@@ -294,13 +294,13 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     });
   }
 
-  private sendMessage(email: string, body: string):
+  private sendMessage(username: string, body: string):
     Promise<WSSuccessResponse<WSMessageSuccessResponseData>> {
     const request: WSRequest<WSMessageRequestData> = {
       type: "request",
       method: "sendMessage",
       data: {
-        email: email,
+        username: username,
         body: body,
       },
     };

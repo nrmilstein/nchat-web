@@ -3,8 +3,8 @@ import React, { ChangeEvent, FocusEvent } from 'react';
 import './ConversationCreatorViewBanner.css'
 
 interface ConversationCreatorViewBannerProps {
-  conversationCreatorEmail: string,
-  handleEmailChange: (email: string) => void,
+  conversationCreatorUsername: string,
+  handleUsernameChange: (username: string) => void,
   handleBlur: (event: FocusEvent<HTMLInputElement>) => void,
 }
 
@@ -19,7 +19,7 @@ class ConversationCreatorViewBanner extends
   }
 
   handleChange(event: ChangeEvent<HTMLInputElement>) {
-    this.props.handleEmailChange(event.target.value);
+    this.props.handleUsernameChange(event.target.value);
   }
 
   render() {
@@ -29,8 +29,8 @@ class ConversationCreatorViewBanner extends
           <input
             type="text"
             className="ConversationCreatorViewBanner__input"
-            placeholder="Email"
-            value={this.props.conversationCreatorEmail}
+            placeholder="Username"
+            value={this.props.conversationCreatorUsername}
             onChange={this.handleChange}
             autoFocus={true}
             onBlur={this.props.handleBlur} />

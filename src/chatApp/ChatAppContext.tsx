@@ -11,6 +11,6 @@ export const ChatAppContext = React.createContext<ChatAppContextType>({
   user: {
     id: -1,
     name: "",
-    email: ""
+    username: ""
   },
 });

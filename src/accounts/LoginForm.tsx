@@ -5,17 +5,17 @@ import { Link } from "@reach/router";
 import './LoginForm.css';
 
 interface LoginFormProps extends RouteComponentProps {
-  authenticateUser: (email: string, password: string) => void,
+  authenticateUser: (username: string, password: string) => void,
 };
 
 interface LoginFormState {
-  email: string,
+  username: string,
   password: string,
 }
 
 class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   state: LoginFormState = {
-    email: '',
+    username: '',
     password: '',
   };
 
@@ -35,7 +35,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   async handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    this.props.authenticateUser(this.state.email, this.state.password);
+    this.props.authenticateUser(this.state.username, this.state.password);
   }
 
   render() {
@@ -43,8 +43,8 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       <div className="LoginForm" >
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
-          <p><input className="textInput" name="email" type="text" placeholder="Email"
-            value={this.state.email} onChange={this.handleChange} required={true}
+          <p><input className="textInput" name="username" type="text" placeholder="Username"
+            value={this.state.username} onChange={this.handleChange} required={true}
             autoFocus={true} /></p>
           <p><input className="textInput" name="password" type="password" placeholder="Password"
             value={this.state.password} onChange={this.handleChange} required={true} /></p>

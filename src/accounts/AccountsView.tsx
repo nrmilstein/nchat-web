@@ -29,9 +29,9 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
     this.authenticateUser = this.authenticateUser.bind(this);
   }
 
-  async authenticateUser(email: string, password: string) {
+  async authenticateUser(username: string, password: string) {
     const requestBody = {
-      "email": email,
+      "username": username,
       "password": password,
     }
 
@@ -41,7 +41,7 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
     const authKey = response.data.authKey;
     const user: User = {
       id: response.data.user.id,
-      email: response.data.user.email,
+      username: response.data.user.username,
       name: response.data.user.name,
     }
     this.props.setAuthenticatedUser(authKey, user);

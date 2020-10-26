@@ -16,7 +16,7 @@ function ConversationViewBanner(props: ConversationViewBannerProps) {
   return (
     <header className="ConversationViewBanner" >
       {props.selectedConversation.conversationPartner.name
-        ?? props.selectedConversation.conversationPartner.email}
+        ?? props.selectedConversation.conversationPartner.username}
     </header >
   );
 }
