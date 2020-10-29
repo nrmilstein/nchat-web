@@ -5,6 +5,7 @@ import './MessageInput.css'
 
 interface MessageInputProps extends RouteComponentProps {
   autoFocus: boolean,
+  disabled?: boolean,
   handleSendMessage: (messageBody: string) => boolean,
 }
 
@@ -62,7 +63,8 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
           placeholder="Type a message" />
         <button
           className="MessageInput__button button"
-          onClick={this.handleClickSend}>
+          onClick={this.handleClickSend}
+          disabled={this.props.disabled}>
           Send
           </button>
       </div>

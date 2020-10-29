@@ -38,3 +38,7 @@ a:active {
   background-color: #47a353;
   transition: background-color .07s ease-in-out
 }
+
+.button:disabled {
+  background-color: #acd1b3;
+}

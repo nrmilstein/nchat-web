@@ -1,7 +1,7 @@
 .LoadingIcon {
+  display: inline-block;
   background-image: url("/img/loading.png");
-  width: 40px;
-  height: 40px;
+  background-size: contain;
   animation: rotateLoadingIcon 0.75s linear infinite;
 }
 

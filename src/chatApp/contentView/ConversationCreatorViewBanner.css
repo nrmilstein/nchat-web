@@ -1,19 +1,36 @@
 .ConversationCreatorViewBanner {
   flex: 0 0 60px;
+  display: flex;
+  align-items: center;
   box-sizing: border-box; 
   border-bottom: solid 1px #cccccc;
-  padding: 15px;
+  padding: 0 15px;
   font-size: 20px;
 }
 
-.ConversationCreatorViewBanner__toFieldLabel {
+.ConversationCreatorViewBanner__status {
+  display: flex;
+  width: 25px;
+  margin-right: 7px;
+  justify-content: center;
+}
+
+.ConversationCreatorViewBanner__to {
   color: #aaaaaa;
 }
 
+.ConversationCreatorViewBanner__success {
+  color: #66c072;
+}
+
+.ConversationCreatorViewBanner__error {
+  color: red;
+}
+
 .ConversationCreatorViewBanner__input {
-  margin-left: 4px;
   border: none;
   font-size: 20px;
+  width: 100%;
 }
 
 .ConversationCreatorViewBanner__input:focus {

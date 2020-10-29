@@ -1,6 +1,7 @@
-import React, { FocusEvent } from 'react';
+import React, { ChangeEvent, FocusEvent } from 'react';
 
-import ConversationCreatorViewBanner from './ConversationCreatorViewBanner';
+import ConversationCreatorViewBanner, { ConversationCreatorViewBannerStatus }
+  from './ConversationCreatorViewBanner';
 import MessageInput from './MessageInput';
 import { User } from '../../models/User';
 import NchatApi from '../../utils/NchatApi';
@@ -20,6 +21,7 @@ interface ConversationCreatorViewProps {
 interface ConversationCreatorViewState {
   username: string,
   conversationPartner: User | null,
+  usernameInputStatus: ConversationCreatorViewBannerStatus,
 }
 
 class ConversationCreatorView
@@ -31,6 +33,7 @@ class ConversationCreatorView
   state: ConversationCreatorViewState = {
     username: "",
     conversationPartner: null,
+    usernameInputStatus: ConversationCreatorViewBannerStatus.Empty,
   }
 
   constructor(props: ConversationCreatorViewProps) {
@@ -40,8 +43,10 @@ class ConversationCreatorView
     this.handleUsernameInputBlur = this.handleUsernameInputBlur.bind(this);
   }
 
-  handleUsernameChange(username: string) {
+  handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {
+    const username = event.target.value;
     this.setState({
+      usernameInputStatus: ConversationCreatorViewBannerStatus.Empty,
       username: username,
     });
   }
@@ -55,27 +60,41 @@ class ConversationCreatorView
   }
 
   async handleUsernameInputBlur(event: FocusEvent<HTMLInputElement>) {
+    this.setState({
+      usernameInputStatus: ConversationCreatorViewBannerStatus.Loading,
+    });
+
     const username = this.state.username;
-    try {
-      if (username.trim() === "") {
-        throw new Error("username is empty.");
-      }
-
-      const response =
-        await NchatApi.get<GetUserResponse>("users/" + username, this.context.authKey);
-      const userJson = response.data.user;
-
+    if (username.trim() === "") {
       this.setState({
-        conversationPartner: {
-          id: userJson.id,
-          username: userJson.username,
-          name: userJson.name,
-        },
+        usernameInputStatus: ConversationCreatorViewBannerStatus.Empty,
       });
-    } catch (e) {
+      return;
+    }
+
+    try {
+      const user = await this.getConversationPartner(username);
+      this.setState({
+        conversationPartner: user,
+        usernameInputStatus: ConversationCreatorViewBannerStatus.Ok,
+      });
+    } catch (err) {
       this.setState({
         conversationPartner: null,
+        usernameInputStatus: ConversationCreatorViewBannerStatus.Error,
       });
+    }
+  }
+
+  async getConversationPartner(username: string): Promise<User> {
+    const response =
+      await NchatApi.get<GetUserResponse>("users/" + username, this.context.authKey);
+    const userJson = response.data.user;
+
+    return {
+      id: userJson.id,
+      username: userJson.username,
+      name: userJson.name,
     }
   }
 
@@ -84,12 +103,14 @@ class ConversationCreatorView
       <div className="ConversationCreatorView">
         <ConversationCreatorViewBanner
           conversationCreatorUsername={this.state.username}
-          handleUsernameChange={this.handleUsernameChange}
+          status={this.state.usernameInputStatus}
+          handleChange={this.handleUsernameChange}
           handleBlur={this.handleUsernameInputBlur} />
         <div className="ConversationCreatorView__spacer" />
         <MessageInput
           autoFocus={false}
-          handleSendMessage={this.handleSendMessage} />
+          handleSendMessage={this.handleSendMessage}
+          disabled={this.state.usernameInputStatus !== ConversationCreatorViewBannerStatus.Ok} />
       </div>
     )
   }
