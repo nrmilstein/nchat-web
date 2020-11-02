@@ -32,13 +32,13 @@ class ConversationCreatorViewBanner extends
         status = toSpan;
         break;
       case ConversationCreatorViewBannerStatus.Error:
-        status = <span className="ConversationCreatorViewBanner__error">✕</span>;
+        status = <div className="ConversationCreatorViewBanner__error"></div>;
         break;
       case ConversationCreatorViewBannerStatus.Loading:
         status = <LoadingIcon width={20} height={20} />;
         break;
       case ConversationCreatorViewBannerStatus.Ok:
-        status = <span className="ConversationCreatorViewBanner__success">✔</span>;
+        status = <div className="ConversationCreatorViewBanner__success"></div>;
         break;
     }
     return (

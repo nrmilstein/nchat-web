@@ -20,11 +20,17 @@
 }
 
 .ConversationCreatorViewBanner__success {
-  color: #66c072;
+  background-image: url("/img/greenCheck.png");
+  background-size: contain;
+  width: 20px;
+  height: 20px;
 }
 
 .ConversationCreatorViewBanner__error {
-  color: red;
+  background-image: url("/img/redX.png");
+  background-size: contain;
+  width: 20px;
+  height: 20px;
 }
 
 .ConversationCreatorViewBanner__input {
