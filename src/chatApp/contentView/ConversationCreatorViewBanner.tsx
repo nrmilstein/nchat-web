@@ -23,13 +23,10 @@ interface ConversationCreatorViewBannerState {
 class ConversationCreatorViewBanner extends
   React.Component<ConversationCreatorViewBannerProps, ConversationCreatorViewBannerState> {
   render() {
-    const toSpan =
-      <span className="ConversationCreatorViewBanner__to">To:</span>
-
     let status: JSX.Element;
     switch (this.props.status) {
       case ConversationCreatorViewBannerStatus.Empty:
-        status = toSpan;
+        status = <span className="ConversationCreatorViewBanner__to">To:</span>;
         break;
       case ConversationCreatorViewBannerStatus.Error:
         status = <div className="ConversationCreatorViewBanner__error"></div>;
