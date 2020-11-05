@@ -14,13 +14,15 @@
 }
 
 .ConversationRow__name {
-  font-size: 16px;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 
 .ConversationRow__preview {
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
   color: #999999;
   font-size: 14px;
