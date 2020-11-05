@@ -41,4 +41,5 @@ a:active {
 
 .button:disabled {
   background-color: #acd1b3;
+  cursor: unset;
 }
