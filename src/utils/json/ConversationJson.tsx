@@ -6,8 +6,3 @@ export interface ConversationJson {
   conversationPartner: UserJson,
   messages: MessageJson[],
 }
-
-export interface ConversationStubJson {
-  id: number,
-  conversationPartner: UserJson,
-}

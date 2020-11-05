@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import ChatApp from './ChatApp';
 import { Conversation } from '../models/Conversation';
-import { ConversationStubJson } from '../utils/json/ConversationJson';
+import { ConversationJson } from '../utils/json/ConversationJson';
 import { User } from '../models/User';
 import { UserJson } from '../utils/json/UserJson';
 import NchatApi from '../utils/NchatApi';
@@ -18,7 +18,7 @@ interface GetAuthenticateResponse {
 }
 
 interface GetConversationsResponse {
-  conversations: ConversationStubJson[];
+  conversations: ConversationJson[];
 }
 
 interface WSAuthRequestData {
@@ -91,7 +91,15 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
           username: conversation.conversationPartner.username,
           name: conversation.conversationPartner.name,
         },
-        messages: [],
+        messages: conversation.messages.map(message => {
+          return {
+            uuid: uuidv4(),
+            id: message.id,
+            senderId: message.senderId,
+            body: message.body,
+            sent: message.sent,
+          };
+        }),
         isHistoryLoaded: false,
         isLoading: false,
       };

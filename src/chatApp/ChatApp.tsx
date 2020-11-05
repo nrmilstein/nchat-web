@@ -156,8 +156,8 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       sent: messageJson.sent,
     };
 
-    const index = this.state.conversations.findIndex(c => c.id === conversationJson.id);
-    if (index === -1) {
+    const conversationIndex = this.state.conversations.findIndex(c => c.id === conversationJson.id);
+    if (conversationIndex === -1) {
       const newConversation: Conversation = {
         uuid: uuidv4(),
         id: conversationJson.id,
@@ -178,21 +178,14 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
         conversations: updatedConversations,
       });
     } else {
-      const updatedConversations = update(this.state.conversations,
-        {
-          [index]: {
-            messages: {
-              $push: [newMessage]
-            },
-          },
-        },
-      );
+      const updatedConversations =
+        this.addMessageToConversation(this.state.conversations, conversationIndex, newMessage);
       this.setState({
         conversations: updatedConversations,
       });
-      if (this.state.selectedConversation?.uuid === updatedConversations[index].uuid) {
+      if (this.state.selectedConversation?.uuid === updatedConversations[0].uuid) {
         this.setState({
-          selectedConversation: updatedConversations[index],
+          selectedConversation: updatedConversations[0],
         });
       };
     }
@@ -242,19 +235,12 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       const conversationIndex = this.state.conversations.findIndex(c => {
         return c.uuid === selectedConversation?.uuid
       });
-      const updatedConversations = update(this.state.conversations,
-        {
-          [conversationIndex]: {
-            messages: {
-              $push: [newMessage],
-            },
-          },
-        },
-      );
+      const updatedConversations =
+        this.addMessageToConversation(this.state.conversations, conversationIndex, newMessage);
 
       this.setState({
         conversations: updatedConversations,
-        selectedConversation: updatedConversations[conversationIndex],
+        selectedConversation: updatedConversations[0],
       });
     }
 
@@ -287,11 +273,39 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
         },
       );
 
-      return {
+      let newState: any = {
         conversations: syncedConversations,
-        selectedConversation: syncedConversations[conversationIndex],
       };
+
+      if (this.state.selectedConversation?.uuid === selectedConversation?.uuid) {
+        newState = {
+          ...newState,
+          selectedConversation: syncedConversations[conversationIndex],
+        };
+      }
+
+      return newState;
     });
+  }
+
+  private addMessageToConversation(conversations: Conversation[], index: number, message: Message):
+    Conversation[] {
+    const updatedConversation = update(this.state.conversations[index],
+      {
+        messages: {
+          $push: [message],
+        }
+      }
+    );
+    const withRemovedConversation = update(conversations,
+      {
+        $splice: [[index, 1]]
+      }
+    );
+    return [
+      updatedConversation,
+      ...withRemovedConversation,
+    ]
   }
 
   private sendMessage(username: string, body: string):

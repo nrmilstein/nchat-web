@@ -20,7 +20,9 @@ function ConversationRow(props: ConversationRowProps) {
         {props.conversation.conversationPartner.name
           ?? props.conversation.conversationPartner.username}
       </div>
-      <div className="ConversationRow__preview"></div>
+      <div className="ConversationRow__preview">
+        {props.conversation.messages[props.conversation.messages.length - 1].body}
+      </div>
     </div>
   );
 }
