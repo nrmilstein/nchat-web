@@ -15,8 +15,10 @@ interface ConversationViewBannerState {
 function ConversationViewBanner(props: ConversationViewBannerProps) {
   return (
     <header className="ConversationViewBanner" >
-      {props.selectedConversation.conversationPartner.name
-        ?? props.selectedConversation.conversationPartner.username}
+      <div className="ConversationViewBanner__name">
+        {props.selectedConversation.conversationPartner.name
+          ?? props.selectedConversation.conversationPartner.username}
+      </div>
     </header >
   );
 }

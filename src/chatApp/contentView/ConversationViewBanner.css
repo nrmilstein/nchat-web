@@ -5,8 +5,11 @@
   padding: 0 15px;
   box-sizing: border-box; 
   border-bottom: solid 1px #cccccc;
-  font-size: 20px;
+}
+
+.ConversationViewBanner__name {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-size: 20px;
 }
