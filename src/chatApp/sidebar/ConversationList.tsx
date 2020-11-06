@@ -8,7 +8,7 @@ import "./ConversationList.css"
 
 interface ConversationListProps extends RouteComponentProps {
   conversations: Conversation[],
-  selectedConversation: Conversation | null,
+  selectedConversationUuid: string | null,
   handleConversationRowClick: (conversation: Conversation) => void,
 }
 
@@ -17,7 +17,7 @@ function ConversationList(props: ConversationListProps) {
     return (
       <ConversationRow
         key={conversation.uuid}
-        selected={conversation.uuid === props.selectedConversation?.uuid}
+        selected={conversation.uuid === props.selectedConversationUuid}
         conversation={conversation}
         handleConversationRowClick={props.handleConversationRowClick} />
     );

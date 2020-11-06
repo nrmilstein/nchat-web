@@ -48,14 +48,14 @@ interface ChatAppProps extends RouteComponentProps {
 
 interface ChatAppState {
   conversations: Conversation[],
-  selectedConversation: Conversation | null,
+  selectedConversationUuid: string | null,
   isConversationCreatorOpen: boolean,
 }
 
 class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   state: ChatAppState = {
     conversations: this.props.conversations,
-    selectedConversation: null,
+    selectedConversationUuid: null,
     isConversationCreatorOpen: false,
   }
 
@@ -73,25 +73,26 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
   handleNewConversation() {
     this.setState({
-      selectedConversation: null,
+      selectedConversationUuid: null,
       isConversationCreatorOpen: true,
     });
   }
 
   async handleConversationRowClick(conversation: Conversation) {
-    if (conversation.uuid === this.state.selectedConversation?.uuid) {
+    if (conversation.uuid === this.state.selectedConversationUuid) {
       return;
     }
 
     this.setState({
       isConversationCreatorOpen: false,
+      selectedConversationUuid: conversation.uuid,
     });
 
     if (!conversation.isHistoryLoaded && !conversation.isLoading) {
-      let index = this.state.conversations.findIndex(c => c.uuid === conversation.uuid);
+      let conversationIndex = this.state.conversations.findIndex(c => c.uuid === conversation.uuid);
       const loadingConversations = update(this.state.conversations,
         {
-          [index]: {
+          [conversationIndex]: {
             isLoading: {
               $set: true,
             },
@@ -101,12 +102,12 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
       this.setState({
         conversations: loadingConversations,
-        selectedConversation: loadingConversations[index],
       });
 
       const response = await NchatApi.get<GetConversationResponse>(
         "conversations/" + conversation.id, this.props.authKey);
-      const newMessages = response.data.conversation.messages.map(message => {
+
+      const retrievedMessages = response.data.conversation.messages.map(message => {
         return {
           uuid: uuidv4(),
           id: message.id,
@@ -116,12 +117,12 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
         }
       });
 
-      index = this.state.conversations.findIndex(c => c.uuid === conversation.uuid);
+      conversationIndex = this.state.conversations.findIndex(c => c.uuid === conversation.uuid);
       const updatedConversations = update(this.state.conversations,
         {
-          [index]: {
+          [conversationIndex]: {
             messages: {
-              $set: newMessages,
+              $set: retrievedMessages,
             },
             isLoading: {
               $set: false,
@@ -135,11 +136,6 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
       this.setState({
         conversations: updatedConversations,
-        selectedConversation: updatedConversations[index],
-      });
-    } else {
-      this.setState({
-        selectedConversation: conversation,
       });
     }
   }
@@ -183,11 +179,6 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       this.setState({
         conversations: updatedConversations,
       });
-      if (this.state.selectedConversation?.uuid === updatedConversations[0].uuid) {
-        this.setState({
-          selectedConversation: updatedConversations[0],
-        });
-      };
     }
   }
 
@@ -219,29 +210,28 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
         ];
         return {
           conversations: updatedConversations,
-          selectedConversation: newConversation,
+          selectedConversationUuid: newConversation.uuid,
           isConversationCreatorOpen: false,
         };
       });
 
       selectedConversation = newConversation;
     } else {
-      selectedConversation = this.state.selectedConversation;
-
-      if (selectedConversation === null) {
+      if (this.state.selectedConversationUuid === null) {
         return;
       }
 
       const conversationIndex = this.state.conversations.findIndex(c => {
-        return c.uuid === selectedConversation?.uuid
+        return c.uuid === this.state.selectedConversationUuid
       });
       const updatedConversations =
         this.addMessageToConversation(this.state.conversations, conversationIndex, newMessage);
 
       this.setState({
         conversations: updatedConversations,
-        selectedConversation: updatedConversations[0],
       });
+
+      selectedConversation = updatedConversations[0];
     }
 
     const response = await this.sendMessage(
@@ -273,18 +263,9 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
         },
       );
 
-      let newState: any = {
+      return {
         conversations: syncedConversations,
       };
-
-      if (this.state.selectedConversation?.uuid === selectedConversation?.uuid) {
-        newState = {
-          ...newState,
-          selectedConversation: syncedConversations[conversationIndex],
-        };
-      }
-
-      return newState;
     });
   }
 
@@ -326,18 +307,22 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       authKey: this.props.authKey,
       user: this.props.user,
     }
+
+    const selectedConversation = this.state.conversations
+      .find(c => c.uuid === this.state.selectedConversationUuid) ?? null;
+
     return (
       <div className="ChatApp">
         <ChatAppContext.Provider value={contextValue}>
           <Sidebar
             conversations={this.state.conversations}
-            selectedConversation={this.state.selectedConversation}
+            selectedConversationUuid={this.state.selectedConversationUuid}
             handleConversationRowClick={this.handleConversationRowClick}
             handleNewConversation={this.handleNewConversation} />
           <ContentView
             isConversationCreatorOpen={this.state.isConversationCreatorOpen}
             handleSendMessage={this.handleSendMessage}
-            selectedConversation={this.state.selectedConversation} />
+            selectedConversation={selectedConversation} />
         </ChatAppContext.Provider>
       </div >
     );
