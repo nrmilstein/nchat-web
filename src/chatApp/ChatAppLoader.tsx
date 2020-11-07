@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { v4 as uuidv4 } from 'uuid';
+import parseISO from 'date-fns/parseISO'
 
 import ChatApp from './ChatApp';
 import { Conversation } from '../models/Conversation';
@@ -97,7 +98,7 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
             id: message.id,
             senderId: message.senderId,
             body: message.body,
-            sent: message.sent,
+            sent: parseISO(message.sent),
           };
         }),
         isHistoryLoaded: false,

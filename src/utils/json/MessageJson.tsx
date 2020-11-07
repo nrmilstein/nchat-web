@@ -2,5 +2,5 @@ export interface MessageJson {
   id: number,
   senderId: number,
   body: string
-  sent: Date,
+  sent: string,
 }

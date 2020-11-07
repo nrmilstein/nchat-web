@@ -12,15 +12,29 @@
   background-color: #efefef;
 }
 
+.ConversationRow__main {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  margin-bottom: 4px;
+}
+
 .ConversationRow__name {
+  flex: 1 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 17px;
-  margin-bottom: 4px;
 }
 
-.ConversationRow__preview {
+.ConversationRow__time {
+  flex: 0 0;
+  color: #aaaaaa;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.ConversationRow__message {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

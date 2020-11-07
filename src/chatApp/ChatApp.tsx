@@ -2,6 +2,7 @@ import React from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { v4 as uuidv4 } from 'uuid';
 import update from 'immutability-helper';
+import parseISO from 'date-fns/parseISO'
 
 import NchatApi from '../utils/NchatApi';
 import Sidebar from './sidebar/Sidebar'
@@ -107,13 +108,13 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       const response = await NchatApi.get<GetConversationResponse>(
         "conversations/" + conversation.id, this.props.authKey);
 
-      const retrievedMessages = response.data.conversation.messages.map(message => {
+      const retrievedMessages: Message[] = response.data.conversation.messages.map(message => {
         return {
           uuid: uuidv4(),
           id: message.id,
           senderId: message.senderId,
           body: message.body,
-          sent: message.sent,
+          sent: parseISO(message.sent),
         }
       });
 
@@ -149,7 +150,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       id: messageJson.id,
       body: messageJson.body,
       senderId: messageJson.senderId,
-      sent: messageJson.sent,
+      sent: parseISO(messageJson.sent),
     };
 
     const conversationIndex = this.state.conversations.findIndex(c => c.id === conversationJson.id);
@@ -188,7 +189,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       id: null,
       senderId: this.props.user.id,
       body: messageBody,
-      sent: null,
+      sent: new Date(),
     }
 
     let selectedConversation: Conversation | null;
@@ -255,8 +256,11 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
             messages: {
               [messageIndex]: {
                 id: {
-                  $set: response.data.message.id
+                  $set: response.data.message.id,
                 },
+                sent: {
+                  $set: parseISO(response.data.message.sent),
+                }
               },
             },
           },
