@@ -6,7 +6,7 @@ import { Message } from '../../models/Message';
 import { ChatAppContext } from '../ChatAppContext';
 
 import './MessagesView.css'
-import LoadingIcon from '../../misc/LoadingIcon';
+import '../../misc/LoadingIcon.css';
 
 interface MessagesViewProps extends RouteComponentProps {
   isLoading: boolean,
@@ -51,8 +51,10 @@ class MessagesView extends React.Component<MessagesViewProps, MessagesViewState>
     });
     return (
       <div className="MessagesView" ref={this.conversationViewDiv}>
-        {this.props.isLoading
-          && <div className="MessagesView__loadingIcon"><LoadingIcon /></div>}
+        {this.props.isLoading &&
+          <div className="MessagesView__loading">
+            <div className="MessagesView__loadingIcon LoadingIcon"></div>
+          </div>}
         {messages}
       </div>
     );

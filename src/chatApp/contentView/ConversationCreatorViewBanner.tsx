@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FocusEvent } from 'react';
-import LoadingIcon from '../../misc/LoadingIcon';
 
 import './ConversationCreatorViewBanner.css'
+import '../../misc/LoadingIcon.css';
 
 export enum ConversationCreatorViewBannerStatus {
   Empty,
@@ -32,7 +32,7 @@ class ConversationCreatorViewBanner extends
         status = <div className="ConversationCreatorViewBanner__error"></div>;
         break;
       case ConversationCreatorViewBannerStatus.Loading:
-        status = <LoadingIcon width={20} height={20} />;
+        status = <div className="ConversationCreatorViewBanner__loading LoadingIcon"></div>;
         break;
       case ConversationCreatorViewBannerStatus.Ok:
         status = <div className="ConversationCreatorViewBanner__success"></div>;

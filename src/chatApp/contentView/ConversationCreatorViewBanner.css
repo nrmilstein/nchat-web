@@ -19,6 +19,11 @@
   color: #aaaaaa;
 }
 
+.ConversationCreatorViewBanner__loading {
+  width: 20px;
+  height: 20px;
+}
+
 .ConversationCreatorViewBanner__success {
   background-image: url("/img/greenCheck.png");
   background-size: contain;

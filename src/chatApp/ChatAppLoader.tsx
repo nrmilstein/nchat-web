@@ -12,7 +12,7 @@ import NchatApi from '../utils/NchatApi';
 import NchatWebSocket, { WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
 
 import "./ChatAppLoader.css";
-import LoadingIcon from '../misc/LoadingIcon';
+import "../misc/LoadingIcon.css";
 
 interface GetAuthenticateResponse {
   user: UserJson,
@@ -134,7 +134,7 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
               conversations={this.state.conversations} />
             :
             <div className="ChatAppLoader__loading">
-              <LoadingIcon />
+              <div className="ChatAppLoader__loadingIcon LoadingIcon"></div>
             </div>
         }
       </div>
