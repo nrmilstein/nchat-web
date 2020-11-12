@@ -33,16 +33,14 @@ class NchatApi {
 
     if (!response.ok || ("status" in jsonResponse && jsonResponse.status !== "success")) {
       if ("status" in jsonResponse && "message" in jsonResponse) {
-        throw new NchatApiErrorResponse(jsonResponse.message, responseClone, jsonResponse);
-      } else if ("status" in jsonResponse) {
-        throw new NchatApiErrorResponse("Nchat API error.", responseClone, jsonResponse);
+        throw new NchatApiError(jsonResponse.message, responseClone, jsonResponse);
       } else {
-        throw new NchatApiError("Nchat API error.", responseClone);
+        throw new FetchError("Nchat API error.", responseClone);
       }
     }
 
     if (!("status" in jsonResponse)) {
-      throw new NchatApiError("Missing 'status' field in nchat response.", responseClone);
+      throw new FetchError("Missing 'status' field in nchat response.", responseClone);
     }
 
     return jsonResponse as NchatApiSuccessResponse<T>;
@@ -99,35 +97,35 @@ class NchatApi {
   }
 }
 
-interface NchatApiSuccessResponse<T> {
+export interface NchatApiSuccessResponse<T> {
   status: string,
   data: T,
 }
 
-interface NchatApiFailureResponse {
+export interface NchatApiErrorResponse {
   status: string,
   message: string,
   code: number,
 }
 
-class NchatApiError extends Error {
+export class FetchError extends Error {
   response: Response;
   constructor(message: string, response: Response) {
     super(message);
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, NchatApiError)
+      Error.captureStackTrace(this, FetchError)
     }
     this.response = response;
   }
 }
 
-class NchatApiErrorResponse extends NchatApiError {
+export class NchatApiError extends FetchError {
   body: NchatApiErrorResponse;
 
   constructor(message: string, response: Response, body: NchatApiErrorResponse) {
     super(message, response);
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, NchatApiErrorResponse)
+      Error.captureStackTrace(this, NchatApiError)
     }
     this.body = body;
   }
