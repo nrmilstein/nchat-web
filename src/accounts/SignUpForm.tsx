@@ -2,18 +2,28 @@ import React, { ChangeEvent, FormEvent } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Link } from "@reach/router";
 
-import NchatApi from '../utils/NchatApi';
+import NchatApi, { NchatApiError } from '../utils/NchatApi';
 
 import './SignUpForm.css';
 
+enum SignUpFormStatus {
+  Empty,
+  Loading,
+  Error,
+}
+
 interface SignUpFormProps extends RouteComponentProps {
-  authenticateUser: (username: string, password: string) => void,
+  authenticateUser: (username: string, password: string) => Promise<void>,
 };
 
 interface SignUpFormState {
   name: string,
   username: string,
   password: string,
+  status: {
+    value: SignUpFormStatus,
+    message?: string,
+  },
 }
 
 class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
@@ -21,6 +31,9 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
     "name": "",
     "username": "",
     "password": "",
+    status: {
+      value: SignUpFormStatus.Empty,
+    },
   };
 
   constructor(props: SignUpFormProps) {
@@ -31,13 +44,33 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
   }
 
   handleChange(event: ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    } as Pick<SignUpFormState, keyof SignUpFormState>)
+    switch (event.target.name) {
+      case "username":
+        this.setState({
+          username: event.target.value,
+        });
+        break;
+      case "password":
+        this.setState({
+          password: event.target.value,
+        });
+        break;
+      case "name":
+        this.setState({
+          name: event.target.value,
+        });
+        break;
+    }
   }
 
   async handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    this.setState({
+      status: {
+        value: SignUpFormStatus.Loading
+      },
+    });
 
     const requestBody = {
       "name": this.state.name,
@@ -45,16 +78,46 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
       "password": this.state.password,
     }
 
-    // try {
-    const response = await NchatApi.post("users", requestBody);
-    this.props.authenticateUser(this.state.username, this.state.password);
-
-    // } catch (error) {
-    //   throw error;
-    // }
+    try {
+      await NchatApi.post("users", requestBody);
+      this.props.authenticateUser(this.state.username, this.state.password);
+    } catch (error) {
+      if (error instanceof NchatApiError && error.body.code === 6) {
+        this.setState({
+          status: {
+            value: SignUpFormStatus.Error,
+            message: "That username is already taken. Please select another username.",
+          },
+        });
+      } else {
+        this.setState({
+          status: {
+            value: SignUpFormStatus.Error,
+            message: "Could not sign up. Please try again later.",
+          },
+        });
+      }
+    }
   }
 
   render() {
+    let status: JSX.Element | null;
+
+    switch (this.state.status.value) {
+      case SignUpFormStatus.Empty:
+        status = null;
+        break;
+      case SignUpFormStatus.Loading:
+        status = <div className="SignUpForm__loading LoadingIcon"></div>;
+        break;
+      case SignUpFormStatus.Error:
+        status =
+          <div className="errorMessage">
+            {this.state.status.message}
+          </div>
+        break;
+    }
+
     return (
       <div className="SignUpForm" >
         <h1>Sign up</h1>
@@ -70,6 +133,9 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
         </form>
         <div className="SignUpForm__loginMessage">
           Already have an account? <Link to="../login">Login</Link>
+        </div>
+        <div className="SignUpForm__status">
+          {status}
         </div>
       </div >
     );

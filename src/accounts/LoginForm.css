@@ -1,3 +1,14 @@
 .LoginForm__signUpMessage {
   text-align: center;
 }
+
+.LoginForm__status {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.LoginForm__loading {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
