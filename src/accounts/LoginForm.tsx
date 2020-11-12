@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Link } from "@reach/router";
+import { NchatApiError } from '../utils/NchatApi';
 
 import './LoginForm.css';
 import '../misc/LoadingIcon.css';
@@ -18,14 +19,19 @@ interface LoginFormProps extends RouteComponentProps {
 interface LoginFormState {
   username: string,
   password: string,
-  status: LoginFormStatus,
+  status: {
+    value: LoginFormStatus,
+    message?: string,
+  },
 }
 
 class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   state: LoginFormState = {
     username: '',
     password: '',
-    status: LoginFormStatus.Empty,
+    status: {
+      value: LoginFormStatus.Empty,
+    }
   };
 
   constructor(props: LoginFormProps) {
@@ -54,22 +60,36 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     event.preventDefault();
 
     this.setState({
-      status: LoginFormStatus.Loading,
+      status: {
+        value: LoginFormStatus.Loading,
+      }
     });
 
     try {
       await this.props.authenticateUser(this.state.username, this.state.password);
     } catch (error) {
-      this.setState({
-        status: LoginFormStatus.Error,
-      });
+      if (error instanceof NchatApiError && error.body.code === 1) {
+        this.setState({
+          status: {
+            value: LoginFormStatus.Error,
+            message: "The username or password you entered doesn't match our records. Please try again.",
+          },
+        });
+      } else {
+        this.setState({
+          status: {
+            value: LoginFormStatus.Error,
+            message: "Could not login. Please try again later.",
+          },
+        });
+      }
     }
   }
 
   render() {
     let status: JSX.Element | null;
 
-    switch (this.state.status) {
+    switch (this.state.status.value) {
       case LoginFormStatus.Empty:
         status = null;
         break;
@@ -79,7 +99,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       case LoginFormStatus.Error:
         status =
           <div className="errorMessage">
-            The username or password you entered doesn't match our records. Please try again.
+            {this.state.status.message}
           </div>
         break;
     }
