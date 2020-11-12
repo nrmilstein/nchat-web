@@ -80,7 +80,6 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
 
     try {
       await NchatApi.post("users", requestBody);
-      this.props.authenticateUser(this.state.username, this.state.password);
     } catch (error) {
       if (error instanceof NchatApiError && error.body.code === 6) {
         this.setState({
@@ -97,6 +96,20 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
           },
         });
       }
+      return;
+    }
+
+    try {
+      await this.props.authenticateUser(this.state.username, this.state.password);
+    } catch (error) {
+      this.setState({
+        status: {
+          value: SignUpFormStatus.Error,
+          message: `Error logging in: account created but could not login.
+           Please try logging in again later.`,
+        },
+      });
+      return;
     }
   }
 
