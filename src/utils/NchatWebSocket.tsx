@@ -45,7 +45,7 @@ class NchatWebSocket {
   webSocket: WebSocket;
   isAuthMessageSent = false;
   requestId = 0;
-  requestPromises: PromiseCallbacks[] = [];
+  requestPromiseCallbacks: PromiseCallbacks[] = [];
   notificationListeners: NotificationListeners = {};
 
   static getWebsocketUrl(): string {
@@ -78,17 +78,24 @@ class NchatWebSocket {
     const data: WSNotification<any> | WSSuccessResponse<any> | WSErrorResponse<any> =
       JSON.parse(event.data);
     if (data.type === "response") {
+      const callbacks = this.requestPromiseCallbacks[data.id];
+      if (typeof callbacks === 'undefined') {
+        return;
+      }
+
       if (data.status === "success") {
-        this.requestPromises[data.id].resolve(data);
+        callbacks.resolve(data);
       } else {
-        this.requestPromises[data.id].reject(data);
+        callbacks.reject(data);
       }
     } else if (data.type === "notification") {
       const listeners = this.notificationListeners[data.method];
-      if (typeof listeners !== "undefined") {
-        for (const listener of listeners) {
-          listener(data);
-        }
+      if (typeof listeners === "undefined") {
+        return;
+      }
+
+      for (const listener of listeners) {
+        listener(data);
       }
     }
   }
@@ -118,7 +125,7 @@ class NchatWebSocket {
   }
 
   private registerPromise(id: number, resolve: PromiseResolveFunc, reject: PromiseRejectFunc) {
-    this.requestPromises[id] = {
+    this.requestPromiseCallbacks[id] = {
       resolve: resolve,
       reject: reject
     };
