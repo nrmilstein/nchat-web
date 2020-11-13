@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, RouteComponentProps, navigate } from "@reach/router";
+import { Router, navigate } from "@reach/router";
 
 import ChatAppLoader from './chatApp/ChatAppLoader';
 import AccountsView from './accounts/AccountsView';
@@ -18,14 +18,14 @@ class App extends React.Component<{}, AppState> {
     user: null,
   };
 
-  constructor(props: RouteComponentProps) {
+  constructor(props: {}) {
     super(props);
 
     this.setAuthenticatedUser = this.setAuthenticatedUser.bind(this);
   }
 
   componentDidMount() {
-    if (this.state.authKey === null) {
+    if (this.state.authKey === null && window.location.pathname === "/") {
       navigate('/accounts/login');
     }
   }
