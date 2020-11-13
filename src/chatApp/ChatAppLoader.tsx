@@ -38,6 +38,7 @@ interface ChatAppLoaderState {
   user: User | null,
   conversations: Conversation[] | null,
   webSocket: NchatWebSocket | null,
+  errorMessage: string | null;
 }
 
 class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderState> {
@@ -45,27 +46,31 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     user: this.props.user,
     conversations: null,
     webSocket: null,
+    errorMessage: null,
   }
 
   async componentDidMount() {
-    const userPromise = this.state.user === null
-      ? Promise.resolve(this.state.user)
-      : this.initUser();
-    const conversationsPromise = this.initConversations();
+    try {
+      const userPromise = this.state.user === null
+        ? Promise.resolve(this.state.user)
+        : this.initUser();
+      const conversationsPromise = this.initConversations();
 
-    const webSocket = await NchatWebSocket.createWebSocket();
-    const authResponse = await this.sendAuth(webSocket);
-    if (authResponse.status !== "success") {
-      throw new Error("Could not connect to webSocket.")
+      const webSocket = await NchatWebSocket.createWebSocket();
+      await this.sendAuth(webSocket);
+
+      const [user, conversations] = await Promise.all([userPromise, conversationsPromise]);
+
+      this.setState({
+        user: user,
+        conversations: conversations,
+        webSocket: webSocket,
+      })
+    } catch (error) {
+      this.setState({
+        errorMessage: "Could not load nchat. Please try again later.",
+      });
     }
-
-    const [user, conversations] = await Promise.all([userPromise, conversationsPromise]);
-
-    this.setState({
-      user: user,
-      conversations: conversations,
-      webSocket: webSocket,
-    })
   }
 
   async initUser(): Promise<User> {
@@ -134,7 +139,10 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
               conversations={this.state.conversations} />
             :
             <div className="ChatAppLoader__loading">
-              <div className="ChatAppLoader__loadingIcon LoadingIcon"></div>
+              {this.state.errorMessage === null
+                ? <div className="ChatAppLoader__loadingIcon LoadingIcon"></div>
+                : <div className="ChatAppLoader__errorMessage">{this.state.errorMessage}</div>
+              }
             </div>
         }
       </div>
