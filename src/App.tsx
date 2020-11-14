@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, navigate } from "@reach/router";
+import Cookies from 'universal-cookie';
 
 import ChatAppLoader from './chatApp/ChatAppLoader';
 import AccountsView from './accounts/AccountsView';
@@ -22,29 +23,39 @@ class App extends React.Component<{}, AppState> {
     super(props);
 
     this.setAuthenticatedUser = this.setAuthenticatedUser.bind(this);
-  }
 
-  componentDidMount() {
-    if (this.state.authKey === null && window.location.pathname === "/") {
-      navigate('/accounts/login');
+    const cookies = new Cookies();
+    const authKey = cookies.get("authKey");
+    if (authKey) {
+      this.state.authKey = authKey;
     }
   }
 
+  componentDidMount() {
+  }
+
   setAuthenticatedUser(authKey: string, user: User) {
+    const cookies = new Cookies();
+    cookies.set("authKey", authKey, { path: "/", sameSite: "lax", maxAge: 60 * 60 * 24 * 365 });
+
     this.setState({
       "authKey": authKey,
       "user": user,
     })
   }
 
+  logout() {
+    const cookies = new Cookies();
+    cookies.remove("authKey");
+  }
+
   render() {
     return (
       <Router className="Router">
-        {this.state.authKey !== null &&
-          <ChatAppLoader path="/"
-            authKey={this.state.authKey}
-            user={this.state.user}
-            key={this.state.user?.id} />}
+        <ChatAppLoader path="/"
+          authKey={this.state.authKey}
+          user={this.state.user}
+          key={this.state.user?.id} />
         <AccountsView path="accounts/*" setAuthenticatedUser={this.setAuthenticatedUser} />
       </Router >
     );

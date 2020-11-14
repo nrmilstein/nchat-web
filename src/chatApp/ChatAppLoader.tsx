@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { navigate, RouteComponentProps } from '@reach/router';
 import { v4 as uuidv4 } from 'uuid';
 import parseISO from 'date-fns/parseISO'
 
@@ -30,7 +30,7 @@ interface WSAuthResponseData {
 }
 
 interface ChatAppLoaderProps extends RouteComponentProps {
-  authKey: string,
+  authKey: string | null,
   user: User | null,
 }
 
@@ -50,14 +50,23 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
   }
 
   async componentDidMount() {
+    if (this.props.authKey === null) {
+      // There is an acknowledged bug where navigate does not work in componentDidMount. This
+      // hack is a workaround.
+      setTimeout(() => navigate('/accounts/login'), 1);
+      return;
+    }
+
+    const authKey = this.props.authKey;
+
     try {
       const userPromise = this.state.user === null
-        ? Promise.resolve(this.state.user)
-        : this.initUser();
-      const conversationsPromise = this.initConversations();
+        ? this.initUser(authKey)
+        : Promise.resolve(this.state.user);
+      const conversationsPromise = this.initConversations(authKey);
 
       const webSocket = await NchatWebSocket.createWebSocket();
-      await this.sendAuth(webSocket);
+      await this.sendAuth(authKey, webSocket);
 
       const [user, conversations] = await Promise.all([userPromise, conversationsPromise]);
 
@@ -73,9 +82,9 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     }
   }
 
-  async initUser(): Promise<User> {
+  async initUser(authKey: string): Promise<User> {
     const response =
-      await NchatApi.get<GetAuthenticateResponse>("authenticate", this.props.authKey);
+      await NchatApi.get<GetAuthenticateResponse>("authenticate", authKey);
     const user: User = {
       id: response.data.user.id,
       name: response.data.user.name,
@@ -84,9 +93,9 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     return user;
   }
 
-  async initConversations(): Promise<Conversation[]> {
+  async initConversations(authKey: string): Promise<Conversation[]> {
     const response =
-      await NchatApi.get<GetConversationsResponse>("conversations", this.props.authKey);
+      await NchatApi.get<GetConversationsResponse>("conversations", authKey);
 
     const conversations = response.data.conversations.map(conversation => {
       return {
@@ -113,24 +122,27 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     return conversations;
   }
 
-  private sendAuth(webSocket: NchatWebSocket):
+  private sendAuth(authKey: string, webSocket: NchatWebSocket):
     Promise<WSSuccessResponse<WSAuthResponseData>> {
     const request: WSRequest<WSAuthRequestData> = {
       type: "request",
       method: "authorize",
       data: {
-        authKey: this.props.authKey,
+        authKey: authKey,
       },
     };
 
     return webSocket.sendRequest(request);
   }
 
+  componentWillUnmount() {
+  }
+
   render() {
     return (
       <div className="ChatAppLoader">
         {
-          this.state.user && this.state.conversations && this.state.webSocket
+          this.state.user && this.state.conversations && this.state.webSocket && this.props.authKey
             ?
             <ChatApp
               authKey={this.props.authKey}
