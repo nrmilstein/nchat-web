@@ -2,3 +2,11 @@
   flex: 70%;
   overflow-x: hidden;
 }
+
+.ContentView__hint {
+  display: flex;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  color: #444444;
+}

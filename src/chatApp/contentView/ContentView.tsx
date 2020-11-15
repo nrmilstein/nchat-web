@@ -15,22 +15,28 @@ interface ContentViewProps extends RouteComponentProps {
 }
 
 function ContentView(props: ContentViewProps) {
+  let content: JSX.Element;
+  if (props.isConversationCreatorOpen) {
+    content = <ConversationCreatorView
+      handleSendMessage={props.handleSendMessage} />
+  } else if (props.selectedConversation !== null) {
+    content = <ConversationView
+      selectedConversation={props.selectedConversation}
+      handleSendMessage={props.handleSendMessage}
+      key={props.selectedConversation?.uuid} />
+  } else {
+    content =
+      <div className="ContentView__hint">
+        Click the
+        &nbsp;<img className="SidebarBanner__icon" src="/img/plus.svg" alt="New conversation" />&nbsp;
+        button to start a new conversation.
+      </div>
+  }
   return (
-    <main className="ContentView" >
-      {
-        props.isConversationCreatorOpen
-          ?
-          <ConversationCreatorView
-            handleSendMessage={props.handleSendMessage} />
-          :
-          props.selectedConversation !== null
-          && <ConversationView
-            selectedConversation={props.selectedConversation}
-            handleSendMessage={props.handleSendMessage}
-            key={props.selectedConversation?.uuid} />
-      }
+    <main className="ContentView">
+      {content}
     </main>
-  )
+  );
 }
 
 export default ContentView;
