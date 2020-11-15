@@ -29,13 +29,16 @@ class ConversationCreatorViewBanner extends
         status = <span className="ConversationCreatorViewBanner__to">To:</span>;
         break;
       case ConversationCreatorViewBannerStatus.Error:
-        status = <div className="ConversationCreatorViewBanner__error"></div>;
+        status = <div className="ConversationCreatorViewBanner__error"
+          title="Username doesn't exist"></div>;
         break;
       case ConversationCreatorViewBannerStatus.Loading:
-        status = <div className="ConversationCreatorViewBanner__loading LoadingIcon"></div>;
+        status = <div className="ConversationCreatorViewBanner__loading LoadingIcon"
+          title="Checking username..."></div>;
         break;
       case ConversationCreatorViewBannerStatus.Ok:
-        status = <div className="ConversationCreatorViewBanner__success"></div>;
+        status = <div className="ConversationCreatorViewBanner__success"
+          title="Username ok"></div>;
         break;
     }
     return (
