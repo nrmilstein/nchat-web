@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { navigate, RouteComponentProps } from '@reach/router';
 import { v4 as uuidv4 } from 'uuid';
 import update from 'immutability-helper';
 import parseISO from 'date-fns/parseISO'
@@ -45,6 +45,7 @@ interface ChatAppProps extends RouteComponentProps {
   user: User,
   conversations: Conversation[],
   webSocket: NchatWebSocket,
+  logoutHandler: () => void,
 }
 
 interface ChatAppState {
@@ -66,6 +67,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     this.handleNewConversation = this.handleNewConversation.bind(this);
     this.handleConversationRowClick = this.handleConversationRowClick.bind(this);
     this.handleSendMessage = this.handleSendMessage.bind(this);
+    this.logoutHandler = this.logoutHandler.bind(this);
   }
 
   componentDidMount() {
@@ -273,6 +275,11 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     });
   }
 
+  logoutHandler() {
+    this.props.logoutHandler();
+    navigate("/accounts/login");
+  }
+
   private addMessageToConversation(conversations: Conversation[], index: number, message: Message):
     Conversation[] {
     const updatedConversation = update(this.state.conversations[index],
@@ -322,7 +329,8 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
             conversations={this.state.conversations}
             selectedConversationUuid={this.state.selectedConversationUuid}
             handleConversationRowClick={this.handleConversationRowClick}
-            handleNewConversation={this.handleNewConversation} />
+            handleNewConversation={this.handleNewConversation}
+            logoutHandler={this.logoutHandler} />
           <ContentView
             isConversationCreatorOpen={this.state.isConversationCreatorOpen}
             handleSendMessage={this.handleSendMessage}

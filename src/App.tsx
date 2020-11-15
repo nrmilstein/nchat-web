@@ -23,6 +23,7 @@ class App extends React.Component<{}, AppState> {
     super(props);
 
     this.setAuthenticatedUser = this.setAuthenticatedUser.bind(this);
+    this.logout = this.logout.bind(this);
 
     const cookies = new Cookies();
     const authKey = cookies.get("authKey");
@@ -46,7 +47,11 @@ class App extends React.Component<{}, AppState> {
 
   logout() {
     const cookies = new Cookies();
-    cookies.remove("authKey");
+    cookies.remove("authKey", { path: "/" });
+    this.setState({
+      authKey: null,
+      user: null,
+    });
   }
 
   render() {
@@ -55,7 +60,8 @@ class App extends React.Component<{}, AppState> {
         <ChatAppLoader path="/"
           authKey={this.state.authKey}
           user={this.state.user}
-          key={this.state.user?.id} />
+          key={this.state.user?.id}
+          logoutHandler={this.logout} />
         <AccountsView path="accounts/*" setAuthenticatedUser={this.setAuthenticatedUser} />
       </Router >
     );

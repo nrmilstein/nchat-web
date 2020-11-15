@@ -12,12 +12,15 @@ interface SidebarProps extends RouteComponentProps {
   selectedConversationUuid: string | null,
   handleNewConversation: () => void,
   handleConversationRowClick: (conversation: Conversation) => void,
+  logoutHandler: () => void,
 }
 
 function Sidebar(props: SidebarProps) {
   return (
     <nav className="Sidebar">
-      <SidebarBanner handleNewConversation={props.handleNewConversation} />
+      <SidebarBanner
+        handleNewConversation={props.handleNewConversation}
+        logoutHandler={props.logoutHandler} />
       <ConversationList
         conversations={props.conversations}
         selectedConversationUuid={props.selectedConversationUuid}

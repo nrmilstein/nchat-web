@@ -32,6 +32,7 @@ interface WSAuthResponseData {
 interface ChatAppLoaderProps extends RouteComponentProps {
   authKey: string | null,
   user: User | null,
+  logoutHandler: () => void;
 }
 
 interface ChatAppLoaderState {
@@ -148,7 +149,8 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
               authKey={this.props.authKey}
               user={this.state.user}
               webSocket={this.state.webSocket}
-              conversations={this.state.conversations} />
+              conversations={this.state.conversations}
+              logoutHandler={this.props.logoutHandler} />
             :
             <div className="ChatAppLoader__loading">
               {this.state.errorMessage === null
