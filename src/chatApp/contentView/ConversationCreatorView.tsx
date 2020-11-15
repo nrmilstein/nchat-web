@@ -64,8 +64,9 @@ class ConversationCreatorView
       usernameInputStatus: ConversationCreatorViewBannerStatus.Loading,
     });
 
-    const username = this.state.username;
-    if (username.trim() === "") {
+    const username = this.state.username.trim();
+
+    if (username === "") {
       this.setState({
         usernameInputStatus: ConversationCreatorViewBannerStatus.Empty,
       });
@@ -73,9 +74,9 @@ class ConversationCreatorView
     }
 
     try {
-      const user = await this.getConversationPartner(username);
+      const conversationPartner = await this.getConversationPartner(username);
       this.setState({
-        conversationPartner: user,
+        conversationPartner: conversationPartner,
         usernameInputStatus: ConversationCreatorViewBannerStatus.Ok,
       });
     } catch (err) {
