@@ -9,7 +9,7 @@
 }
 
 .ConversationRow:active {
-  background-color: #efefef;
+  background-color: #e5e5e5;
 }
 
 .ConversationRow__main {
@@ -43,9 +43,9 @@
 }
 
 .ConversationRow--selected {
-  background-color: #d4f3d8;
+  background-color: #efefef;
 }
 
 .ConversationRow--selected:hover {
-  background-color: #d4f3d8;
+  background-color: #efefef;
 }
