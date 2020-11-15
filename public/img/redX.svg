@@ -26,17 +26,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.59132841"
-     inkscape:cx="306.98428"
-     inkscape:cy="389.39022"
+     inkscape:cx="432.12625"
+     inkscape:cy="380.59461"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:snap-global="false"
      inkscape:window-width="1280"
-     inkscape:window-height="800"
+     inkscape:window-height="700"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="23"
      inkscape:window-maximized="0"
      inkscape:showpageshadow="false"
      borderlayer="false" />
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -64,12 +64,18 @@
        rx="90.293556"
        ry="90.293449" />
     <path
-       style="fill:none;stroke:#ab2121;stroke-width:20.0001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#bc2020;stroke-width:20.0001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 65.00005,65.00005 70,69.9999"
        id="path2791" />
     <path
-       style="fill:none;stroke:#ab2121;stroke-width:20.0001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#bc2020;stroke-width:20.0001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 135.00005,65.00005 -69.999999,69.9999"
        id="path2791-0" />
+    <circle
+       style="fill:none;fill-rule:evenodd;stroke:#bc2020;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path6463"
+       cx="99.999992"
+       cy="100.00001"
+       r="90" />
   </g>
 </svg>

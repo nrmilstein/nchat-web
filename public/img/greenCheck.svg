@@ -12,7 +12,7 @@
    viewBox="0 0 200 200"
    version="1.1"
    id="svg8"
-   sodipodi:docname="check.svg"
+   sodipodi:docname="greenCheck.svg"
    inkscape:version="1.0.1 (c497b03c, 2020-09-10)"
    inkscape:export-xdpi="2.54"
    inkscape:export-ydpi="2.54">
@@ -25,18 +25,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.59132841"
-     inkscape:cx="389.003"
-     inkscape:cy="401.48071"
+     inkscape:zoom="0.650875"
+     inkscape:cx="377.95276"
+     inkscape:cy="377.95276"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:snap-global="false"
      inkscape:window-width="1280"
-     inkscape:window-height="800"
+     inkscape:window-height="700"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="23"
      inkscape:window-maximized="0"
      inkscape:showpageshadow="false"
      borderlayer="false" />
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -69,5 +69,11 @@
        id="path835"
        inkscape:export-xdpi="3.175"
        inkscape:export-ydpi="3.175" />
+    <circle
+       style="fill:none;fill-rule:evenodd;stroke:#66c072;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path5826"
+       cx="100"
+       cy="100"
+       r="90" />
   </g>
 </svg>

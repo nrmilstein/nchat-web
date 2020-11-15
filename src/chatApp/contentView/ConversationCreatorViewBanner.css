@@ -25,14 +25,14 @@
 }
 
 .ConversationCreatorViewBanner__success {
-  background-image: url("/img/greenCheck.png");
+  background-image: url("/img/greenCheck.svg");
   background-size: contain;
   width: 20px;
   height: 20px;
 }
 
 .ConversationCreatorViewBanner__error {
-  background-image: url("/img/redX.png");
+  background-image: url("/img/redX.svg");
   background-size: contain;
   width: 20px;
   height: 20px;
