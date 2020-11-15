@@ -60,7 +60,8 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange}
           autoFocus={this.props.autoFocus}
-          placeholder="Type a message" />
+          placeholder="Type a message"
+          autoComplete="off" />
         <button
           className="MessageInput__button button"
           onClick={this.handleClickSend}
