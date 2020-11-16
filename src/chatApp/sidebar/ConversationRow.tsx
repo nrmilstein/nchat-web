@@ -5,7 +5,6 @@ import { format as formatDate, differenceInCalendarDays } from 'date-fns';
 import { Conversation } from '../../models/Conversation';
 
 import "./ConversationRow.css"
-import MessageInput from '../contentView/MessageInput';
 
 interface ConversationRowProps extends RouteComponentProps {
   selected: boolean,

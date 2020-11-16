@@ -75,7 +75,7 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
         user: user,
         conversations: conversations,
         webSocket: webSocket,
-      })
+      });
     } catch (error) {
       this.setState({
         errorMessage: "Could not load nchat. Please try again later.",

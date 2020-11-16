@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, navigate } from "@reach/router";
+import { Router } from "@reach/router";
 import Cookies from 'universal-cookie';
 
 import ChatAppLoader from './chatApp/ChatAppLoader';
