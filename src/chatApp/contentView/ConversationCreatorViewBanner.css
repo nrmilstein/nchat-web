@@ -42,8 +42,16 @@
   border: none;
   font-size: 20px;
   width: 100%;
+  min-width: 0;
 }
 
 .ConversationCreatorViewBanner__input:focus {
   outline: none;
+}
+
+.ConversationCreatorViewBanner__logo {
+  width: 80px;
+  height: 24px;
+  opacity: 0.4;
+  margin-left: 10px;
 }

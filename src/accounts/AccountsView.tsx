@@ -35,7 +35,6 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
       "password": password,
     }
 
-    // try {
     const response = await NchatApi.post<PostAuthenticateResponse>("authenticate", requestBody);
 
     const authKey = response.data.authKey;
@@ -45,15 +44,15 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
       name: response.data.user.name,
     }
     this.props.setAuthenticatedUser(authKey, user);
-    // } catch (error) {
-    //   throw error;
-    // }
     navigate("/");
   }
 
   render() {
     return (
       <main className="AccountsView">
+        <div className="AccountsView__logoContainer">
+          <img className="AccountsView__logo" src="/img/logo.svg" alt="nchat logo" />
+        </div>
         <Router>
           <LoginForm path="login" authenticateUser={this.authenticateUser} />
           <SignUpForm path="signup" authenticateUser={this.authenticateUser} />

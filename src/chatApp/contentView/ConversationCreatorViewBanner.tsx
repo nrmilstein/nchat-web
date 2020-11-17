@@ -59,6 +59,7 @@ class ConversationCreatorViewBanner extends
           onChange={this.props.handleChange}
           onBlur={this.props.handleBlur}
           id="ConversationCreatorViewBannerInput" />
+        <img className="ConversationCreatorViewBanner__logo" src="/img/logo.svg" alt="nchat logo" />
       </header>
     );
   }

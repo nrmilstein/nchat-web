@@ -26,15 +26,18 @@ function ContentView(props: ContentViewProps) {
       key={props.selectedConversation?.uuid} />
   } else {
     content =
-      <div className="ContentView__hintContainer">
-        <div className="ContentView__hint">
-          Click the
-          &nbsp;
+      <div className="ContentView__noConversationContainer">
+        <div className="ContentView__noConversation">
+          <img className="ContentView__logo" src="/img/logo.svg" alt="nchat logo" />
+          <div className="ContentView__hint">
+            Click the
+            &nbsp;
           <img className="ContentView__newChatIcon" src="/img/plus.svg" alt="New conversation" />
           &nbsp;
           button to start a new conversation.
         </div>
-      </div>
+        </div>
+      </div >
   }
   return (
     <main className="ContentView">

@@ -3,12 +3,21 @@
   overflow-x: hidden;
 }
 
-.ContentView__hintContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.ContentView__noConversationContainer {
   height: 100%;
-  transform: translateY(-15%);
+}
+
+.ContentView__noConversation {
+  position: relative;
+  top: 30%;
+  text-align: center;
+}
+
+.ContentView__logo {
+  width: 150px;
+  height: 44px;
+  margin-bottom: 20px;
+  opacity: 0.4;
 }
 
 .ContentView__hint {
