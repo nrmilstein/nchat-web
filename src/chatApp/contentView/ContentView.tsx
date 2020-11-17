@@ -30,11 +30,11 @@ function ContentView(props: ContentViewProps) {
         <div className="ContentView__noConversation">
           <img className="ContentView__logo" src="/img/logo.svg" alt="nchat logo" />
           <div className="ContentView__hint">
-            Click the
+            Click
             &nbsp;
           <img className="ContentView__newChatIcon" src="/img/plus.svg" alt="New conversation" />
           &nbsp;
-          button to start a new conversation.
+          to start a new conversation.
         </div>
         </div>
       </div >
