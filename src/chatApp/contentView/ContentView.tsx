@@ -26,10 +26,14 @@ function ContentView(props: ContentViewProps) {
       key={props.selectedConversation?.uuid} />
   } else {
     content =
-      <div className="ContentView__hint">
-        Click the
-        &nbsp;<img className="SidebarBanner__icon" src="/img/plus.svg" alt="New conversation" />&nbsp;
-        button to start a new conversation.
+      <div className="ContentView__hintContainer">
+        <div className="ContentView__hint">
+          Click the
+          &nbsp;
+          <img className="ContentView__newChatIcon" src="/img/plus.svg" alt="New conversation" />
+          &nbsp;
+          button to start a new conversation.
+        </div>
       </div>
   }
   return (

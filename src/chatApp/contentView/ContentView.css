@@ -3,10 +3,20 @@
   overflow-x: hidden;
 }
 
-.ContentView__hint {
+.ContentView__hintContainer {
   display: flex;
-  position: absolute;
-  top: 40%;
-  left: 50%;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transform: translateY(-15%);
+}
+
+.ContentView__hint {
   color: #444444;
+}
+
+.ContentView__newChatIcon {
+  width: 20px;
+  height: 20px;
+  vertical-align: top;
 }
