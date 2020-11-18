@@ -14,3 +14,8 @@
   width: 200px;
   height: 59px;
 }
+
+.AccountsView__accountsHeader {
+  font-weight: normal;
+  font-size: 25px;
+}

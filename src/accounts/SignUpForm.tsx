@@ -133,7 +133,7 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
 
     return (
       <div className="SignUpForm" >
-        <h1>Sign up</h1>
+        <h1 className="AccountsView__accountsHeader">Sign up</h1>
         <form onSubmit={this.handleSubmit}>
           <p><input className="textInput" name="name" type="text" placeholder="Display name"
             value={this.state.name} onChange={this.handleChange} required={true}

@@ -106,7 +106,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 
     return (
       <div className="LoginForm" >
-        <h1>Login</h1>
+        <h1 className="AccountsView__accountsHeader">Login</h1>
         <form onSubmit={this.handleSubmit}>
           <p><input className="textInput" name="username" type="text" placeholder="Username"
             value={this.state.username} onChange={this.handleChange} required={true}
