@@ -60,7 +60,7 @@ class App extends React.Component<{}, AppState> {
         <ChatAppLoader path="/"
           authKey={this.state.authKey}
           user={this.state.user}
-          key={this.state.user?.id}
+          key={this.state.authKey}
           logoutHandler={this.logout} />
         <AccountsView path="accounts/*" setAuthenticatedUser={this.setAuthenticatedUser} />
       </Router >
