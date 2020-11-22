@@ -116,7 +116,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
           <p><input className="button" type="submit" value="Login" /></p>
         </form>
         <div className="LoginForm__signUpMessage">
-          Don't have an account? <Link to="../signup">Sign up</Link>
+          Don't have an account? <Link to="../get-started">Sign up</Link>
         </div>
         <div className="LoginForm__status">
           {status}

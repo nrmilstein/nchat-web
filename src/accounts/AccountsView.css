@@ -1,13 +1,14 @@
 .AccountsView {
   position: absolute;
-  top: 35%;
   left: 50%;
-  transform: translateX(-50%) translateY(-120px);
-  width: 300px;
+  top: 40px;
+  transform: translateX(-50%);
+  width: 700px;
 }
 
 .AccountsView__logoContainer {
   text-align: center;
+  margin-bottom: 40px;
 }
 
 .AccountsView__logo {
@@ -15,7 +16,15 @@
   height: 59px;
 }
 
+.AccountsView__intro {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 40px;
+}
+
 .AccountsView__accountsHeader {
   font-weight: normal;
   font-size: 25px;
+  margin: 0;
 }

@@ -277,7 +277,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
   logoutHandler() {
     this.props.logoutHandler();
-    navigate("/accounts/login");
+    navigate("/accounts/get-started");
   }
 
   private addMessageToConversation(conversations: Conversation[], index: number, message: Message):

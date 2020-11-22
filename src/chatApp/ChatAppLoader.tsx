@@ -54,7 +54,7 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
     if (this.props.authKey === null) {
       // There is an acknowledged bug where navigate does not work in componentDidMount. This
       // hack is a workaround.
-      setTimeout(() => navigate('/accounts/login'), 1);
+      setTimeout(() => navigate('/accounts/get-started'), 1);
       return;
     }
 
