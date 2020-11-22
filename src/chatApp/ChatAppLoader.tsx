@@ -8,7 +8,7 @@ import { Conversation } from '../models/Conversation';
 import { ConversationJson } from '../utils/json/ConversationJson';
 import { User } from '../models/User';
 import { UserJson } from '../utils/json/UserJson';
-import NchatApi from '../utils/NchatApi';
+import NchatApi, { FetchError } from '../utils/NchatApi';
 import NchatWebSocket, { WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
 
 import "./ChatAppLoader.css";
@@ -64,12 +64,17 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
       const userPromise = this.state.user === null
         ? this.initUser(authKey)
         : Promise.resolve(this.state.user);
+
       const conversationsPromise = this.initConversations(authKey);
 
-      const webSocket = await NchatWebSocket.createWebSocket();
-      await this.sendAuth(authKey, webSocket);
+      const webSocketPromise = NchatWebSocket.createWebSocket()
+        .then(webSocket => {
+          this.sendAuth(authKey, webSocket);
+          return webSocket;
+        });
 
-      const [user, conversations] = await Promise.all([userPromise, conversationsPromise]);
+      const [user, conversations, webSocket] =
+        await Promise.all([userPromise, conversationsPromise, webSocketPromise]);
 
       this.setState({
         user: user,
@@ -77,9 +82,13 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
         webSocket: webSocket,
       });
     } catch (error) {
-      this.setState({
-        errorMessage: "Could not load nchat. Please try again later.",
-      });
+      if (error instanceof FetchError && error.response.status === 403) {
+        this.props.logoutHandler();
+      } else {
+        this.setState({
+          errorMessage: "Could not load nchat. Please try again later.",
+        });
+      }
     }
   }
 
