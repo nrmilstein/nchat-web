@@ -33,9 +33,10 @@ class NchatApi {
 
     if (!response.ok || ("status" in jsonResponse && jsonResponse.status !== "success")) {
       if ("status" in jsonResponse && "message" in jsonResponse) {
-        throw new NchatApiError(jsonResponse.message, responseClone, jsonResponse);
+        throw new NchatApiError("Nchat server error: " + jsonResponse.message,
+          responseClone, jsonResponse);
       } else {
-        throw new FetchError("Nchat API error.", responseClone);
+        throw new FetchError("Nchat server error.", responseClone);
       }
     }
 
