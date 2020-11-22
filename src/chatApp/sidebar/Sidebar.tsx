@@ -10,7 +10,7 @@ import './Sidebar.css'
 interface SidebarProps extends RouteComponentProps {
   conversations: Conversation[],
   selectedConversationUuid: string | null,
-  handleNewConversation: () => void,
+  handleLaunchConversationCreator: () => void,
   handleConversationRowClick: (conversation: Conversation) => void,
   logoutHandler: () => void,
 }
@@ -19,7 +19,7 @@ function Sidebar(props: SidebarProps) {
   return (
     <nav className="Sidebar">
       <SidebarBanner
-        handleNewConversation={props.handleNewConversation}
+        handleLaunchConversationCreator={props.handleLaunchConversationCreator}
         logoutHandler={props.logoutHandler} />
       <ConversationList
         conversations={props.conversations}

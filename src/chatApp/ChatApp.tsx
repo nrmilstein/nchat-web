@@ -64,7 +64,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
   constructor(props: ChatAppProps) {
     super(props);
     this.handleMessageReceived = this.handleMessageReceived.bind(this);
-    this.handleNewConversation = this.handleNewConversation.bind(this);
+    this.handleLaunchConversationCreator = this.handleLaunchConversationCreator.bind(this);
     this.handleConversationRowClick = this.handleConversationRowClick.bind(this);
     this.handleSendMessage = this.handleSendMessage.bind(this);
     this.logoutHandler = this.logoutHandler.bind(this);
@@ -74,7 +74,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     this.props.webSocket.addNotificationListener("newMessage", this.handleMessageReceived);
   }
 
-  handleNewConversation() {
+  handleLaunchConversationCreator() {
     this.setState({
       selectedConversationUuid: null,
       isConversationCreatorOpen: true,
@@ -329,7 +329,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
             conversations={this.state.conversations}
             selectedConversationUuid={this.state.selectedConversationUuid}
             handleConversationRowClick={this.handleConversationRowClick}
-            handleNewConversation={this.handleNewConversation}
+            handleLaunchConversationCreator={this.handleLaunchConversationCreator}
             logoutHandler={this.logoutHandler} />
           <ContentView
             isConversationCreatorOpen={this.state.isConversationCreatorOpen}
