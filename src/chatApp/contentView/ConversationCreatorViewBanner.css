@@ -43,7 +43,6 @@
   border: none;
   font-size: 20px;
   width: 100%;
-  min-width: 0;
 }
 
 .ConversationCreatorViewBanner__input:focus {
