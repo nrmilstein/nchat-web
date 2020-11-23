@@ -49,17 +49,26 @@ class TryNowForm extends React.Component<TryNowFormProps, TryNowFormState> {
       },
     });
 
-    const response = await NchatApi.post<PostDemoUsersResponse>("demoUsers", {});
+    try {
+      const response = await NchatApi.post<PostDemoUsersResponse>("demoUsers", {});
 
-    const authKey = response.data.authKey;
-    const user: User = {
-      id: response.data.user.id,
-      username: response.data.user.username,
-      name: response.data.user.name,
+      const authKey = response.data.authKey;
+      const user: User = {
+        id: response.data.user.id,
+        username: response.data.user.username,
+        name: response.data.user.name,
+      }
+
+      this.props.setAuthenticatedUser(authKey, user);
+      navigate("/")
+    } catch (error) {
+      this.setState({
+        status: {
+          value: TryNowFormStatus.Error,
+          message: "Could not launch demo. Please try again later.",
+        },
+      });
     }
-
-    this.props.setAuthenticatedUser(authKey, user);
-    navigate("/")
   }
 
   render() {
