@@ -9,8 +9,8 @@
 }
 
 .ConversationCreatorViewBanner__status {
+  flex: 0 0 28px;
   display: flex;
-  width: 25px;
   margin-right: 4px;
   justify-content: center;
   user-select: none;
