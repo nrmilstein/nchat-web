@@ -38,7 +38,7 @@ class ConversationCreatorViewBanner extends
         break;
       case ConversationCreatorViewBannerStatus.Ok:
         status = <div className="ConversationCreatorViewBanner__success"
-          title="Username ok"></div>;
+          title="Username OK"></div>;
         break;
     }
     return (
