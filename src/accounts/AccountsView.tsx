@@ -6,7 +6,8 @@ import LoginForm from './LoginForm';
 import NchatApi from '../utils/NchatApi';
 import { User } from '../models/User';
 import { UserJson } from '../utils/json/UserJson';
-import GetStarted from './GetStarted';
+import TryNowForm from './TryNowForm';
+import SignUpForm from './SignUpForm';
 
 import './AccountsView.css'
 
@@ -56,13 +57,20 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
         <div className="AccountsView__intro">
           nchat is an app for chatting with your friends.
         </div>
-        <Router>
-          <LoginForm path="login" authenticateUser={this.authenticateUser} />
-          <GetStarted
-            path="get-started"
-            authenticateUser={this.authenticateUser}
-            setAuthenticatedUser={this.props.setAuthenticatedUser} />
-        </Router>
+        <div className="AccountsView__selector">
+          <section className="AccountsView__tryNow">
+            <TryNowForm setAuthenticatedUser={this.props.setAuthenticatedUser} />
+          </section>
+          <div className="AccountsView__divider">
+            or
+            </div>
+          <section className="AccountsView__authenticate">
+            <Router>
+              <SignUpForm path="get-started" authenticateUser={this.authenticateUser} />
+              <LoginForm path="login" authenticateUser={this.authenticateUser} />
+            </Router>
+          </section>
+        </div>
       </main>
     );
   }
