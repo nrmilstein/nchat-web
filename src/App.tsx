@@ -32,9 +32,6 @@ class App extends React.Component<{}, AppState> {
     }
   }
 
-  componentDidMount() {
-  }
-
   setAuthenticatedUser(authKey: string, user: User) {
     const cookies = new Cookies();
     cookies.set("authKey", authKey, { path: "/", sameSite: "lax", maxAge: 60 * 60 * 24 * 365 });
