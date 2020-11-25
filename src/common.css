@@ -1,3 +1,11 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 a {
   text-decoration: none;
   color: #1892de;
@@ -21,7 +29,6 @@ input {
   padding: 7px;
   border: solid 1px #aaaaaa;
   border-radius:4px;
-  box-sizing: border-box;
 }
 
 .button {

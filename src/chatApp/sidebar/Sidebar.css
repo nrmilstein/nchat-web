@@ -3,7 +3,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   border-right: solid 1px #cccccc;
   height: 100%;
 }
