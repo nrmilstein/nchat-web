@@ -14,6 +14,8 @@ interface ConversationViewProps extends RouteComponentProps {
 }
 
 function ConversationView(props: ConversationViewProps) {
+  const autoFocus = window.matchMedia("(hover: hover)").matches;
+
   return (
     <div className="ConversationView" >
       <ConversationViewBanner
@@ -22,7 +24,7 @@ function ConversationView(props: ConversationViewProps) {
         isLoading={props.selectedConversation.isLoading}
         messages={props.selectedConversation.messages} />
       <MessageInput
-        autoFocus={true}
+        autoFocus={autoFocus}
         handleSendMessage={
           (messageBody) => {
             props.handleSendMessage(messageBody);
