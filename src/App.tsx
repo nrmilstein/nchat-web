@@ -6,8 +6,6 @@ import ChatAppLoader from './chatApp/ChatAppLoader';
 import AccountsView from './accounts/AccountsView';
 import { User } from './models/User'
 
-import './App.css';
-
 interface AppState {
   authKey: string | null,
   user: User | null,

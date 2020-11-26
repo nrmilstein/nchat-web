@@ -6,6 +6,12 @@ html {
   box-sizing: inherit;
 }
 
+body {
+  font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 a {
   text-decoration: none;
   color: #1892de;
@@ -61,4 +67,13 @@ input {
   background-color: #ff4f4f;
   color: white;
   border-radius: 7px;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {  
+  * {
+    /* Very short durations means JavaScript that relies on events still works */
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
