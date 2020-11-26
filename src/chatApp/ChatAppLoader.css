@@ -9,7 +9,6 @@
 .ChatAppLoader__loading {
   display: flex;
   align-items: center;
-  align-content: center;
   justify-content: center;
   height: 100%;
 }

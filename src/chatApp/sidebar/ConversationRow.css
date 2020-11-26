@@ -1,7 +1,7 @@
 .ConversationRow {
   border-bottom: solid 1px #eeeeee;
-  padding: 12px 15px;
   cursor: pointer;
+  padding: 5px;
 }
 
 .ConversationRow:hover {
@@ -10,6 +10,32 @@
 
 .ConversationRow:active {
   background-color: #e5e5e5;
+}
+
+.ConversationRow--selected {
+  background-color: #efefef;
+}
+
+.ConversationRow--selected:hover {
+  background-color: #efefef;
+}
+
+.ConversationRow__bubble {
+  margin: auto;
+  width: 60px;
+  height: 60px;
+  border: solid 1px #ccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 200;
+  font-size: 35px;
+}
+
+
+.ConversationRow__full {
+  display: none;
 }
 
 .ConversationRow__main {
@@ -42,10 +68,16 @@
   font-size: 14px;
 }
 
-.ConversationRow--selected {
-  background-color: #efefef;
-}
+@media screen and (min-width: 700px) {
+  .ConversationRow {
+    padding: 12px 15px;
+  }
 
-.ConversationRow--selected:hover {
-  background-color: #efefef;
+  .ConversationRow__bubble {
+    display: none;
+  }
+
+  .ConversationRow__full {
+    display: block;
+  }
 }

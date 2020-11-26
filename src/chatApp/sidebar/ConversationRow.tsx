@@ -28,19 +28,26 @@ function ConversationRow(props: ConversationRowProps) {
     messageTimeStr = formatDate(lastMessage.sent, 'P');
   }
 
+  const conversationPartnerName = props.conversation.conversationPartner.name
+    ?? props.conversation.conversationPartner.username
+
   return (
     <div
       className={"ConversationRow" + (props.selected ? " ConversationRow--selected" : "")}
       onClick={() => props.handleConversationRowClick(props.conversation)}>
-      <div className="ConversationRow__main">
-        <div className="ConversationRow__name">
-          {props.conversation.conversationPartner.name
-            ?? props.conversation.conversationPartner.username}
-        </div>
-        <div className="ConversationRow__time">{messageTimeStr}</div>
+      <div className="ConversationRow__bubble">
+        {conversationPartnerName.charAt(0).toUpperCase()}
       </div>
-      <div className="ConversationRow__message">
-        {lastMessage.body}
+      <div className="ConversationRow__full">
+        <div className="ConversationRow__main">
+          <div className="ConversationRow__name">
+            {conversationPartnerName}
+          </div>
+          <div className="ConversationRow__time">{messageTimeStr}</div>
+        </div>
+        <div className="ConversationRow__message">
+          {lastMessage.body}
+        </div>
       </div>
     </div>
   );

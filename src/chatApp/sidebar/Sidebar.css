@@ -1,8 +1,51 @@
 .Sidebar {
-  flex: 30%;
+  flex: 0 0 70px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   border-right: solid 1px #cccccc;
+}
+
+.Sidebar__control {
+  flex: 0 0 60px;
+}
+
+.Sidebar__control:hover {
+  background-color: #f9f9f9;
+}
+
+.Sidebar__control:active {
+  background-color: #e5e5e5;
+}
+
+.Sidebar__createConversation {
+  border-bottom: solid 1px #cccccc;
+}
+
+.Sidebar__logout {
+  border-top: solid 1px #cccccc;
+}
+
+.Sidebar__button {
+  width: 100%;
   height: 100%;
+  background-color: unset;
+  border: none;
+  cursor: pointer;
+}
+
+.Sidebar__icon {
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+}
+
+@media screen and (min-width: 700px) {
+  .Sidebar__control {
+    display: none;
+  }
+
+  .Sidebar {
+    flex: 30%;
+  }
 }
