@@ -4,7 +4,7 @@ import { RouteComponentProps } from "@reach/router";
 import './MessageInput.css'
 
 interface MessageInputProps extends RouteComponentProps {
-  autoFocus: boolean,
+  autoFocus?: boolean,
   disabled?: boolean,
   handleSendMessage: (messageBody: string) => boolean,
 }
