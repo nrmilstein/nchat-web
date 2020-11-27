@@ -16,11 +16,14 @@
 
 .ContentView__logo {
   margin-bottom: 20px;
+  max-height: 44px;
   width: 100%;
-  max-width: 150px;
-  height: 44px;
   opacity: 0.4;
   user-select: none;
+}
+
+.ContentView__logoFull {
+  display: none;
 }
 
 .ContentView__hint {
@@ -31,4 +34,14 @@
   width: 20px;
   height: 20px;
   vertical-align: top;
+}
+
+@media screen and (min-width: 700px) {
+  .ContentView__logoFull {
+    display: block;
+  }
+
+  .ContentView__logoCompact {
+    display: none;
+  }
 }

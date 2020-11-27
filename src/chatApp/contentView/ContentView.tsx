@@ -6,6 +6,7 @@ import ConversationView from './ConversationView';
 import ConversationCreatorView from './ConversationCreatorView';
 import { User } from '../../models/User';
 
+import { ReactComponent as NchatLogoCompact } from '../../assets/logoCompact.svg';
 import { ReactComponent as NchatLogo } from '../../assets/logo.svg';
 import { ReactComponent as PlusIcon } from '../sidebar/plus.svg';
 
@@ -28,12 +29,14 @@ function ContentView(props: ContentViewProps) {
       handleSendMessage={props.handleSendMessage}
       key={props.selectedConversation?.uuid} />
   } else {
+    const actionPhrase = window.matchMedia("(hover: hover)").matches ? "Click" : "Tap";
     content =
       <div className="ContentView__noConversationContainer">
         <div className="ContentView__noConversation">
-          <NchatLogo className="ContentView__logo" title="nchat logo" />
+          <NchatLogoCompact className="ContentView__logo ContentView__logoCompact" title="nchat logo" />
+          <NchatLogo className="ContentView__logo ContentView__logoFull" title="nchat logo" />
           <div className="ContentView__hint">
-            Click
+            {actionPhrase}
             &nbsp;
           <PlusIcon className="ContentView__newChatIcon" title="New conversation" />
           &nbsp;
