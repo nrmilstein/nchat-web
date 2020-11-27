@@ -14,10 +14,31 @@
   font-size: 20px;
 }
 
-.ConversationViewBanner__logo {
-  width: 80px;
+.ConversationViewBanner__logoCompact {
+  flex: 0 0 auto;
+  width: auto;
   height: 24px;
   opacity: 0.4;
   margin-left: 10px;
   user-select: none;
+}
+
+.ConversationViewBanner__logo {
+  display: none;
+  flex: 0 0 auto;
+  width: auto;
+  height: 24px;
+  opacity: 0.4;
+  margin-left: 10px;
+  user-select: none;
+}
+
+@media screen and (min-width: 700px) {
+  .ConversationViewBanner__logoCompact {
+    display: none;
+  }
+
+  .ConversationViewBanner__logo {
+    display: block;
+  }
 }

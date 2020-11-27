@@ -5,6 +5,9 @@ import SidebarBanner from './SidebarBanner';
 import ConversationList from './ConversationList';
 import { Conversation } from '../../models/Conversation';
 
+import { ReactComponent as LogoutIcon } from './logout.svg';
+import { ReactComponent as PlusIcon } from './plus.svg';
+
 import './Sidebar.css'
 
 interface SidebarProps extends RouteComponentProps {
@@ -21,8 +24,7 @@ function Sidebar(props: SidebarProps) {
       <div className="Sidebar__control Sidebar__createConversation">
         <button className="Sidebar__button"
           onClick={props.handleLaunchConversationCreator}>
-          <img className="Sidebar__icon" src="/img/plus.svg"
-            alt="New Conversation" title="New Conversation" />
+          <PlusIcon className="Sidebar__icon" title="New Conversation" />
         </button>
       </div>
       <SidebarBanner
@@ -35,8 +37,7 @@ function Sidebar(props: SidebarProps) {
       <div className="Sidebar__control Sidebar__logout">
         <button className="Sidebar__button"
           onClick={props.logoutHandler}>
-          <img className="Sidebar__icon" src="/img/logout.svg" alt="Logout"
-            title="Logout" />
+          <LogoutIcon className="Sidebar__icon" title="Logout" />
         </button>
       </div>
     </nav>

@@ -3,6 +3,9 @@ import { RouteComponentProps } from "@reach/router";
 
 import { ChatAppContext } from '../ChatAppContext';
 
+import { ReactComponent as LogoutIcon } from './logout.svg';
+import { ReactComponent as PlusIcon } from './plus.svg';
+
 import "./SidebarBanner.css"
 
 interface SidebarBannerProps extends RouteComponentProps {
@@ -22,13 +25,11 @@ function SidebarBanner(props: SidebarBannerProps) {
               </div>
               <button className="SidebarBanner__button"
                 onClick={props.logoutHandler}>
-                <img className="SidebarBanner__icon" src="/img/logout.svg" alt="Logout"
-                  title="Logout" />
+                <LogoutIcon className="SidebarBanner__icon" title="Logout" />
               </button>
               <button className="SidebarBanner__button"
                 onClick={props.handleLaunchConversationCreator}>
-                <img className="SidebarBanner__icon" src="/img/plus.svg" alt="New conversation"
-                  title="New conversation" />
+                <PlusIcon className="SidebarBanner__icon" title="New conversation" />
               </button>
             </header>
           )

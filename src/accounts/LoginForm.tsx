@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 import { NchatApiError } from '../utils/NchatApi';
 
 import './LoginForm.css';
-import '../misc/LoadingIcon.css';
+import '../assets/LoadingIcon.css';
 
 enum LoginFormStatus {
   Empty,

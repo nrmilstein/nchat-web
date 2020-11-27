@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="200mm"
-   height="200mm"
-   viewBox="0 0 200 200"
+   width="40"
+   height="40"
+   viewBox="0 0 40 40"
    version="1.1"
    id="svg3911"
    inkscape:version="1.0.1 (c497b03c, 2020-09-10)"
@@ -23,10 +23,10 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.4156895"
-     inkscape:cx="331.51623"
-     inkscape:cy="346.30133"
-     inkscape:document-units="mm"
+     inkscape:zoom="7.29943"
+     inkscape:cx="37.76244"
+     inkscape:cy="28.861946"
+     inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
@@ -35,7 +35,9 @@
      inkscape:window-height="700"
      inkscape:window-x="0"
      inkscape:window-y="23"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="0"
+     units="px"
+     scale-x="1" />
   <metadata
      id="metadata3908">
     <rdf:RDF>
@@ -44,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,7 +56,7 @@
      id="layer1">
     <path
        id="path4476"
-       style="fill:none;stroke:#bababa;stroke-width:30;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 15,98.685665 H 185 M 100,15 99.939933,185" />
+       style="fill:none;stroke:#bababa;stroke-width:6;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 2.9999997,19.737132 H 37 M 20,2.9999997 19.987986,36.999999" />
   </g>
 </svg>

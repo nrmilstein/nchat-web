@@ -6,7 +6,7 @@ import { Message } from '../../models/Message';
 import { ChatAppContext } from '../ChatAppContext';
 
 import './MessagesView.css'
-import '../../misc/LoadingIcon.css';
+import '../../assets/LoadingIcon.css';
 
 interface MessagesViewProps extends RouteComponentProps {
   isLoading: boolean,

@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="200mm"
-   height="200mm"
-   viewBox="0 0 200 200"
+   width="40"
+   height="40"
+   viewBox="0 0 40 40"
    version="1.1"
    id="svg8"
    sodipodi:docname="greenCheck.svg"
@@ -25,21 +25,22 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.650875"
-     inkscape:cx="377.95276"
-     inkscape:cy="377.95276"
-     inkscape:document-units="mm"
+     inkscape:zoom="12.3"
+     inkscape:cx="18.292683"
+     inkscape:cy="17.96748"
+     inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:snap-global="false"
-     inkscape:window-width="1280"
+     inkscape:window-width="1252"
      inkscape:window-height="700"
      inkscape:window-x="0"
      inkscape:window-y="23"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      inkscape:showpageshadow="false"
-     borderlayer="false" />
+     borderlayer="false"
+     units="px" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -48,7 +49,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,24 +57,18 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <circle
-       style="fill:none;stroke:#66c072;stroke-width:19.4131;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path833"
-       cx="100"
-       cy="100"
-       rx="90.293556"
-       ry="90.293449" />
     <path
-       style="fill:none;stroke:#66c072;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       d="M 54.499473,107.42631 80.836227,133.58309 142.09781,72.740161"
+       style="fill:none;stroke:#66c072;stroke-width:3.99998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       d="m 10.899894,21.485267 5.267352,5.231359 12.252322,-12.168592"
        id="path835"
        inkscape:export-xdpi="3.175"
        inkscape:export-ydpi="3.175" />
-    <circle
-       style="fill:none;fill-rule:evenodd;stroke:#66c072;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+    <ellipse
+       style="fill:none;fill-rule:evenodd;stroke:#66c072;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="path5826"
-       cx="100"
-       cy="100"
-       r="90" />
+       cx="20.000004"
+       cy="20.000004"
+       rx="18.000008"
+       ry="18.00001" />
   </g>
 </svg>

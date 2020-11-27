@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="200mm"
-   height="200mm"
-   viewBox="0 0 200 200"
+   width="40"
+   height="40"
+   viewBox="0 0 40 40"
    version="1.1"
    id="svg9409"
    inkscape:version="1.0.1 (c497b03c, 2020-09-10)"
@@ -23,10 +23,10 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5992973"
-     inkscape:cx="-42.046389"
-     inkscape:cy="334.4199"
-     inkscape:document-units="mm"
+     inkscape:zoom="12.3"
+     inkscape:cx="20"
+     inkscape:cy="20"
+     inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
@@ -36,7 +36,8 @@
      inkscape:window-height="700"
      inkscape:window-x="0"
      inkscape:window-y="23"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="0"
+     units="px" />
   <metadata
      id="metadata9406">
     <rdf:RDF>
@@ -45,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,13 +55,13 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:none;stroke:#bababa;stroke-width:30.0001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 118.35106,53.31117 V 25.297871 H 21.702128 V 174.70213 h 96.648932 v -28.0133"
+       style="fill:none;stroke:#bababa;stroke-width:5.99882;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 23.659639,10.665975 V 5.0655614 H 4.3298791 V 34.934432 H 23.659639 v -5.600414"
        id="path9972"
        sodipodi:nodetypes="cccccc" />
     <path
-       style="fill:#bababa;fill-opacity:1;stroke:#bababa;stroke-width:5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 81.012856,87.165931 H 151.0029 V 61.497783 L 195.66316,100 151.0029,138.50223 V 112.83409 H 81.012856 Z"
+       style="fill:#bababa;fill-opacity:1;stroke:#bababa;stroke-width:0.999802;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 16.192009,17.434212 h 13.99799 v -5.131571 l 8.93204,7.697355 -8.93204,7.697358 v -5.131568 h -13.99799 z"
        id="path9992"
        sodipodi:nodetypes="cccccccc" />
   </g>

@@ -3,6 +3,9 @@ import { RouteComponentProps } from "@reach/router";
 
 import { Conversation } from '../../models/Conversation';
 
+import { ReactComponent as NchatLogoCompact } from '../../assets/logoCompact.svg';
+import { ReactComponent as NchatLogo } from '../../assets/logo.svg';
+
 import './ConversationViewBanner.css'
 
 interface ConversationViewBannerProps extends RouteComponentProps {
@@ -19,7 +22,8 @@ function ConversationViewBanner(props: ConversationViewBannerProps) {
         {props.selectedConversation.conversationPartner.name
           ?? props.selectedConversation.conversationPartner.username}
       </div>
-      <img className="ConversationViewBanner__logo" src="/img/logo.svg" alt="nchat logo" />
+      <NchatLogoCompact className="ConversationViewBanner__logoCompact" title="nchat logo" />
+      <NchatLogo className="ConversationViewBanner__logo" title="nchat logo" />
     </header>
   );
 }

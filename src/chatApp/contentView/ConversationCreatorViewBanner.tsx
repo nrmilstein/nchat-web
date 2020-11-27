@@ -1,7 +1,13 @@
 import React, { ChangeEvent, FocusEvent } from 'react';
 
+import { ReactComponent as GreenCheck } from './greenCheck.svg';
+import { ReactComponent as RedX } from './redX.svg';
+
+import { ReactComponent as NchatLogoCompact } from '../../assets/logoCompact.svg';
+import { ReactComponent as NchatLogo } from '../../assets/logo.svg';
+
 import './ConversationCreatorViewBanner.css'
-import '../../misc/LoadingIcon.css';
+import '../../assets/LoadingIcon.css';
 
 export enum ConversationCreatorViewBannerStatus {
   Empty,
@@ -29,16 +35,16 @@ class ConversationCreatorViewBanner extends
         status = <span className="ConversationCreatorViewBanner__to">To:</span>;
         break;
       case ConversationCreatorViewBannerStatus.Error:
-        status = <div className="ConversationCreatorViewBanner__error"
-          title="Username doesn't exist"></div>;
+        status = <RedX className="ConversationCreatorViewBanner__error"
+          title="Username doesn't exist" />
         break;
       case ConversationCreatorViewBannerStatus.Loading:
         status = <div className="ConversationCreatorViewBanner__loading LoadingIcon"
           title="Checking username..."></div>;
         break;
       case ConversationCreatorViewBannerStatus.Ok:
-        status = <div className="ConversationCreatorViewBanner__success"
-          title="Username OK"></div>;
+        status = <GreenCheck className="ConversationCreatorViewBanner__success"
+          title="Username OK" />
         break;
     }
     return (
@@ -59,7 +65,8 @@ class ConversationCreatorViewBanner extends
           onChange={this.props.handleChange}
           onBlur={this.props.handleBlur}
           id="ConversationCreatorViewBannerInput" />
-        <img className="ConversationCreatorViewBanner__logo" src="/img/logo.svg" alt="nchat logo" />
+        <NchatLogoCompact className="ConversationViewBanner__logoCompact" title="nchat logo" />
+        <NchatLogo className="ConversationCreatorViewBanner__logo" title="nchat logo" />
       </header>
     );
   }

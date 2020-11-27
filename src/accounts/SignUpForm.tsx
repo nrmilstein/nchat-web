@@ -5,6 +5,7 @@ import { Link } from "@reach/router";
 import NchatApi, { NchatApiError } from '../utils/NchatApi';
 
 import './SignUpForm.css';
+import '../assets/LoadingIcon.css';
 
 enum SignUpFormStatus {
   Empty,

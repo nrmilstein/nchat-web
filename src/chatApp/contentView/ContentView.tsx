@@ -6,6 +6,9 @@ import ConversationView from './ConversationView';
 import ConversationCreatorView from './ConversationCreatorView';
 import { User } from '../../models/User';
 
+import { ReactComponent as NchatLogo } from '../../assets/logo.svg';
+import { ReactComponent as PlusIcon } from '../sidebar/plus.svg';
+
 import "./ContentView.css"
 
 interface ContentViewProps extends RouteComponentProps {
@@ -28,11 +31,11 @@ function ContentView(props: ContentViewProps) {
     content =
       <div className="ContentView__noConversationContainer">
         <div className="ContentView__noConversation">
-          <img className="ContentView__logo" src="/img/logo.svg" alt="nchat logo" />
+          <NchatLogo className="ContentView__logo" title="nchat logo" />
           <div className="ContentView__hint">
             Click
             &nbsp;
-          <img className="ContentView__newChatIcon" src="/img/plus.svg" alt="New conversation" />
+          <PlusIcon className="ContentView__newChatIcon" title="New conversation" />
           &nbsp;
           to start a new conversation.
         </div>

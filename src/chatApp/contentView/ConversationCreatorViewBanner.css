@@ -1,18 +1,23 @@
 .ConversationCreatorViewBanner {
   flex: 0 0 60px;
+  padding: 0 15px;
   display: flex;
   align-items: center;
   border-bottom: solid 1px #cccccc;
-  padding: 0 15px;
   font-size: 20px;
 }
 
 .ConversationCreatorViewBanner__status {
   flex: 0 0 28px;
-  display: flex;
   margin-right: 4px;
+  display: flex;
   justify-content: center;
   user-select: none;
+}
+
+.ConversationCreatorViewBanner__label {
+  display: flex;
+  align-items: center;
 }
 
 .ConversationCreatorViewBanner__to {
@@ -25,15 +30,11 @@
 }
 
 .ConversationCreatorViewBanner__success {
-  background-image: url("/img/greenCheck.svg");
-  background-size: contain;
   width: 20px;
   height: 20px;
 }
 
 .ConversationCreatorViewBanner__error {
-  background-image: url("/img/redX.svg");
-  background-size: contain;
   width: 20px;
   height: 20px;
 }
@@ -49,9 +50,21 @@
 }
 
 .ConversationCreatorViewBanner__logo {
-  width: 80px;
+  display: none;
+  flex: 0 0 auto;
+  width: auto;
   height: 24px;
   opacity: 0.4;
   margin-left: 10px;
   user-select: none;
+}
+
+@media screen and (min-width: 700px) {
+  .ConversationCreatorViewBanner__logoCompact {
+    display: none;
+  }
+
+  .ConversationCreatorViewBanner__logo {
+    display: block;
+  }
 }

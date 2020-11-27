@@ -9,6 +9,8 @@ import { UserJson } from '../utils/json/UserJson';
 import TryNowForm from './TryNowForm';
 import SignUpForm from './SignUpForm';
 
+import { ReactComponent as NchatLogo } from '../assets/logo.svg';
+
 import './AccountsView.css'
 
 interface PostAuthenticateResponse {
@@ -52,7 +54,7 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
     return (
       <main className="AccountsView">
         <div className="AccountsView__logoContainer">
-          <img className="AccountsView__logo" src="/img/logo.svg" alt="nchat logo" />
+          <NchatLogo className="AccountsView__logo" title="nchat logo" />
         </div>
         <div className="AccountsView__intro">
           nchat is an app for chatting with your friends.

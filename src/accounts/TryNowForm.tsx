@@ -6,6 +6,7 @@ import { User } from '../models/User';
 import { UserJson } from '../utils/json/UserJson';
 
 import "./TryNowForm.css";
+import '../assets/LoadingIcon.css';
 
 enum TryNowFormStatus {
   Empty,

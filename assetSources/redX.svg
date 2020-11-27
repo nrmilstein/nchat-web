@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="200mm"
-   height="200mm"
-   viewBox="0 0 200 200"
+   width="40"
+   height="40"
+   viewBox="0 0 40 40"
    version="1.1"
    id="svg8"
    sodipodi:docname="redX.svg"
@@ -25,10 +25,10 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.59132841"
-     inkscape:cx="432.12625"
-     inkscape:cy="380.59461"
-     inkscape:document-units="mm"
+     inkscape:zoom="12.3"
+     inkscape:cx="20"
+     inkscape:cy="20"
+     inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
@@ -39,7 +39,8 @@
      inkscape:window-y="23"
      inkscape:window-maximized="0"
      inkscape:showpageshadow="false"
-     borderlayer="false" />
+     borderlayer="false"
+     units="px" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -48,7 +49,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -61,21 +62,21 @@
        id="path833"
        cx="100"
        cy="100"
-       rx="90.293556"
-       ry="90.293449" />
+       r="0" />
     <path
-       style="fill:none;stroke:#bc2020;stroke-width:20.0001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 65.00005,65.00005 70,69.9999"
+       style="fill:none;stroke:#bc2020;stroke-width:4.00002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 13.000005,13.000019 27.000003,27"
        id="path2791" />
     <path
-       style="fill:none;stroke:#bc2020;stroke-width:20.0001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 135.00005,65.00005 -69.999999,69.9999"
+       style="fill:none;stroke:#bc2020;stroke-width:4.00002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 27.000003,13.000019 13.000005,27"
        id="path2791-0" />
-    <circle
-       style="fill:none;fill-rule:evenodd;stroke:#bc2020;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+    <ellipse
+       style="fill:none;fill-rule:evenodd;stroke:#bc2020;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path6463"
-       cx="99.999992"
-       cy="100.00001"
-       r="90" />
+       cx="19.999992"
+       cy="20.000011"
+       rx="18"
+       ry="18.000002" />
   </g>
 </svg>

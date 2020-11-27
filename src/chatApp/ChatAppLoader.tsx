@@ -12,7 +12,7 @@ import NchatApi, { FetchError } from '../utils/NchatApi';
 import NchatWebSocket, { WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
 
 import "./ChatAppLoader.css";
-import "../misc/LoadingIcon.css";
+import "../assets/LoadingIcon.css";
 
 interface GetAuthenticateResponse {
   user: UserJson,
