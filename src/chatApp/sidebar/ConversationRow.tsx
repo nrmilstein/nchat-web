@@ -36,7 +36,7 @@ function ConversationRow(props: ConversationRowProps) {
       className={"ConversationRow" + (props.selected ? " ConversationRow--selected" : "")}
       onClick={() => props.handleConversationRowClick(props.conversation)}>
       <div className="ConversationRow__bubble">
-        {conversationPartnerName.charAt(0).toUpperCase()}
+        {conversationPartnerName.split(" ").slice(0, 2).map(e => e.charAt(0).toUpperCase())}
       </div>
       <div className="ConversationRow__full">
         <div className="ConversationRow__main">
