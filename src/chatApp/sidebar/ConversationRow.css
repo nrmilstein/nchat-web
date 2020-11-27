@@ -1,5 +1,4 @@
 .ConversationRow {
-  border-bottom: solid 1px #eeeeee;
   cursor: pointer;
   padding: 5px;
 }
@@ -71,6 +70,7 @@
 @media screen and (min-width: 700px) {
   .ConversationRow {
     padding: 12px 15px;
+    border-bottom: solid 1px #eeeeee;
   }
 
   .ConversationRow__bubble {

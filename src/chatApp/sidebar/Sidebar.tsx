@@ -21,7 +21,7 @@ interface SidebarProps extends RouteComponentProps {
 function Sidebar(props: SidebarProps) {
   return (
     <nav className="Sidebar">
-      <div className="Sidebar__control Sidebar__createConversation">
+      <div className="Sidebar__control">
         <button className="Sidebar__button"
           onClick={props.handleLaunchConversationCreator}>
           <PlusIcon className="Sidebar__icon" title="New Conversation" />
@@ -34,7 +34,7 @@ function Sidebar(props: SidebarProps) {
         conversations={props.conversations}
         selectedConversationUuid={props.selectedConversationUuid}
         handleConversationRowClick={props.handleConversationRowClick} />
-      <div className="Sidebar__control Sidebar__logout">
+      <div className="Sidebar__control">
         <button className="Sidebar__button"
           onClick={props.logoutHandler}>
           <LogoutIcon className="Sidebar__icon" title="Logout" />

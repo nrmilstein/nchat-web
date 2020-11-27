@@ -19,14 +19,6 @@
   background-color: #e5e5e5;
 }
 
-.Sidebar__createConversation {
-  border-bottom: solid 1px #cccccc;
-}
-
-.Sidebar__logout {
-  border-top: solid 1px #cccccc;
-}
-
 .Sidebar__button {
   width: 100%;
   height: 100%;
