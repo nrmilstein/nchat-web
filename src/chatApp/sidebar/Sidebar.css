@@ -29,8 +29,8 @@
 
 .Sidebar__icon {
   vertical-align: middle;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 }
 
 @media screen and (min-width: 700px) {
