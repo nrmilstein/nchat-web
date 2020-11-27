@@ -6,6 +6,10 @@ html {
   box-sizing: inherit;
 }
 
+*, *:before, *:after {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
   margin: 0;
