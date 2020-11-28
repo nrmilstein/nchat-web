@@ -1,4 +1,4 @@
-.ConversationCreatorViewBanner {
+.main {
   flex: 0 0 60px;
   padding: 0 15px;
   display: flex;
@@ -7,7 +7,7 @@
   font-size: 20px;
 }
 
-.ConversationCreatorViewBanner__status {
+.status {
   flex: 0 0 28px;
   margin-right: 4px;
   display: flex;
@@ -15,41 +15,50 @@
   user-select: none;
 }
 
-.ConversationCreatorViewBanner__label {
+.label {
   display: flex;
   align-items: center;
 }
 
-.ConversationCreatorViewBanner__to {
+.to {
   color: #aaaaaa;
 }
 
-.ConversationCreatorViewBanner__loading {
+.loading {
   width: 20px;
   height: 20px;
 }
 
-.ConversationCreatorViewBanner__success {
+.success {
   width: 20px;
   height: 20px;
 }
 
-.ConversationCreatorViewBanner__error {
+.error {
   width: 20px;
   height: 20px;
 }
 
-.ConversationCreatorViewBanner__input {
+.input {
   border: none;
   font-size: 20px;
   width: 100%;
 }
 
-.ConversationCreatorViewBanner__input:focus {
+.input:focus {
   outline: none;
 }
 
-.ConversationCreatorViewBanner__logo {
+.logoCompact {
+  flex: 0 0 auto;
+  width: auto;
+  height: 24px;
+  opacity: 0.4;
+  margin-left: 10px;
+  user-select: none;
+}
+
+.logo {
   display: none;
   flex: 0 0 auto;
   width: auto;
@@ -60,11 +69,11 @@
 }
 
 @media screen and (min-width: 700px) {
-  .ConversationCreatorViewBanner__logoCompact {
+  .logoCompact {
     display: none;
   }
 
-  .ConversationCreatorViewBanner__logo {
+  .logo {
     display: block;
   }
 }

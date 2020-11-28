@@ -8,7 +8,7 @@ import { Conversation } from '../../models/Conversation';
 import { ReactComponent as LogoutIcon } from './logout.svg';
 import { ReactComponent as PlusIcon } from './plus.svg';
 
-import './Sidebar.css'
+import styles from './Sidebar.module.css'
 
 interface SidebarProps extends RouteComponentProps {
   conversations: Conversation[],
@@ -20,11 +20,11 @@ interface SidebarProps extends RouteComponentProps {
 
 function Sidebar(props: SidebarProps) {
   return (
-    <nav className="Sidebar">
-      <div className="Sidebar__control">
-        <button className="Sidebar__button"
+    <nav className={styles.main}>
+      <div className={styles.control}>
+        <button className={styles.button}
           onClick={props.handleLaunchConversationCreator}>
-          <PlusIcon className="Sidebar__icon" title="New Conversation" />
+          <PlusIcon className={styles.icon} title="New Conversation" />
         </button>
       </div>
       <SidebarBanner
@@ -34,10 +34,10 @@ function Sidebar(props: SidebarProps) {
         conversations={props.conversations}
         selectedConversationUuid={props.selectedConversationUuid}
         handleConversationRowClick={props.handleConversationRowClick} />
-      <div className="Sidebar__control">
-        <button className="Sidebar__button"
+      <div className={styles.control}>
+        <button className={styles.button}
           onClick={props.logoutHandler}>
-          <LogoutIcon className="Sidebar__icon" title="Logout" />
+          <LogoutIcon className={styles.icon} title="Logout" />
         </button>
       </div>
     </nav>

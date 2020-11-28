@@ -11,8 +11,8 @@ import { UserJson } from '../utils/json/UserJson';
 import NchatApi, { FetchError } from '../utils/NchatApi';
 import NchatWebSocket, { WSRequest, WSSuccessResponse } from '../utils/NchatWebSocket';
 
-import "./ChatAppLoader.css";
-import "../assets/LoadingIcon.css";
+import styles from "./ChatAppLoader.module.css";
+import loadingIconStyles from "../assets/LoadingIcon.module.css";
 
 interface GetAuthenticateResponse {
   user: UserJson,
@@ -150,7 +150,7 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
 
   render() {
     return (
-      <div className="ChatAppLoader">
+      <div className={styles.main}>
         {
           this.state.user && this.state.conversations && this.state.webSocket && this.props.authKey
             ?
@@ -161,10 +161,10 @@ class ChatAppLoader extends React.Component<ChatAppLoaderProps, ChatAppLoaderSta
               conversations={this.state.conversations}
               logoutHandler={this.props.logoutHandler} />
             :
-            <div className="ChatAppLoader__loading">
+            <div className={styles.loading}>
               {this.state.errorMessage === null
-                ? <div className="ChatAppLoader__loadingIcon LoadingIcon"></div>
-                : <div className="ChatAppLoader__errorMessage">{this.state.errorMessage}</div>
+                ? <div className={styles.loadingIcon + " " + loadingIconStyles.main}></div>
+                : <div className={styles.errorMessage}>{this.state.errorMessage}</div>
               }
             </div>
         }

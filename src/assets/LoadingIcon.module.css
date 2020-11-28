@@ -1,4 +1,4 @@
-.LoadingIcon {
+.main {
   background-image: url("./loading.svg");
   background-size: contain;
   animation: rotateLoadingIcon 0.75s linear infinite;

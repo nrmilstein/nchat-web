@@ -1,7 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent } from 'react'
 import { RouteComponentProps } from "@reach/router";
 
-import './MessageInput.css'
+import styles from './MessageInput.module.css'
 
 interface MessageInputProps extends RouteComponentProps {
   autoFocus?: boolean,
@@ -51,10 +51,10 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
 
   render() {
     return (
-      <div className="MessageInput" >
+      <div className={styles.main}>
         <input
           name="messageBody"
-          className="MessageInput__input"
+          className={styles.input}
           type="text"
           value={this.state.messageBody}
           onKeyDown={this.handleKeyDown}
@@ -63,7 +63,7 @@ class MessageInput extends React.Component<MessageInputProps, MessageInputState>
           placeholder="Type a message"
           autoComplete="off" />
         <button
-          className="MessageInput__button button"
+          className={styles.button + " button"}
           onClick={this.handleClickSend}
           disabled={this.props.disabled}>
           Send

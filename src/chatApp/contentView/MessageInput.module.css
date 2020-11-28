@@ -1,4 +1,4 @@
-.MessageInput {
+.main {
   flex: 0 0 60px;
   padding: 7px;
   display: flex;
@@ -6,7 +6,7 @@
   background-color: #efefef;
 }
 
-.MessageInput__input {
+.input {
   flex: 1;
   margin: 3px 15px 4px 10px;
   padding: 9px 7px 10px 13px;
@@ -16,11 +16,11 @@
   font-size: 15px;
 }
 
-.MessageInput__input:focus {
+.input:focus {
   outline: none;
 }
 
-.MessageInput__button {
+.button {
   font-size: 15px;
   margin-top: 2px;
   margin-right: 9px;

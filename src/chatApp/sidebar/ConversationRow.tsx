@@ -4,7 +4,7 @@ import { format as formatDate, differenceInCalendarDays } from 'date-fns';
 
 import { Conversation } from '../../models/Conversation';
 
-import "./ConversationRow.css"
+import styles from "./ConversationRow.module.css"
 
 interface ConversationRowProps extends RouteComponentProps {
   selected: boolean,
@@ -33,23 +33,24 @@ function ConversationRow(props: ConversationRowProps) {
 
   return (
     <div
-      className={"ConversationRow" + (props.selected ? " ConversationRow--selected" : "")}
+      className={styles.main + (props.selected ? " " + styles.main_selected : "")
+      }
       onClick={() => props.handleConversationRowClick(props.conversation)}>
-      <div className="ConversationRow__bubble">
+      <div className={styles.bubble}>
         {conversationPartnerName.split(" ").slice(0, 2).map(e => e.charAt(0).toUpperCase())}
       </div>
-      <div className="ConversationRow__full">
-        <div className="ConversationRow__main">
-          <div className="ConversationRow__name">
+      <div className={styles.full}>
+        <div className={styles.header}>
+          <div className={styles.name}>
             {conversationPartnerName}
           </div>
-          <div className="ConversationRow__time">{messageTimeStr}</div>
+          <div className={styles.time}>{messageTimeStr}</div>
         </div>
-        <div className="ConversationRow__message">
+        <div className={styles.message}>
           {lastMessage.body}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

@@ -1,20 +1,20 @@
-.ContentView {
+.main {
   flex: 70%;
   overflow-x: hidden;
 }
 
-.ContentView__noConversationContainer {
+.noConversationContainer {
   height: 100%;
 }
 
-.ContentView__noConversation {
+.noConversation {
   position: relative;
   top: 30%;
   text-align: center;
   padding: 15px;
 }
 
-.ContentView__logo {
+.logo {
   margin-bottom: 20px;
   max-height: 44px;
   width: 100%;
@@ -22,26 +22,26 @@
   user-select: none;
 }
 
-.ContentView__logoFull {
+.logoFull {
   display: none;
 }
 
-.ContentView__hint {
+.hint {
   color: #444444;
 }
 
-.ContentView__newChatIcon {
+.newChatIcon {
   width: 20px;
   height: 20px;
   vertical-align: top;
 }
 
 @media screen and (min-width: 700px) {
-  .ContentView__logoFull {
+  .logoFull {
     display: block;
   }
 
-  .ContentView__logoCompact {
+  .logoCompact {
     display: none;
   }
 }

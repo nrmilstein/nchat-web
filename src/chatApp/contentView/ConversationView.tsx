@@ -6,7 +6,7 @@ import ConversationViewBanner from './ConversationViewBanner';
 import MessagesView from './MessagesView';
 import MessageInput from './MessageInput';
 
-import './ConversationView.css'
+import styles from './ConversationView.module.css'
 
 interface ConversationViewProps extends RouteComponentProps {
   selectedConversation: Conversation,
@@ -17,7 +17,7 @@ function ConversationView(props: ConversationViewProps) {
   const autoFocus = window.matchMedia("(hover: hover)").matches;
 
   return (
-    <div className="ConversationView" >
+    <div className={styles.main} >
       <ConversationViewBanner
         selectedConversation={props.selectedConversation} />
       <MessagesView

@@ -4,8 +4,8 @@ import { Link } from "@reach/router";
 
 import NchatApi, { NchatApiError } from '../utils/NchatApi';
 
-import './SignUpForm.css';
-import '../assets/LoadingIcon.css';
+import styles from './SignUpForm.module.css';
+import loadingIconStyles from '../assets/LoadingIcon.module.css';
 
 enum SignUpFormStatus {
   Empty,
@@ -122,7 +122,7 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
         status = null;
         break;
       case SignUpFormStatus.Loading:
-        status = <div className="SignUpForm__loading LoadingIcon"></div>;
+        status = <div className={styles.loading + " " + loadingIconStyles.main}></div >;
         break;
       case SignUpFormStatus.Error:
         status =
@@ -133,8 +133,8 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
     }
 
     return (
-      <div className="SignUpForm" >
-        <h1 className="AccountsView__accountsHeader">Sign up</h1>
+      <div className={styles.main} >
+        <h1 className={styles.header}>Sign up</h1>
         <form onSubmit={this.handleSubmit}>
           <p><input className="textInput" name="name" type="text" placeholder="Display name"
             value={this.state.name} onChange={this.handleChange} required={true}
@@ -145,10 +145,10 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
             value={this.state.password} onChange={this.handleChange} required={true} /></p>
           <p><input className="button" type="submit" value="Sign up" /></p>
         </form>
-        <div className="SignUpForm__loginMessage">
+        <div className={styles.loginMessage}>
           Already have an account? <Link to="../login">Login</Link>
         </div>
-        <div className="SignUpForm__status">
+        <div className={styles.status}>
           {status}
         </div>
       </div >

@@ -5,8 +5,8 @@ import NchatApi from '../utils/NchatApi';
 import { User } from '../models/User';
 import { UserJson } from '../utils/json/UserJson';
 
-import "./TryNowForm.css";
-import '../assets/LoadingIcon.css';
+import styles from "./TryNowForm.module.css";
+import loadingIconStyles from '../assets/LoadingIcon.module.css';
 
 enum TryNowFormStatus {
   Empty,
@@ -80,7 +80,7 @@ class TryNowForm extends React.Component<TryNowFormProps, TryNowFormState> {
         status = null;
         break;
       case TryNowFormStatus.Loading:
-        status = <div className="TryNowForm__loading LoadingIcon"></div>;
+        status = <div className={styles.loading + " " + loadingIconStyles.main}></ div>;
         break;
       case TryNowFormStatus.Error:
         status =
@@ -91,13 +91,13 @@ class TryNowForm extends React.Component<TryNowFormProps, TryNowFormState> {
     }
 
     return (
-      <div className="TryNowForm">
-        <h1 className="AccountsView__accountsHeader">Try now!</h1>
+      <div className={styles.main}>
+        <h1 className={styles.header}>Try now!</h1>
         <p>
           Try a demo of nchat now.
         </p>
         <button className="button" onClick={this.handleClick}>Try it now →</button>
-        <div className="TryNowForm__status">
+        <div className={styles.status}>
           <p>
             {status}
           </p>

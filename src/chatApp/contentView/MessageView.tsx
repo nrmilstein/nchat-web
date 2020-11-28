@@ -4,7 +4,7 @@ import { RouteComponentProps } from "@reach/router";
 import { ChatAppContext } from "../ChatAppContext";
 import { Message } from "../../models/Message";
 
-import './MessageView.css'
+import styles from './MessageView.module.css'
 
 interface MessageViewProps extends RouteComponentProps {
   message: Message,
@@ -16,15 +16,15 @@ function MessageView(props: MessageViewProps) {
       {context =>
         <div
           className={
-            "MessageView"
+            styles.main
             + (context.user?.id === props.message.senderId
               ? (props.message.id === null
-                ? " MessageView--us_unsynced"
-                : " MessageView--us_synced"
+                ? " " + styles.fromUs_unsynced
+                : " " + styles.fromUs_synced
               )
-              : " MessageView--them")
+              : " " + styles.fromThem)
           }>
-          <div className="MessageView__messageBody">
+          <div className={styles.messageBody}>
             {props.message.body}
           </div>
         </div >

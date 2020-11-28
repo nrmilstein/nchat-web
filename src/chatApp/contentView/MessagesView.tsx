@@ -5,8 +5,8 @@ import MessageView from './MessageView';
 import { Message } from '../../models/Message';
 import { ChatAppContext } from '../ChatAppContext';
 
-import './MessagesView.css'
-import '../../assets/LoadingIcon.css';
+import styles from './MessagesView.module.css'
+import loadingIconStyles from '../../assets/LoadingIcon.module.css';
 
 interface MessagesViewProps extends RouteComponentProps {
   isLoading: boolean,
@@ -45,21 +45,6 @@ class MessagesView extends React.Component<MessagesViewProps, MessagesViewState>
     };
   }
 
-  render() {
-    let messages: JSX.Element[] = this.props.messages.map(message => {
-      return <MessageView key={message.uuid} message={message} />
-    });
-    return (
-      <div className="MessagesView" ref={this.conversationViewDiv}>
-        {this.props.isLoading &&
-          <div className="MessagesView__loading">
-            <div className="MessagesView__loadingIcon LoadingIcon"></div>
-          </div>}
-        {messages}
-      </div>
-    );
-  }
-
   componentDidUpdate(
     prevProps: MessagesViewProps,
     prevState: MessagesViewState,
@@ -93,6 +78,21 @@ class MessagesView extends React.Component<MessagesViewProps, MessagesViewState>
       return;
     }
     node.scrollTo(0, node.scrollHeight - node.clientHeight);
+  }
+
+  render() {
+    let messages: JSX.Element[] = this.props.messages.map(message => {
+      return <MessageView key={message.uuid} message={message} />
+    });
+    return (
+      <div className={styles.main} ref={this.conversationViewDiv}>
+        {this.props.isLoading &&
+          <div className={styles.loading}>
+            <div className={styles.loadingIcon + " " + loadingIconStyles.main}></div>
+          </div>}
+        {messages}
+      </div>
+    );
   }
 }
 

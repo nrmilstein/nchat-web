@@ -11,7 +11,7 @@ import SignUpForm from './SignUpForm';
 
 import { ReactComponent as NchatLogo } from '../assets/logo.svg';
 
-import './AccountsView.css'
+import styles from './AccountsView.module.css'
 
 interface PostAuthenticateResponse {
   authKey: string,
@@ -52,21 +52,21 @@ class AccountsView extends React.Component<AccountsViewProps, AccountsViewState>
 
   render() {
     return (
-      <main className="AccountsView">
-        <div className="AccountsView__logoContainer">
-          <NchatLogo className="AccountsView__logo" title="nchat logo" />
+      <main className={styles.main}>
+        <div className={styles.logoContainer}>
+          <NchatLogo className={styles.logo} title="nchat logo" />
         </div>
-        <div className="AccountsView__intro">
+        <div className={styles.intro}>
           nchat is an app for chatting with your friends.
         </div>
-        <div className="AccountsView__selector">
-          <section className="AccountsView__tryNow">
+        <div className={styles.selector}>
+          <section className={styles.tryNow}>
             <TryNowForm setAuthenticatedUser={this.props.setAuthenticatedUser} />
           </section>
-          <div className="AccountsView__divider">
+          <div className={styles.divider}>
             or
             </div>
-          <section className="AccountsView__authenticate">
+          <section className={styles.authenticate}>
             <Router>
               <SignUpForm path="get-started" authenticateUser={this.authenticateUser} />
               <LoginForm path="login" authenticateUser={this.authenticateUser} />

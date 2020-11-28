@@ -6,8 +6,8 @@ import { ReactComponent as RedX } from './redX.svg';
 import { ReactComponent as NchatLogoCompact } from '../../assets/logoCompact.svg';
 import { ReactComponent as NchatLogo } from '../../assets/logo.svg';
 
-import './ConversationCreatorViewBanner.css'
-import '../../assets/LoadingIcon.css';
+import styles from './ConversationCreatorViewBanner.module.css'
+import loadingIconStyles from '../../assets/LoadingIcon.module.css';
 
 export enum ConversationCreatorViewBannerStatus {
   Empty,
@@ -32,41 +32,41 @@ class ConversationCreatorViewBanner extends
     let status: JSX.Element;
     switch (this.props.status) {
       case ConversationCreatorViewBannerStatus.Empty:
-        status = <span className="ConversationCreatorViewBanner__to">To:</span>;
-        break;
-      case ConversationCreatorViewBannerStatus.Error:
-        status = <RedX className="ConversationCreatorViewBanner__error"
-          title="Username doesn't exist" />
+        status = <span className={styles.to}>To:</span>;
         break;
       case ConversationCreatorViewBannerStatus.Loading:
-        status = <div className="ConversationCreatorViewBanner__loading LoadingIcon"
-          title="Checking username..."></div>;
+        status = <div className={styles.loading + " " + loadingIconStyles.main}
+          title="Checking username..." ></div >;
+        break;
+      case ConversationCreatorViewBannerStatus.Error:
+        status = <RedX className={styles.error}
+          title="Username doesn't exist" />
         break;
       case ConversationCreatorViewBannerStatus.Ok:
-        status = <GreenCheck className="ConversationCreatorViewBanner__success"
+        status = <GreenCheck className={styles.success}
           title="Username OK" />
         break;
     }
     return (
-      <header className="ConversationCreatorViewBanner">
-        <div className="ConversationCreatorViewBanner__status">
+      <header className={styles.main} >
+        <div className={styles.status}>
           <label
             htmlFor="ConversationCreatorViewBannerInput"
-            className="ConversationCreatorViewBanner__label">
+            className={styles.label}>
             {status}
           </label>
         </div>
         <input
           type="text"
-          className="ConversationCreatorViewBanner__input"
+          className={styles.input}
           placeholder="Username"
           value={this.props.conversationCreatorUsername}
           autoFocus={true}
           onChange={this.props.handleChange}
           onBlur={this.props.handleBlur}
           id="ConversationCreatorViewBannerInput" />
-        <NchatLogoCompact className="ConversationViewBanner__logoCompact" title="nchat logo" />
-        <NchatLogo className="ConversationCreatorViewBanner__logo" title="nchat logo" />
+        <NchatLogoCompact className={styles.logoCompact} title="nchat logo" />
+        <NchatLogo className={styles.logo} title="nchat logo" />
       </header>
     );
   }

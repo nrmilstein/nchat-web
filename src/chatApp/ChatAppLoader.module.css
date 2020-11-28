@@ -1,4 +1,4 @@
-.ChatAppLoader {
+.main {
   position: absolute;
   top: 0;
   left: 0;
@@ -6,18 +6,18 @@
   height: 100%;
 }
 
-.ChatAppLoader__loading {
+.loading {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
 }
 
-.ChatAppLoader__loadingIcon {
+.loadingIcon {
   width: 40px;
   height: 40px;
 }
 
-.ChatAppLoader__errorMessage {
+.errorMessage {
   color: #555555;
 }

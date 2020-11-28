@@ -1,25 +1,25 @@
-.ConversationRow {
+.main {
   cursor: pointer;
   padding: 5px;
 }
 
-.ConversationRow:hover {
+.main:hover {
   background-color: #f9f9f9;
 }
 
-.ConversationRow:active {
+.main:active {
   background-color: #e5e5e5;
 }
 
-.ConversationRow--selected {
+.main_selected {
   background-color: #efefef;
 }
 
-.ConversationRow--selected:hover {
+.main_selected:hover {
   background-color: #efefef;
 }
 
-.ConversationRow__bubble {
+.bubble {
   margin: auto;
   width: 60px;
   height: 60px;
@@ -33,18 +33,18 @@
 }
 
 
-.ConversationRow__full {
+.full {
   display: none;
 }
 
-.ConversationRow__main {
+.header {
   display: flex;
   align-items: baseline;
   flex-direction: row;
   margin-bottom: 4px;
 }
 
-.ConversationRow__name {
+.name {
   flex: 1 0;
   overflow: hidden;
   white-space: nowrap;
@@ -52,14 +52,14 @@
   font-size: 17px;
 }
 
-.ConversationRow__time {
+.time {
   flex: 0 0;
   color: #aaaaaa;
   font-size: 14px;
   white-space: nowrap;
 }
 
-.ConversationRow__message {
+.message {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -68,16 +68,16 @@
 }
 
 @media screen and (min-width: 700px) {
-  .ConversationRow {
+  .main {
     padding: 12px 15px;
     border-bottom: solid 1px #eeeeee;
   }
 
-  .ConversationRow__bubble {
+  .bubble {
     display: none;
   }
 
-  .ConversationRow__full {
+  .full {
     display: block;
   }
 }

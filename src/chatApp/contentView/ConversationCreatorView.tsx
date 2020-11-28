@@ -8,7 +8,7 @@ import NchatApi from '../../utils/NchatApi';
 import { ChatAppContext } from '../ChatAppContext';
 import { UserJson } from '../../utils/json/UserJson';
 
-import './ConversationCreatorView.css';
+import styles from './ConversationCreatorView.module.css';
 
 interface GetUserResponse {
   user: UserJson,
@@ -101,13 +101,13 @@ class ConversationCreatorView
 
   render() {
     return (
-      <div className="ConversationCreatorView">
+      <div className={styles.main}>
         <ConversationCreatorViewBanner
           conversationCreatorUsername={this.state.username}
           status={this.state.usernameInputStatus}
           handleChange={this.handleUsernameChange}
           handleBlur={this.handleUsernameInputBlur} />
-        <div className="ConversationCreatorView__spacer" />
+        <div className={styles.spacer} />
         <MessageInput
           autoFocus={false}
           handleSendMessage={this.handleSendMessage}

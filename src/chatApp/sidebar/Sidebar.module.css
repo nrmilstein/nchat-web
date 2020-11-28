@@ -1,4 +1,4 @@
-.Sidebar {
+.main {
   flex: 0 0 70px;
   overflow: hidden;
   display: flex;
@@ -7,19 +7,19 @@
   transition: flex-basis 0.4s ease-out;
 }
 
-.Sidebar__control {
+.control {
   flex: 0 0 60px;
 }
 
-.Sidebar__control:hover {
+.control:hover {
   background-color: #f9f9f9;
 }
 
-.Sidebar__control:active {
+.control:active {
   background-color: #e5e5e5;
 }
 
-.Sidebar__button {
+.button {
   width: 100%;
   height: 100%;
   background-color: unset;
@@ -27,18 +27,18 @@
   cursor: pointer;
 }
 
-.Sidebar__icon {
+.icon {
   vertical-align: middle;
   width: 25px;
   height: 25px;
 }
 
 @media screen and (min-width: 700px) {
-  .Sidebar__control {
+  .control {
     display: none;
   }
 
-  .Sidebar {
+  .main {
     flex: 30%;
   }
 }

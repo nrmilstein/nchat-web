@@ -4,7 +4,7 @@ import { RouteComponentProps } from "@reach/router";
 import ConversationRow from './ConversationRow';
 import { Conversation } from '../../models/Conversation';
 
-import "./ConversationList.css"
+import styles from "./ConversationList.module.css"
 
 interface ConversationListProps extends RouteComponentProps {
   conversations: Conversation[],
@@ -23,7 +23,7 @@ function ConversationList(props: ConversationListProps) {
     );
   });
   return (
-    <div className="ConversationList">
+    <div className={styles.main}>
       {conversationRows}
     </div>
   );

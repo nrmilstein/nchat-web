@@ -1,4 +1,4 @@
-.ConversationViewBanner {
+.main {
   flex: 0 0 60px;
   display: flex;
   align-items: center;
@@ -6,7 +6,7 @@
   border-bottom: solid 1px #cccccc;
 }
 
-.ConversationViewBanner__name {
+.name {
   flex: 1 0;
   overflow: hidden;
   white-space: nowrap;
@@ -14,7 +14,7 @@
   font-size: 20px;
 }
 
-.ConversationViewBanner__logoCompact {
+.logoCompact {
   flex: 0 0 auto;
   width: auto;
   height: 24px;
@@ -23,7 +23,7 @@
   user-select: none;
 }
 
-.ConversationViewBanner__logo {
+.logo {
   display: none;
   flex: 0 0 auto;
   width: auto;
@@ -34,11 +34,11 @@
 }
 
 @media screen and (min-width: 700px) {
-  .ConversationViewBanner__logoCompact {
+  .logoCompact {
     display: none;
   }
 
-  .ConversationViewBanner__logo {
+  .logo {
     display: block;
   }
 }

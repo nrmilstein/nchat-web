@@ -10,7 +10,7 @@ import { ReactComponent as NchatLogoCompact } from '../../assets/logoCompact.svg
 import { ReactComponent as NchatLogo } from '../../assets/logo.svg';
 import { ReactComponent as PlusIcon } from '../sidebar/plus.svg';
 
-import "./ContentView.css"
+import styles from "./ContentView.module.css";
 
 interface ContentViewProps extends RouteComponentProps {
   isConversationCreatorOpen: boolean,
@@ -31,14 +31,14 @@ function ContentView(props: ContentViewProps) {
   } else {
     const actionPhrase = window.matchMedia("(hover: hover)").matches ? "Click" : "Tap";
     content =
-      <div className="ContentView__noConversationContainer">
-        <div className="ContentView__noConversation">
-          <NchatLogoCompact className="ContentView__logo ContentView__logoCompact" title="nchat logo" />
-          <NchatLogo className="ContentView__logo ContentView__logoFull" title="nchat logo" />
-          <div className="ContentView__hint">
+      <div className={styles.noConversationContainer}>
+        <div className={styles.noConversation}>
+          <NchatLogoCompact className={styles.logo + " " + styles.logoCompact} title="nchat logo" />
+          <NchatLogo className={styles.logo + " " + styles.logoFull} title="nchat logo" />
+          <div className={styles.hint}>
             {actionPhrase}
             &nbsp;
-          <PlusIcon className="ContentView__newChatIcon" title="New conversation" />
+          <PlusIcon className={styles.newChatIcon} title="New conversation" />
           &nbsp;
           to start a new conversation.
         </div>
@@ -46,7 +46,7 @@ function ContentView(props: ContentViewProps) {
       </div >
   }
   return (
-    <main className="ContentView">
+    <main className={styles.main}>
       {content}
     </main>
   );

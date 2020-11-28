@@ -1,4 +1,4 @@
-.SidebarBanner {
+.main {
   display: none;
   flex: 0 0 60px;
   flex-direction: row;
@@ -9,14 +9,14 @@
   padding: 0 15px;
 }
 
-.SidebarBanner__userName {
+.userName {
   flex: 1 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.SidebarBanner__button {
+.button {
   flex: 0 0 auto;
   margin-left: 10px;
   padding: 0;
@@ -26,17 +26,18 @@
   user-select: none;
 }
 
-.SidebarBanner__icon {
+.button:active {
+  opacity: 0.7;
+}
+
+.icon {
   width: 20px;
   height: 20px;
 }
 
-.SidebarBanner__button:active {
-  opacity: 0.7;
-}
 
 @media screen and (min-width: 700px) {
-  .SidebarBanner {
+  .main {
     display: flex;
   }
 }

@@ -1,10 +1,16 @@
-.TryNowForm {
+.main {
   text-align: center;
   margin-top: 40px;
 }
 
-.TryNowForm__loading {
+.loading {
   display: inline-block;
   width: 40px;
   height: 40px;
+}
+
+.header {
+  font-weight: normal;
+  font-size: 25px;
+  margin: 0;
 }

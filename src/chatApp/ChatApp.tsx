@@ -16,7 +16,7 @@ import { ChatAppContext } from './ChatAppContext';
 import NchatWebSocket, { WSNotification, WSRequest, WSSuccessResponse }
   from '../utils/NchatWebSocket';
 
-import './ChatApp.css';
+import styles from './ChatApp.module.css';
 
 interface GetConversationResponse {
   conversation: ConversationJson,
@@ -323,7 +323,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       .find(c => c.uuid === this.state.selectedConversationUuid) ?? null;
 
     return (
-      <div className="ChatApp">
+      <div className={styles.main}>
         <ChatAppContext.Provider value={contextValue}>
           <Sidebar
             conversations={this.state.conversations}

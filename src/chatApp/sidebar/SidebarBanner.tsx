@@ -6,7 +6,7 @@ import { ChatAppContext } from '../ChatAppContext';
 import { ReactComponent as LogoutIcon } from './logout.svg';
 import { ReactComponent as PlusIcon } from './plus.svg';
 
-import "./SidebarBanner.css"
+import styles from "./SidebarBanner.module.css"
 
 interface SidebarBannerProps extends RouteComponentProps {
   handleLaunchConversationCreator: () => void,
@@ -19,17 +19,17 @@ function SidebarBanner(props: SidebarBannerProps) {
       {
         context => {
           return (
-            <header className="SidebarBanner">
-              <div className="SidebarBanner__userName">
+            <header className={styles.main}>
+              <div className={styles.userName}>
                 {context.user.name ?? context.user.username}
               </div>
-              <button className="SidebarBanner__button"
+              <button className={styles.button}
                 onClick={props.logoutHandler}>
-                <LogoutIcon className="SidebarBanner__icon" title="Logout" />
+                <LogoutIcon className={styles.icon} title="Logout" />
               </button>
-              <button className="SidebarBanner__button"
+              <button className={styles.button}
                 onClick={props.handleLaunchConversationCreator}>
-                <PlusIcon className="SidebarBanner__icon" title="New conversation" />
+                <PlusIcon className={styles.icon} title="New conversation" />
               </button>
             </header>
           )
