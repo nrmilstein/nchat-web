@@ -57,14 +57,15 @@ class ConversationCreatorViewBanner extends
           </label>
         </div>
         <input
-          type="text"
+          id="ConversationCreatorViewBannerInput"
           className={styles.input}
-          placeholder="Username"
+          type="text"
           value={this.props.conversationCreatorUsername}
           autoFocus={true}
           onChange={this.props.handleChange}
           onBlur={this.props.handleBlur}
-          id="ConversationCreatorViewBannerInput" />
+          placeholder="Username"
+          autoComplete="off" />
         <NchatLogoCompact className={styles.logoCompact} title="nchat logo" />
         <NchatLogo className={styles.logo} title="nchat logo" />
       </header>
