@@ -87,8 +87,9 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   }
 
   render() {
-    let status: JSX.Element | null;
+    const autoFocus = window.matchMedia("(min-width: 700px)").matches;
 
+    let status: JSX.Element | null;
     switch (this.state.status.value) {
       case LoginFormStatus.Empty:
         status = null;
@@ -110,7 +111,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         <form onSubmit={this.handleSubmit}>
           <p><input className="textInput" name="username" type="text" placeholder="Username"
             value={this.state.username} onChange={this.handleChange} required={true}
-            autoFocus={true} /></p>
+            autoFocus={autoFocus} /></p>
           <p><input className="textInput" name="password" type="password" placeholder="Password"
             value={this.state.password} onChange={this.handleChange} required={true} /></p>
           <p><input className="button" type="submit" value="Login" /></p>

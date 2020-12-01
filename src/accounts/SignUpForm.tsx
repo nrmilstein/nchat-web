@@ -115,8 +115,9 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
   }
 
   render() {
-    let status: JSX.Element | null;
+    const autoFocus = window.matchMedia("(min-width: 700px)").matches;
 
+    let status: JSX.Element | null;
     switch (this.state.status.value) {
       case SignUpFormStatus.Empty:
         status = null;
@@ -138,7 +139,7 @@ class SignUpForm extends React.Component<SignUpFormProps, SignUpFormState> {
         <form onSubmit={this.handleSubmit}>
           <p><input className="textInput" name="name" type="text" placeholder="Display name"
             value={this.state.name} onChange={this.handleChange} required={true}
-            autoFocus={true} /></p>
+            autoFocus={autoFocus} /></p>
           <p><input className="textInput" name="username" type="text" placeholder="Username"
             value={this.state.username} onChange={this.handleChange} required={true} /></p>
           <p><input className="textInput" name="password" type="password" placeholder="Password"

@@ -14,7 +14,7 @@ interface ConversationViewProps extends RouteComponentProps {
 }
 
 function ConversationView(props: ConversationViewProps) {
-  const autoFocus = window.matchMedia("(hover: hover)").matches;
+  const autoFocus = window.matchMedia("(min-width: 700px)").matches;
 
   return (
     <div className={styles.main} >
