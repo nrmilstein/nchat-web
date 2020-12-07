@@ -2,7 +2,7 @@
   flex: 0 0 60px;
   padding: 7px;
   display: flex;
-  border-top: solid 1px #eeeeee;
+  border-top: solid 1px var(--divider-color);
 }
 
 .input {

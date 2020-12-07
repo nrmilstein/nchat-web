@@ -1,3 +1,7 @@
+:root {
+  --divider-color: #eeeeee;
+}
+
 html {
   box-sizing: border-box;
 }

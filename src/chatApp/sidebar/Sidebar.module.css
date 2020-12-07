@@ -3,7 +3,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border-right: solid 1px #eeeeee;
+  border-right: solid 1px var(--divider-color);
   transition: flex-basis 0.4s ease-out;
 }
 
