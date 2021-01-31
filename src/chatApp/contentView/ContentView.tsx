@@ -15,14 +15,16 @@ import styles from "./ContentView.module.css";
 interface ContentViewProps extends RouteComponentProps {
   isConversationCreatorOpen: boolean,
   selectedConversation: Conversation | null,
-  handleSendMessage: (messageBody: string, user?: User) => void,
+  handleCreateConversation: (messageBody: string, conversationPartner: User) => void,
+  handleSendMessage: (messageBody: string) => void,
 }
 
 function ContentView(props: ContentViewProps) {
   let content: JSX.Element;
   if (props.isConversationCreatorOpen) {
     content =
-      <ConversationCreatorView handleSendMessage={props.handleSendMessage} />
+      <ConversationCreatorView
+        handleCreateConversation={props.handleCreateConversation} />
   } else if (props.selectedConversation !== null) {
     content =
       <ConversationView

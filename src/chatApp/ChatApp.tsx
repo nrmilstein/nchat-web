@@ -13,7 +13,7 @@ import { Message } from '../models/Message';
 import { ConversationJson } from '../utils/json/ConversationJson';
 import { MessageJson } from '../utils/json/MessageJson';
 import { ChatAppContext } from './ChatAppContext';
-import NchatWebSocket, { WSNotification, WSRequest, WSSuccessResponse }
+import NchatWebSocket, { WSNotification, WSRequest }
   from '../utils/NchatWebSocket';
 
 import styles from './ChatApp.module.css';
@@ -66,6 +66,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     this.handleMessageReceived = this.handleMessageReceived.bind(this);
     this.handleLaunchConversationCreator = this.handleLaunchConversationCreator.bind(this);
     this.handleConversationRowClick = this.handleConversationRowClick.bind(this);
+    this.handleCreateConversation = this.handleCreateConversation.bind(this)
     this.handleSendMessage = this.handleSendMessage.bind(this);
     this.logoutHandler = this.logoutHandler.bind(this);
   }
@@ -185,94 +186,37 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     }
   }
 
-  async handleSendMessage(messageBody: string, conversationPartner?: User) {
-    const newMessage: Message = {
+  async handleCreateConversation(messageBody: string, conversationPartner: User) {
+    const newConversation: Conversation = {
       uuid: uuidv4(),
       id: null,
-      senderId: this.props.user.id,
-      body: messageBody,
-      sent: new Date(),
-    }
-
-    let selectedConversation: Conversation | null;
-
-    if (this.state.isConversationCreatorOpen && conversationPartner) {
-      const newConversation: Conversation = {
-        uuid: uuidv4(),
-        id: null,
-        conversationPartner: conversationPartner,
-        isHistoryLoaded: true,
-        isLoading: false,
-        messages: [newMessage],
-      };
-
-      this.setState((state, props) => {
-        const updatedConversations = [
-          newConversation,
-          ...state.conversations,
-        ];
-        return {
-          conversations: updatedConversations,
-          selectedConversationUuid: newConversation.uuid,
-          isConversationCreatorOpen: false,
-        };
-      });
-
-      selectedConversation = newConversation;
-    } else {
-      if (this.state.selectedConversationUuid === null) {
-        return;
-      }
-
-      const conversationIndex = this.state.conversations.findIndex(c => {
-        return c.uuid === this.state.selectedConversationUuid
-      });
-      const updatedConversations =
-        this.addMessageToConversation(this.state.conversations, conversationIndex, newMessage);
-
-      this.setState({
-        conversations: updatedConversations,
-      });
-
-      selectedConversation = updatedConversations[0];
-    }
-
-    const response = await this.sendMessage(
-      selectedConversation.conversationPartner.username, messageBody);
-
+      conversationPartner: conversationPartner,
+      isHistoryLoaded: true,
+      isLoading: false,
+      messages: [],
+    };
 
     this.setState((state, props) => {
-      const conversationIndex = state.conversations.findIndex(c => {
-        return c.uuid === selectedConversation?.uuid
-      });
-      const messageIndex = state.conversations[conversationIndex].messages.findIndex(m => {
-        return m.uuid === newMessage.uuid;
-      });
-
-      const syncedConversations = update(state.conversations,
-        {
-          [conversationIndex]: {
-            id: {
-              $set: response.data.conversation.id,
-            },
-            messages: {
-              [messageIndex]: {
-                id: {
-                  $set: response.data.message.id,
-                },
-                sent: {
-                  $set: parseISO(response.data.message.sent),
-                }
-              },
-            },
-          },
-        },
-      );
-
+      const updatedConversations = [
+        newConversation,
+        ...state.conversations,
+      ];
       return {
-        conversations: syncedConversations,
+        conversations: updatedConversations,
+        selectedConversationUuid: newConversation.uuid,
+        isConversationCreatorOpen: false,
       };
     });
+
+    this.sendMessage(newConversation.uuid, messageBody);
+  }
+
+  async handleSendMessage(messageBody: string) {
+    if (this.state.selectedConversationUuid === null) {
+      return;
+    }
+
+    this.sendMessage(this.state.selectedConversationUuid, messageBody);
   }
 
   logoutHandler() {
@@ -282,7 +226,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
 
   private addMessageToConversation(conversations: Conversation[], index: number, message: Message):
     Conversation[] {
-    const updatedConversation = update(this.state.conversations[index],
+    const updatedConversation = update(conversations[index],
       {
         messages: {
           $push: [message],
@@ -300,17 +244,88 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
     ]
   }
 
-  private sendMessage(username: string, body: string):
-    Promise<WSSuccessResponse<WSMessageSuccessResponseData>> {
-    const request: WSRequest<WSMessageRequestData> = {
-      type: "request",
-      method: "sendMessage",
-      data: {
-        username: username,
-        body: body,
-      },
-    };
-    return this.props.webSocket.sendRequest(request);
+  private async sendMessage(conversationUuid: string, body: string) {
+    const newMessage: Message = {
+      uuid: uuidv4(),
+      id: null,
+      senderId: this.props.user.id,
+      body: body,
+      sent: new Date(),
+    }
+
+    this.setState((state, props) => {
+      const conversationIndex = this.findConversationIndex(conversationUuid, state.conversations);
+      const updatedConversations =
+        this.addMessageToConversation(state.conversations, conversationIndex, newMessage);
+
+      return {
+        conversations: updatedConversations,
+      }
+    }, async () => {
+      const conversation = this.findConversation(conversationUuid);
+      if (conversation === null) {
+        return;
+      }
+
+      const request: WSRequest<WSMessageRequestData> = {
+        type: "request",
+        method: "sendMessage",
+        data: {
+          username: conversation.conversationPartner.username,
+          body: body,
+        },
+      };
+
+      const response = await this.props.webSocket.sendRequest
+        <WSMessageRequestData, WSMessageSuccessResponseData>(request);
+
+      this.setState((state, props) => {
+        const conversationIndex = this.findConversationIndex(conversationUuid, state.conversations);
+        const messageIndex = state.conversations[conversationIndex].messages.findIndex(m => {
+          return m.uuid === newMessage.uuid;
+        });
+
+        const syncedConversations = update(state.conversations,
+          {
+            [conversationIndex]: {
+              id: {
+                $set: response.data.conversation.id,
+              },
+              messages: {
+                [messageIndex]: {
+                  id: {
+                    $set: response.data.message.id,
+                  },
+                  sent: {
+                    $set: parseISO(response.data.message.sent),
+                  }
+                },
+              },
+            },
+          },
+        );
+
+        return {
+          conversations: syncedConversations,
+        };
+      });
+    });
+  }
+
+  private findConversationIndex(uuid: string | null, conversations?: Conversation[]): number {
+    const toSearch = conversations ? conversations : this.state.conversations;
+    if (uuid === null) {
+      return -1;
+    }
+    return toSearch.findIndex(c => c.uuid === uuid);
+  }
+
+  private findConversation(uuid: string | null, conversations?: Conversation[]): Conversation | null {
+    const toSearch = conversations ? conversations : this.state.conversations;
+    if (uuid === null) {
+      return null;
+    }
+    return toSearch.find(c => c.uuid === uuid) ?? null;
   }
 
   render() {
@@ -319,8 +334,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
       user: this.props.user,
     }
 
-    const selectedConversation = this.state.conversations
-      .find(c => c.uuid === this.state.selectedConversationUuid) ?? null;
+    const selectedConversation = this.findConversation(this.state.selectedConversationUuid);
 
     return (
       <div className={styles.main}>
@@ -333,6 +347,7 @@ class ChatApp extends React.Component<ChatAppProps, ChatAppState> {
             logoutHandler={this.logoutHandler} />
           <ContentView
             isConversationCreatorOpen={this.state.isConversationCreatorOpen}
+            handleCreateConversation={this.handleCreateConversation}
             handleSendMessage={this.handleSendMessage}
             selectedConversation={selectedConversation} />
         </ChatAppContext.Provider>

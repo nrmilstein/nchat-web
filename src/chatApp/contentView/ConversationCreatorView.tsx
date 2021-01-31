@@ -15,7 +15,7 @@ interface GetUserResponse {
 }
 
 interface ConversationCreatorViewProps {
-  handleSendMessage: (messageBody: string, user?: User) => void,
+  handleCreateConversation: (messageBody: string, conversationPartner: User) => void,
 }
 
 interface ConversationCreatorViewState {
@@ -55,7 +55,7 @@ class ConversationCreatorView
     if (this.state.conversationPartner === null) {
       return false;
     }
-    this.props.handleSendMessage(messageBody, this.state.conversationPartner);
+    this.props.handleCreateConversation(messageBody, this.state.conversationPartner);
     return true;
   }
 

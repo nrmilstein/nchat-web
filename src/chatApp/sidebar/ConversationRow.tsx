@@ -13,19 +13,23 @@ interface ConversationRowProps extends RouteComponentProps {
 }
 
 function ConversationRow(props: ConversationRowProps) {
-  const lastMessage = props.conversation.messages[props.conversation.messages.length - 1];
+  let messageTimeStr = "";
+  let lastMessageBody = "";
+  if (props.conversation.messages.length > 0) {
+    const lastMessage = props.conversation.messages[props.conversation.messages.length - 1];
+    lastMessageBody = lastMessage.body;
 
-  const daysDifference = differenceInCalendarDays(new Date(), lastMessage.sent);
-  let messageTimeStr: string;
+    const daysDifference = differenceInCalendarDays(new Date(), lastMessage.sent);
 
-  if (daysDifference === 0) {
-    messageTimeStr = formatDate(lastMessage.sent, 'p');
-  } else if (daysDifference === 1) {
-    messageTimeStr = "yesterday"
-  } else if (daysDifference < 7) {
-    messageTimeStr = formatDate(lastMessage.sent, 'cccc');
-  } else {
-    messageTimeStr = formatDate(lastMessage.sent, 'P');
+    if (daysDifference === 0) {
+      messageTimeStr = formatDate(lastMessage.sent, 'p');
+    } else if (daysDifference === 1) {
+      messageTimeStr = "yesterday"
+    } else if (daysDifference < 7) {
+      messageTimeStr = formatDate(lastMessage.sent, 'cccc');
+    } else {
+      messageTimeStr = formatDate(lastMessage.sent, 'P');
+    }
   }
 
   const conversationPartnerName = props.conversation.conversationPartner.name
@@ -47,7 +51,7 @@ function ConversationRow(props: ConversationRowProps) {
           <div className={styles.time}>{messageTimeStr}</div>
         </div>
         <div className={styles.message}>
-          {lastMessage.body}
+          {lastMessageBody}
         </div>
       </div>
     </div >
