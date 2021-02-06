@@ -18,7 +18,10 @@ export enum ConversationCreatorViewBannerStatus {
 
 interface ConversationCreatorViewBannerProps {
   conversationCreatorUsername: string,
-  status: ConversationCreatorViewBannerStatus,
+  status: {
+    value: ConversationCreatorViewBannerStatus,
+    message?: string,
+  },
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void,
   handleBlur: (event: FocusEvent<HTMLInputElement>) => void,
 }
@@ -30,7 +33,7 @@ class ConversationCreatorViewBanner extends
   React.Component<ConversationCreatorViewBannerProps, ConversationCreatorViewBannerState> {
   render() {
     let status: JSX.Element;
-    switch (this.props.status) {
+    switch (this.props.status.value) {
       case ConversationCreatorViewBannerStatus.Empty:
         status = <span className={styles.to}>To:</span>;
         break;
@@ -40,7 +43,7 @@ class ConversationCreatorViewBanner extends
         break;
       case ConversationCreatorViewBannerStatus.Error:
         status = <RedX className={styles.error}
-          title="Username doesn't exist" />
+          title={this.props.status.message} />
         break;
       case ConversationCreatorViewBannerStatus.Ok:
         status = <GreenCheck className={styles.success}
