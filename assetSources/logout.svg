@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,11 +58,13 @@
        style="fill:none;stroke:#bababa;stroke-width:5.99882;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 23.659639,10.665975 V 5.0655614 H 4.3298791 V 34.934432 H 23.659639 v -5.600414"
        id="path9972"
-       sodipodi:nodetypes="cccccc" />
+       sodipodi:nodetypes="cccccc"
+       class="LogoutIcon__hoverStroke" />
     <path
        style="fill:#bababa;fill-opacity:1;stroke:#bababa;stroke-width:0.999802;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 16.192009,17.434212 h 13.99799 v -5.131571 l 8.93204,7.697355 -8.93204,7.697358 v -5.131568 h -13.99799 z"
        id="path9992"
-       sodipodi:nodetypes="cccccccc" />
+       sodipodi:nodetypes="cccccccc"
+       class="LogoutIcon__hoverFill" />
   </g>
 </svg>

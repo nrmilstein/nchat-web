@@ -15,6 +15,26 @@
   background-color: #f9f9f9;
 }
 
+.control:hover :global(.LogoutIcon__hoverStroke),
+.control:hover :global(.PlusIcon__hoverStroke) {
+  stroke: #66c072;
+}
+
+.control:hover :global(.LogoutIcon__hoverFill),
+.control:hover :global(.PlusIcon__hoverFill) {
+  fill: #66c072;
+}
+
+.control:active :global(.LogoutIcon__hoverStroke),
+.control:active :global(.PlusIcon__hoverStroke) {
+  stroke: #4ead5b;
+}
+
+.control:active :global(.LogoutIcon__hoverFill),
+.control:active :global(.PlusIcon__hoverFill) {
+  fill: #4ead5b;
+}
+
 .control:active {
   background-color: #e5e5e5;
 }

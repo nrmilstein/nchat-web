@@ -26,8 +26,24 @@
   user-select: none;
 }
 
-.button:active {
-  opacity: 0.7;
+.button:hover :global(.LogoutIcon__hoverStroke),
+.button:hover :global(.PlusIcon__hoverStroke) {
+  stroke: #66c072;
+}
+
+.button:hover :global(.LogoutIcon__hoverFill),
+.button:hover :global(.PlusIcon__hoverFill) {
+  fill: #66c072;
+}
+
+.button:active :global(.LogoutIcon__hoverStroke),
+.button:active :global(.PlusIcon__hoverStroke) {
+  stroke: #4ead5b;
+}
+
+.button:active :global(.LogoutIcon__hoverFill),
+.button:active :global(.PlusIcon__hoverFill) {
+  fill: #4ead5b;
 }
 
 .icon {
