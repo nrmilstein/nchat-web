@@ -100,7 +100,7 @@ class NchatWebSocket {
     }
   }
 
-  addNotificationListener(method: string, listener: (notification: WSNotification<any>) => void) {
+  addNotificationListener(method: string, listener: NotificationListener) {
     if (this.notificationListeners.hasOwnProperty(method)) {
       this.notificationListeners[method]?.push(listener);
     } else {
