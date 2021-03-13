@@ -1,7 +1,7 @@
 class NchatApi {
   static apiUrl = "/api/v1/";
 
-  static async fetch<T>(path: string, authKey?: string, init?: RequestInit):
+  static async fetch<T>(path: string, authKey?: string, init: RequestInit = {}):
     Promise<NchatApiSuccessResponse<T>> {
 
     let customHeaders: { [index: string]: string } = {
@@ -11,16 +11,10 @@ class NchatApi {
       customHeaders["X-API-KEY"] = authKey;
     }
 
-    if (init) {
-      if (init.headers) {
-        this.appendHeaders(init.headers, customHeaders);
-      } else {
-        init.headers = customHeaders;
-      }
+    if (init.headers) {
+      this.appendHeaders(init.headers, customHeaders);
     } else {
-      init = {
-        "headers": customHeaders,
-      }
+      init.headers = customHeaders;
     }
 
     const response = await fetch(this.apiUrl + path, init)
